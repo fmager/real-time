@@ -1,7 +1,7 @@
-site_name: DTU-MLOps
+site_name: The Real-Timers Guide to the Computational Galaxy
 docs_dir: .
 site_dir: ../site
-repo_url: https://github.com/SkafteNicki/dtu_mlops
+repo_url: https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy
 
 theme:
   language: en
@@ -60,67 +60,20 @@ plugins:
 extra:
   social:
     - icon: material/email
-      link: mailto:skaftenicki@gmail.com
+      link: mailto:anders-soerensen@hotmail.com
     - icon: fontawesome/brands/github
-      link: https://github.com/SkafteNicki
+      link: https://github.com/absorensen
     - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/nicki-skafte-detlefsen/
+      link: https://www.linkedin.com/in/anders-bo-sorensen/
 
 nav:
   - Home: README.md
-  - Timeplan: timeplan.md
-  - S1 - Development Environment 💻:
-    - s1_development_environment/README.md
-    - M1 - The command line: s1_development_environment/command_line.md
-    - M2 - Conda: s1_development_environment/conda.md
-    - M3 - Editor: s1_development_environment/editor.md
-    - M4 - Deep Learning Software: s1_development_environment/deep_learning_software.md
-  - S2 - Organisation and Version Control 📁:
-    - s2_organisation_and_version_control/README.md
-    - M5 - Git: s2_organisation_and_version_control/git.md
-    - M6 - Code structure: s2_organisation_and_version_control/code_structure.md
-    - M7 - Good coding practice: s2_organisation_and_version_control/good_coding_practice.md
-    - M8 - Data version control: s2_organisation_and_version_control/dvc.md
-  - S3 - Reproduceability ♻️:
-    - s3_reproducibility/README.md
-    - M9 - Docker: s3_reproducibility/docker.md
-    - M10 - Config Files: s3_reproducibility/config_files.md
-  - S4 - Debugging, Profiling and Logging ⏱️:
-    - s4_debugging_and_logging/README.md
-    - M11 - Debugging: s4_debugging_and_logging/debugging.md
-    - M12 - Profiling: s4_debugging_and_logging/profiling.md
-    - M13 - Logging: s4_debugging_and_logging/logging.md
-    - M14 - Boilerplate: s4_debugging_and_logging/boilerplate.md
-  - S5 - Continues Integration ✔️:
-    - s5_continuous_integration/README.md
-    - M15 - Unittesting: s5_continuous_integration/unittesting.md
-    - M16 - Github Actions: s5_continuous_integration/github_actions.md
-    - M17 - Pre commit: s5_continuous_integration/pre_commit.md
-    - M18 - Continues Containers: s5_continuous_integration/auto_docker.md
-    - M19 - Continues Machine Learning: s5_continuous_integration/cml.md
-  - S6 - The cloud 🌐:
-    - s6_the_cloud/README.md
-    - M20 - Cloud Setup: s6_the_cloud/cloud_setup.md
-    - M21 - Using the Cloud: s6_the_cloud/using_the_cloud.md
-  - S7 - Deployment 📦:
-    - s7_deployment/README.md
-    - M22 - Requests and APIs: s7_deployment/apis.md
-    - M23 - Local Deployment: s7_deployment/local_deployment.md
-    - M24 - Cloud Deployment: s7_deployment/cloud_deployment.md
-  - S8 - Monitoring 📊:
-    - s8_monitoring/README.md
-    - M25 - Data Drifting: s8_monitoring/data_drifting.md
-    - M26 - System Monitoring: s8_monitoring/monitoring.md
-  - S9 - Scalable applications ⚖️:
-    - s9_scalable_applications/README.md
-    - M27 - Distributed Data Loading: s9_scalable_applications/data_loading.md
-    - M28 - Distributed Training: s9_scalable_applications/distributed_training.md
-    - M29 - Scalable Inference: s9_scalable_applications/inference.md
-  - S10 - Extra 🔥:
-    - s10_extra/README.md
-    - M30 - Command Line Interfaces: s10_extra/cli.md
-    - M31 - Hyperparameter optimization: s10_extra/hyperparameters.md
-    - M32 - High Performance Clusters: s10_extra/high_performance_clusters.md
+  - M0 - Introdction:
+  - M1 - Memory Hierarchies: 
+  - M2 - Concepts in Parallelism:
+  - M3 - Types:
+  - M4 - Profilers:
+  - M5 - Projects:
   - Summary: overview.md
   - Projects: projects.md
   - Challenges: challenges.md
