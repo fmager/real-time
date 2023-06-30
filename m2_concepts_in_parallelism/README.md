@@ -1,5 +1,6 @@
 # Concepts in Parallelism
 ## Parallelism, interactivity, events and GUIs
+
 * Data parallelism, work stealing - rayon
 * Data parallelism, non-work stealing - crossbeam
 * Mutex
