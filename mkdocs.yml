@@ -1,7 +1,7 @@
-site_name: Real-Time Visual and Machine Learning Systems
+site_name: The Real-Timers Guide to the Computational Galaxy
 docs_dir: .
 site_dir: ../site
-repo_url: https://github.com/absorensen/real-time-visual-and-machine-learning-systems
+repo_url: https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy
 
 theme:
   language: en
@@ -68,3 +68,16 @@ extra:
 
 nav:
   - Home: README.md
+  - Code: code.md
+  - M0 - Introduction:
+    - m0_introduction/README.md
+  - M1 - Memory Hierarchies:
+    - m1_memory_hierarchies/README.md
+  - M2 - Concepts in Parallelism:
+    - m2_concepts_in_parallelism/README.md
+  - M3 - Types:
+    - m3_types/README.md
+  - M4 - Profilers and Case Studies:
+    - m4_profilers/README.md
+  - M5 - Projects:
+    - m5_projects/README.md
