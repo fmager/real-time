@@ -1,2 +1,1 @@
 # Summary of course content
-
