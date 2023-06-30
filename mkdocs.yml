@@ -68,12 +68,15 @@ extra:
 
 nav:
   - Home: README.md
-  - M0 - Introdction:
-  - M1 - Memory Hierarchies: 
+  - M0 - Introduction:
+    - m0_introduction/README.md
+  - M1 - Memory Hierarchies:
+    - m1_memory_hierarchies/README.md
   - M2 - Concepts in Parallelism:
+    - m2_concepts_in_parallelism/README.md
   - M3 - Types:
-  - M4 - Profilers:
+    - m3_types/README.md
+  - M4 - Profilers and Case Studies:
+    - m4_profilers/README.md
   - M5 - Projects:
-  - Summary: overview.md
-  - Projects: projects.md
-  - Challenges: challenges.md
+    - m5_projects/README.md
