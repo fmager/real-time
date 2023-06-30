@@ -338,7 +338,7 @@ are relevant to your project and why?
 ## References and additional reading
 <details>
 
-[Introduction to High Performance Machine Learning](https://engineering.nyu.edu/sites/default/files/2022-01/ECE_GY_9143_S22.pdf)  
+[High Performance Machine Learning](https://engineering.nyu.edu/sites/default/files/2022-01/ECE_GY_9143_S22.pdf)  
 [High Performance Machine Learning](https://www.cs.columbia.edu/wp-content/uploads/2022/08/HPML-Fall2022-columbia.pdf)  
 [Flash Attention](https://github.com/HazyResearch/flash-attention)  
 [Branchless Programming](https://www.youtube.com/watch?v=g-WPhYREFjk)  
