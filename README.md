@@ -1,47 +1,112 @@
-# The Real-Timers Guide to the Computational Galaxy
-A guide designed for both deep learners and systems programmers. Meant to be followed several times at
-deepening levels.
-The material is comprised of 6 modules.
+# Real-Time Visual and Machine Learning Systems
 
-* Intro to the course, the different ways to use the material, intro to Rust and wgpu.
-* Memory hierarchies and computational graphs
-* Parallelization, interactivity, events and GUIs
-* Types, energy usage and inference, quantization, sparsity and pruning of neural networks
-* Introduction to profiling, optimization use cases on topics such as model
-training and quantization, graphics, computer vision
-* How to create real time systems, frameworks for the different fields and project proposals
+An upcoming course.
 
-## TODO
+## Recommended Prerequisites
+[High Performance Computing](https://kurser.dtu.dk/course/2023-2024/02614)  
+[Compute Graphics](https://kurser.dtu.dk/course/02561) and/or  
+[Computer Vision](https://kurser.dtu.dk/course/2023-2024/02504) and/or  
+[Deep Learning](https://kurser.dtu.dk/course/02456) and/or  
+[Advanced Deep Learning in Computer Vision](https://kurser.dtu.dk/course/2023-2024/02501)
 
-* Try rust-nexttest to solve the testing issue
-* Find the right benchmarking and performance tools (blessed.rs)
-* Look into friendlier error handling? Perhaps logging instead of panicing to
-get students used to logging. Introduce anyhow for better error handling?
-* [Loom](https://docs.rs/loom/latest/loom/)
+## Target Audience
 
-## References and additional reading
+M.Sc. students with an interest in systems programming, especially if they are interested in deep learning, computer graphics, computer vision, image analysis or signal processing.
 
-[High Performance Machine Learning](https://engineering.nyu.edu/sites/default/files/2022-01/ECE_GY_9143_S22.pdf)  
-[High Performance Machine Learning](https://www.cs.columbia.edu/wp-content/uploads/2022/08/HPML-Fall2022-columbia.pdf)  
-[Flash Attention](https://github.com/HazyResearch/flash-attention)  
-[Branchless Programming](https://www.youtube.com/watch?v=g-WPhYREFjk)  
-[The Rust Programming Language](https://doc.rust-lang.org/book/title-page.html)  
-[Learn wgpu](https://sotrh.github.io/learn-wgpu/)  
-[Install Rust](https://www.rust-lang.org/tools/install)  
-[wgpu](https://wgpu.rs/)  
-[ShaderToy](https://www.shadertoy.com/)  
-[Inigo Quilez](https://iquilezles.org/articles/)  
-[ORB-SLAM](https://arxiv.org/abs/1502.00956)  
-[ORB-SLAM2](https://arxiv.org/abs/1610.06475)  
-[Z-order curves](https://www.nocentino.com/Nocentino10.pdf)  
-[Linearised Trees on the GPU](https://developer.nvidia.com/blog/thinking-parallel-part-iii-tree-construction-gpu/)  
-[Vivienne Sze - Energy Efficient AI](https://www.youtube.com/watch?v=WbLQqPw_n88)  
-[Visual Computing - Stanford](https://gfxcourses.stanford.edu/cs348k/spring23)  
-[Parallel Computing - Stanford](https://gfxcourses.stanford.edu/cs149/fall21)  
-[Rust Profiling](https://nnethercote.github.io/perf-book/profiling.html)  
-[RenderDoc](https://renderdoc.org/)  
-[Book of Shaders](https://thebookofshaders.com/)  
-[Scratchapixel](https://www.scratchapixel.com/)  
-[Ray Tracing in One Weekend](https://raytracing.github.io/)
-[Physically Based Rendering](https://www.pbrt.org/)
-[Crafting Interpreters](https://craftinginterpreters.com/)
+PhD students who need to learn about performance. If they don't have previous experience in C++ or Rust they might need to spend some time preparing.
+
+## Learning Objectives
+
+A student who has met the objectives of the course will be able to:
+
+* Program using the Rust language and the WGPU API.
+* Describe how computational graphs work.
+* Describe how virtualized memory hierarchies work.
+* Describe how a GPU works and how it fits in the memory hierarchies.
+* Describe basic concepts in smart pointers, graph representations and garbage collectors.
+* Give an overview of core concepts in parallelization.
+* Explain input events and event-based processing.
+* Explain integers and bitwise operations as well as floats and precision.
+* Perform performance profiling and optimization of complex heterogeneous systems. 
+* Analyze cases relevant to the students' specialization.
+* Choose the right tools presented in the course for implementing their own project.
+* Programming, presenting and analyzing the students' own real-time system.
+
+## Evaluation
+All work must be done alone, but it is recommended to talk with other students and the teacher.
+
+* 2 Hand-ins
+* Presentation on Demo Day of a real-time system
+* Final report on the design, process and implementation of the real-time system
+
+### Course work
+Aside from reading and listening:  
+
+* Paper and pen exercise
+* HAND-IN - Coding - memory hierarchies and GPU's
+* HAND-IN - Analysis - minimum 3 points from the use case list and analysing a code template
+* Inference exercise
+* Analysis/presentation/discussion exercise. The student will choose a use case, analyze it, present it to a group and then discuss it  
+* HAND-IN & DEMO - Significant programming project - presentation on demo day and report hand-in about the product and the process
+
+## Schedule - 15 Days
+
+### 1
+Introduction to the course  
+Introduction to Rust  
+Read all of level 0  
+Make sure the code framework compiles and runs 
+Rudimentary Rust exercises
+
+### 2
+Memory Hierarchies and computational graphs  
+Pen and Paper exercises
+
+### 3
+Memory Hierarchies and computational graphs  
+Coding Exercise/Hand-in
+
+### 4
+Parallelization  
+Analysis Exercise/Hand-in
+
+### 5
+Parallelization  
+Analysis Exercise/Hand-in continued
+
+### 6
+Types and inference of neural networks 
+Inference exercise
+
+### 7
+Introduction to profiling and performance Use Cases  
+(Introduction to projects)  
+Exercise / Group discussions of cases
+
+### 8
+Buffer  
+
+### 9
+Tips and tricks for real-time systems  
+Introduction to projects  
+Choosing projects  
+Programming  
+
+### 10
+Programming
+
+### 11
+Programming  
+
+### 12
+Programming  
+
+### 13
+Programming  
+
+### 14
+Programming  
+
+### 15
+Programming  
+Demo day  
