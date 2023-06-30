@@ -1,5 +1,5 @@
 # The Real-Timers Guide to the Computational Galaxy
-A guide designed for both deep learners and systems programmers. Meant to be followed several times at 
+A guide designed for both deep learners and systems programmers. Meant to be followed several times at
 deepening levels.
 The material is comprised of 6 modules.
 
@@ -11,7 +11,6 @@ The material is comprised of 6 modules.
 training and quantization, graphics, computer vision
 * How to create real time systems, frameworks for the different fields and project proposals
 
-
 ## TODO
 
 * Try rust-nexttest to solve the testing issue
@@ -19,10 +18,6 @@ training and quantization, graphics, computer vision
 * Look into friendlier error handling? Perhaps logging instead of panicing to
 get students used to logging. Introduce anyhow for better error handling?
 * [Loom](https://docs.rs/loom/latest/loom/)
-
-
-
-
 
 ## Installation
 
@@ -34,7 +29,7 @@ WGSL, wgsl-analyzer and optionally Dracula For Rust Theme.
 
 ## Testing
 On some computers the GPU tests will currently fail unless being run with ```cargo test -- --test-threads=1```
-Even then it might fail. You can just try a few more times or try to run tests individually. 
+Even then it might fail. You can just try a few more times or try to run tests individually.
 It is because of the queue and device being acquired several times.
 This is likely to happen less on bigger GPU's.
 
@@ -202,7 +197,6 @@ using some of the primitives introduced in the module
 
 </details>
 
-
 ### Types, energy usage and inference, quantization, sparsity and pruning of neural networks
 <details>
 
@@ -298,7 +292,7 @@ ADD SUGGESTED MODELS)
 
 #### Components - libraries/frameworks
 
-[blessed](blessed.rs)  
+[blessed](https://blessed.rs/crates)  
 [rayon](https://github.com/rayon-rs/rayon)  
 [egui](https://github.com/emilk/egui)  
 [wonnx](https://github.com/webonnx/wonnx)  
@@ -326,12 +320,11 @@ reading app (Wolfgang Fuhl, PISTOL, fixation detection)
 * Cognitive load tracker - Eyes & pupil dilation and online estimation of
 signal strength (pupils vs. sound for the hearing impaired)
 
-
-
 #### What makes for a good project?
 
 * What is your concept/project?
-* Which concepts from the previous material do you think are relevant to your project and why?
+* Which concepts from the previous material do you think
+are relevant to your project and why?
 * Preprocessing your data?
 * How do you adapt to your chosen/available platform?
 * Which libraries did you choose for this problem?
@@ -341,7 +334,6 @@ signal strength (pupils vs. sound for the hearing impaired)
 * What else would you like to do with your system?
 
 </details>
-
 
 ## References and additional reading
 <details>
