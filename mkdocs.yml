@@ -68,6 +68,7 @@ extra:
 
 nav:
   - Home: README.md
+  - Code: code.md
   - M0 - Introduction:
     - m0_introduction/README.md
   - M1 - Memory Hierarchies:
