@@ -1,20 +1,23 @@
 # The Real-Timers Guide to the Computational Galaxy
-A guide designed for both deep learners and systems programmers. Meant to be followed several times at deepening levels. 
+A guide designed for both deep learners and systems programmers. Meant to be followed several times at 
+deepening levels.
 The material is comprised of 6 modules.
 
 * Intro to the course, the different ways to use the material, intro to Rust and wgpu.
 * Memory hierarchies and computational graphs
 * Parallelization, interactivity, events and GUIs
 * Types, energy usage and inference, quantization, sparsity and pruning of neural networks
-* Introduction to profiling, optimization use cases on topics such as model 
+* Introduction to profiling, optimization use cases on topics such as model
 training and quantization, graphics, computer vision
 * How to create real time systems, frameworks for the different fields and project proposals
 
 
 ## TODO
+
 * Try rust-nexttest to solve the testing issue
 * Find the right benchmarking and performance tools (blessed.rs)
-* Look into friendlier error handling? Perhaps logging instead of panicing to get students used to logging. Introduce anyhow for better error handling?
+* Look into friendlier error handling? Perhaps logging instead of panicing to
+get students used to logging. Introduce anyhow for better error handling?
 * [Loom](https://docs.rs/loom/latest/loom/)
 
 
@@ -26,7 +29,7 @@ training and quantization, graphics, computer vision
 * [Install Rust](https://www.rust-lang.org/tools/install). A version of Rust supporting edition 2021 is needed.
 * git clone this code
 * In the command line write ```cargo run --release```. This might take a while.
-* For IDE, I prefere VS Code with the extensions rust-analyzer, CodeLLDB, Rust Syntax, 
+* For IDE, I prefere VS Code with the extensions rust-analyzer, CodeLLDB, Rust Syntax,
 WGSL, wgsl-analyzer and optionally Dracula For Rust Theme.
 
 ## Testing
@@ -140,7 +143,8 @@ This is likely to happen less on bigger GPU's.
 #### (Exercises - do at least 1)
 
 * (Implement a version of the linear layer functions which uses shared memory and tiling)
-* (Implement the tree reduction version of the sum function and add it to the softmax function. Also compare the single pass and the tree reduction performance graphs. [Reference](https://developer.download.nvidia.com/assets/cuda/files/reduction.pdf))
+* (Implement the tree reduction version of the sum function and add it to the softmax function.
+Also compare the single pass and the tree reduction performance graphs. [Reference](https://developer.download.nvidia.com/assets/cuda/files/reduction.pdf))
 * (Implement a max pooling operator in all levels and implement tests)
 * (Implement a convolution operator in all levels and implement tests)
 * (Add reusable buffers to the computational graph system)
@@ -192,7 +196,10 @@ This is likely to happen less on bigger GPU's.
 
 #### (Exercise)
 
-* Describe the base architecture of the egui-winit-wgpu template. Expand on the template and program some things (needs suggestions) using some of the primitives introduced in the module
+* Describe the base architecture of the egui-winit-wgpu template.
+Expand on the template and program some things (needs suggestions)
+using some of the primitives introduced in the module
+
 </details>
 
 
@@ -227,7 +234,12 @@ This is likely to happen less on bigger GPU's.
 
 #### (Exercise)
 
-* (Find a suitable model and inference library. Perform inference. Optimize the model and inference process. Can you do inference on one thread, training on another and substitute in the new model? ADD SUGGESTED MODELS)
+* (Find a suitable model and inference library.
+Perform inference.
+Optimize the model and inference process.
+Can you do inferencing on one thread,
+training on another and swap in the new model?
+ADD SUGGESTED MODELS)
 
 </details>
 
@@ -299,20 +311,20 @@ This is likely to happen less on bigger GPU's.
 
 #### Specializations - Project proposals
 
-Virtual 3D scanner for a point cloud dataset  
-EEG system  
-Change the latent variables in a network using GUI, optimize the network  
-Point cloud renderer  
-Real-time style transfer on a web cam feed  
-Rendering fractals influenced by a web cam feed  
-Eye tracking -> Present to screen and read from web cam -> 
-feature extraction -> classifier -> intervention signal -> 
-reading app (Wolfgang Fuhl, PISTOL, fixation detection)  
-Bird classification from sound / Real-time classification of sound (Xeno-canto database)  
-Who is talking? Real-time classification of sound  
-Are you dyslexic? Eye tracking classifier  
-Cognitive load tracker - Eyes & pupil dilation and online estimation of 
-signal strength (pupils vs. sound for the hearing impaired)  
+* Virtual 3D scanner for a point cloud dataset
+* EEG system
+* Change the latent variables in a network using GUI, optimize the network
+* Point cloud renderer
+* Real-time style transfer on a web cam feed
+* Rendering fractals influenced by a web cam feed
+* Eye tracking -> Present to screen and read from web cam ->
+feature extraction -> classifier -> intervention signal ->
+reading app (Wolfgang Fuhl, PISTOL, fixation detection)
+* Bird classification from sound / Real-time classification of sound (Xeno-canto database)
+* Who is talking? Real-time classification of sound
+* Are you dyslexic? Eye tracking classifier
+* Cognitive load tracker - Eyes & pupil dilation and online estimation of
+signal strength (pupils vs. sound for the hearing impaired)
 
 
 
