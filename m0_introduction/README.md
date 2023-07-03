@@ -4,8 +4,14 @@
 * How to use the materials as a student and a teacher.
 * Which level is for who and what does it require
 
-## Intro to Rust
+# Intro to Computing
 
+* Scripting
+* Compilers
+
+# Intro to Rust
+
+* Why Rust?
 * Project setup
 * How to compile
 * What are types
@@ -19,3 +25,4 @@
 * (Traits)
 * (Clippy)
 * (fmt)
+* Frequent commands and FAQ

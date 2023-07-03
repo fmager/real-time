@@ -1,4 +1,6 @@
 # Projects
+This whole module is for levels 3 and 4
+
 ## How to create real time systems, good frameworks for the different fields and project proposals
 
 * Starting with a simple prototype
@@ -8,29 +10,32 @@
 
 ### Tips and tricks in real time systems
 
-* (memcpy)
-* (Hot loops, event loops)
-* (Allocations in a hot loop)
-* (System calls - hoist out of the hot loop)
-* (Logging and printing)
-* (Bindings - PyO3 and cxx)
-* (Walk, don't run, testing for correctness before optimization)
-* (Don't use abbreviations)
-* (Don't use postfix incrementation++)
-* (When to care about software engineering and when to care about performance)
-* (Don't use a string key/identifier or integer, when a type safe enum will do the job)
-* (Hard coding types)
-* (Cognitive load, and delaying errors to after the first draft - deliberate development vs. debugging)
-* (Prefer stateless programming, minimize stateful programming (functional inspiration))
-* (Implicit casting)
-* (Compression)
-* (Know your system - mobile, laptop, desktop, integrated memory, which GPU)
-* (Use version control even for solo development)
-* (Am I copying/cloning things that don't need to be copied?)
-* (Check/validate everything before the hot loop)
-* (Anything that can be immutable, should be immutable - aliasing!)
-* (Testing and Seeding RNG's)
-* (Timing real-time systems and how to escape or offload compute)
+* memcpy
+* Hot loops, event loops
+* Allocations in a hot loop
+* System calls - hoist out of the hot loop
+* Logging and printing
+* Bindings - PyO3 and cxx
+* Walk, don't run, testing for correctness before optimization
+* Don't use abbreviations
+* Don't use postfix incrementation++
+* When to care about software engineering and when to care about performance
+* Don't use a string key/identifier or integer, when a type safe enum will do the job
+* Hard coding types
+* Cognitive load, and delaying errors to after the first draft - deliberate development vs. debugging
+* Prefer stateless programming, minimize stateful programming (functional inspiration)
+* Implicit casting
+* Compression
+* Know your system - mobile, laptop, desktop, integrated memory, which GPU
+* Use version control even for solo development
+* Am I copying/cloning things that don't need to be copied?
+* Check/validate everything before the hot loop
+* Anything that can be immutable, should be immutable - aliasing!
+* Testing and Seeding RNG's
+* [Faster RNG](https://youtu.be/5_RAHZQCPjE) 
+* Timing real-time systems and how to escape or offload compute
+* Multi-resolution computing for making your real-time target
+* Pressure testing and worst cases
 
 ### Components - libraries/frameworks
 
