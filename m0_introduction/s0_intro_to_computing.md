@@ -6,7 +6,6 @@ Setting limitations
 ### Just-in-Time (JIT)  
 ### Limitations and the bigger picture  
 
-
 ## Scripting Languages
 Python  
 Javascript
@@ -20,8 +19,7 @@ Go
 ### Systems Languages
 C/C++/Rust  
 
-
 ## Domain Specific Languages and Frameworks
-### Pytorch  
-### +Halide    
-### +Futhark  
+### Pytorch
+### +Halide
+### +Futhark

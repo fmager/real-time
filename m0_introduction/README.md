@@ -31,8 +31,9 @@ How to reason about the black box.
 A testing session, a cooking course.  
 An assortment of tricks for the performance minded adventurer.
 
-## How to use the materials as a teacher.
-If you are a teacher who wants to make use of this material, feel free to use the [course site](https://absorensen.github.io/real-time-visual-and-machine-learning-systems/).  
+## How to use the materials as a teacher
+If you are a teacher who wants to make use of this material, feel free to use the
+[course site](https://absorensen.github.io/real-time-visual-and-machine-learning-systems/).  
 The course in site focuses teaching real-time systems for deep learners and visual systems programmers.  
 It allocates half of 15 days to going through the material in the guide and the
 other half to making a project relevant to the students' specialization.  
@@ -73,4 +74,6 @@ If you haven't done any of these things, that is perfectly fine, but it might ta
 If you have previously done level 2, you should be ok.
 
 ### Level 4
-At this level everything expected at level 3 is expected, as well as you doing most or all of the exercises. This is mostly for people doing a course version or who REALLY want to learn.
+At this level everything expected at level 3 is expected, as well as you doing most or
+all of the exercises. This is mostly for people doing a course version or who
+REALLY want to learn all the guide has to offer.
