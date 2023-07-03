@@ -11,6 +11,6 @@
 * Optimizing a point cloud renderer
 * Optimizing a path tracer
 
-## (Exercise)
+## +Exercise
 
-* (Try out the profilers relevant to your own system with some sample programs.)
+Try out the profilers relevant to your own system with some sample programs.

@@ -68,26 +68,30 @@ extra:
 
 nav:
   - Home: README.md
-  - Code: code.md
+  - Overview: overview.md
+  - Acknowledgements: acknowledgements.md
   - M0 - Introduction:
     - m0_introduction/README.md
+    - S0 - Intro to Computing: m0_introduction/s0_intro_to_computing.md
+    - S1 - Intro to Rust: m0_introduction/s1_intro_to_rust.md
+    - S2 - Basic Concepts in Rust: m0_introduction/s2_basic_concepts_in_rust.md
+    - S3 - +Less Basic Concepts in Rust: m0_introduction/s3_less_basic_concepts_in_rust.md 
   - M1 - Memory Hierarchies:
     - m1_memory_hierarchies/README.md
-    - S0 - Overview: m1_memory_hierarchies/s0_overview/overview.md
-    - S1 - Intro: m1_memory_hierarchies/s1_intro/intro.md
-    - S2 - Memory Hierarchies and the CPU: m1_memory_hierarchies/s2_memory_hierarchies_and_the_cpu/memory_hierarchies_and_the_cpu.md
-    - S3 - Computational Graphs: m1_memory_hierarchies/s3_computational_graphs/computational_graphs.md
-    - S4 - Intro To GPU's: m1_memory_hierarchies/s4_intro_to_gpus/intro_to_gpus.md
-    - S5 - Immediate GPU Computation: m1_memory_hierarchies/s5_immediate_gpu_computation/immediate_mode_computation.md
-    - S6 - Building a Computational Graph: m1_memory_hierarchies/s6_building_a_computational_graph/building_a_computational_graph.md
-    - S7 - Computational Graph Compilers: m1_memory_hierarchies/s7_computational_graph_compilers/computational_graph_compilers.md
-    - S8 - Closing: m1_memory_hierarchies/s8_closing/closing.md
-    - S9 - Exercises: m1_memory_hierarchies/s9_exercises/exercises.md    
+    - S0 - Intro: m1_memory_hierarchies/s0_intro.md
+    - S1 - Memory Hierarchies and the CPU: m1_memory_hierarchies/s1_memory_hierarchies_and_the_cpu.md
+    - S2 - Computational Graphs: m1_memory_hierarchies/s2_computational_graphs.md
+    - S3 - Intro To GPU's: m1_memory_hierarchies/s3_intro_to_gpus.md
+    - S4 - Immediate GPU Computation: m1_memory_hierarchies/s4_immediate_gpu_computation.md
+    - S5 - Building a Computational Graph: m1_memory_hierarchies/s5_building_a_computational_graph.md
+    - S6 - Computational Graph Compilers: m1_memory_hierarchies/s6_computational_graph_compilers.md
+    - S7 - Outro: m1_memory_hierarchies/s7_outro.md
+    - S8 - +Exercises: m1_memory_hierarchies/s8_exercises.md    
   - M2 - Concepts in Parallelism:
     - m2_concepts_in_parallelism/README.md
   - M3 - Types:
     - m3_types/README.md
   - M4 - Profilers and Case Studies:
     - m4_profilers/README.md
-  - M5 - Projects:
+  - M5 - +Projects:
     - m5_projects/README.md

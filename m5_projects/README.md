@@ -1,4 +1,4 @@
-# Projects
+# +Projects
 This whole module is for levels 3 and 4
 
 ## How to create real time systems, good frameworks for the different fields and project proposals
@@ -9,7 +9,10 @@ This whole module is for levels 3 and 4
 * Optimize
 
 ### Tips and tricks in real time systems
-
+* Events
+* Key and Mouse events
+* Event Loops
+* GUIs & egui
 * memcpy
 * Hot loops, event loops
 * Allocations in a hot loop

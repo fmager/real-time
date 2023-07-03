@@ -1,6 +1,4 @@
-# Exercises - do at least 1
-
-These are only for levels 3 and 4
+# +Exercises - do at least 1
 
 * Implement a version of the linear layer functions which uses shared memory and tiling
 * Implement the tree reduction version of the sum function and add it to the softmax function.
