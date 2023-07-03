@@ -9,6 +9,7 @@ This whole module is for levels 3 and 4
 * Optimize
 
 ### Tips and tricks in real time systems
+
 * Events
 * Key and Mouse events
 * Event Loops

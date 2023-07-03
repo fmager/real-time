@@ -53,7 +53,7 @@ Which level is for who and what does it require
 
 ### Level 1
 Unsure whether to invest the time and effort.
-Each module is boiled down to approximately 2 pages of reading. 
+Each module is boiled down to approximately 2 pages of reading.  
 Reading all of the material should take at most an afternoon.
 
 ### Level 2

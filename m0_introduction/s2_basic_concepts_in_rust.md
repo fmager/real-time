@@ -14,4 +14,3 @@ Shared and mutable references
 ## Option and Result
 
 ## Enums & Match
-

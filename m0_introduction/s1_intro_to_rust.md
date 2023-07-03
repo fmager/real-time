@@ -8,8 +8,8 @@ The options considered were C, C++ and Rust. C and C++ contained too many footgu
 The guide was not supposed to be a guide to learning either of those languages.  
 Rust's very helpful compiler is likely to be a boon for guiding users towards sensible code.  
 The process of having to program in such a memory focused, modern, compiled language
-will turn what is otherwise an implicit, unspoken process inside out, 
-forcing the user to think about what good code is, where is my memory, 
+will turn what is otherwise an implicit, unspoken process inside out,
+forcing the user to think about what good code is, where is my memory,
 which elements has access, and so on.
 
 # Setup
