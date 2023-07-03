@@ -32,7 +32,7 @@ This whole module is for levels 3 and 4
 * Check/validate everything before the hot loop
 * Anything that can be immutable, should be immutable - aliasing!
 * Testing and Seeding RNG's
-* [Faster RNG](https://youtu.be/5_RAHZQCPjE) 
+* [Faster RNG](https://youtu.be/5_RAHZQCPjE)
 * Timing real-time systems and how to escape or offload compute
 * Multi-resolution computing for making your real-time target
 * Pressure testing and worst cases
