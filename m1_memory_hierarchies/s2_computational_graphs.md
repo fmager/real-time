@@ -4,8 +4,8 @@
 ## The network we want to support
 ## What's in a tensor
 ## Data dependencies and control dependencies
-## *-Compiler verifications and the restrict keyword
+## \*Compiler verifications and the restrict keyword
 ## Testing the correctness of the nodes
-## *-Intermediate representations
-## *-Graph representations
-## *-Perspective to render graphs
+## \*Intermediate representations
+## \*Graph representations
+## \*Perspective to render graphs

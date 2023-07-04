@@ -9,14 +9,14 @@
 * Quantization
 * Sparsity
 * Pruning
-* *-Fast inverse square root
-* *-Bit tricks
-* *-Basic compression
-* *-Batch based data processing
-* *-Tensor Cores
-* *-Using integers instead of strings in hash tables
+* \*Fast inverse square root
+* \*Bit tricks
+* \*Basic compression
+* \*Batch based data processing
+* \*Tensor Cores
+* \*Using integers instead of strings in hash tables
 
-## *-Exercise
+## \*Exercise
 
 Find a suitable model and inference library.  
 Perform inference.  
@@ -25,7 +25,7 @@ Can you do inferencing on one thread,
 training on another and swap in the new model?  
 ADD SUGGESTED MODELS  
 
-## *S-Group discussion and presentation
+## S\*Group discussion and presentation
 Pick one of the following topics.  
 Read and understand it, then present and discuss the topic with one or more other people.  
 Preferably classmates.

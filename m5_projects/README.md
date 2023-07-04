@@ -1,4 +1,4 @@
-# *-Projects
+# \*Projects
 This whole module is for levels 3 and 4.
 Specifically, all of the tips and tracks are for level 3, where the projects themselves are meant for level 4.
 
@@ -55,7 +55,7 @@ Specifically, all of the tips and tracks are for level 3, where the projects the
 [arewelearningyet](https://www.arewelearningyet.com/neural-networks/)  
 [burn](https://github.com/burn-rs/burn)  
 
-### S - Project proposals
+### S Project proposals
 
 * Virtual 3D scanner for a point cloud dataset
 * EEG system

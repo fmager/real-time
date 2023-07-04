@@ -75,7 +75,7 @@ nav:
     - S0 - Introduction to the Computing Landscape: m0_introduction/s0_intro_to_computing.md
     - S1 - Introduction to Rust: m0_introduction/s1_intro_to_rust.md
     - S2 - Basic Concepts in Rust: m0_introduction/s2_basic_concepts_in_rust.md
-    - S3 - *-Less Basic Concepts in Rust: m0_introduction/s3_less_basic_concepts_in_rust.md 
+    - S3 - \*Less Basic Concepts in Rust: m0_introduction/s3_less_basic_concepts_in_rust.md 
   - M1 - Memory Hierarchies:
     - m1_memory_hierarchies/README.md
     - S0 - Introduction: m1_memory_hierarchies/s0_intro.md
@@ -86,12 +86,12 @@ nav:
     - S5 - Building a Computational Graph: m1_memory_hierarchies/s5_building_a_computational_graph.md
     - S6 - Computational Graph Compilers: m1_memory_hierarchies/s6_computational_graph_compilers.md
     - S7 - Outro: m1_memory_hierarchies/s7_outro.md
-    - S8 - *-Exercises: m1_memory_hierarchies/s8_exercises.md    
+    - S8 - \*Exercises: m1_memory_hierarchies/s8_exercises.md    
   - M2 - Concepts in Parallelism:
     - m2_concepts_in_parallelism/README.md
   - M3 - Types:
     - m3_types/README.md
   - M4 - Profilers and Case Studies:
     - m4_profilers/README.md
-  - M5 - *-Projects:
+  - M5 - \*Projects:
     - m5_projects/README.md

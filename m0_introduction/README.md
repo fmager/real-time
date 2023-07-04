@@ -1,6 +1,7 @@
 # Introduction
 Hello there!  
-If you are reading this you might have been enticed by promises of performance and other some such advanced black magic, but first, a digression...  
+If you are reading this you might have been enticed by promises of performance and other
+some such advanced black magic, but first, a digression...
 
 There are so many things to keep track of as a modern day programmer and most systems hide these things from the user.
 You call something called... ```?numba?``` and annotate a few functions and it magically makes your code faster.
@@ -40,12 +41,12 @@ And thus stops the finger pointing!
 Optimizing code, especially on systems you might share with others both means that you can get your results faster,
 but that others can have use of the system in a reasonable time as well.
 If you are making large models, optimizing them to be smaller also results in corporations with profits less
-than the GDP of a small country can actually train and run inference with your model, 
+than the GDP of a small country can actually train and run inference with your model,
 increasing the democratization of your work and its reach. If its able to run on a consumer grade desktop - even better!
 
 This guide was made to be an iterative process, taking you by the hand,
-speaking to you at the level at which you are following it, trying not to overwhelm you. 
-Reading that back, it could sound a bit condescending, but it basically means that the 
+speaking to you at the level at which you are following it, trying not to overwhelm you.
+Reading that back, it could sound a bit condescending, but it basically means that the
 types of concepts you are assumed to know about will gradually increase with each level.  
 Due to the guide gradually introducing certain concepts, jumping around the material
 is not recommended.
@@ -55,12 +56,17 @@ people who like computer vision, or computer graphics or other some such.
 You are more than welcome to read and do all of it, but no one says you have to do anything.  
 If you just follow along the path that is most relevant to you, you will be just fine.  
 The guide does contain code, sometimes just small snippets, but also frameworks in
-which most of a module will take place. 
+which most of a module will take place.
 
 Most importantly - Don't Panic! The guide is here for you! And now for something completely different... practicalities!
 
 ## Specializations
-Throughout the guide there are sections and exercises prefixed by 'S'. These exercises and topics are meant to be up to you to follow. If you are mostly interested in deep learning, by all means only read and do the sections and exercises which are relevant to deep learning. Which section and exercise is relevant to which specialization will be explained in the each section. The currently supported specializations are deep learning, computer graphics, computer vision and cognitive signal processing.
+Throughout the guide there are sections and exercises prefixed by 'S'. These exercises and topics
+are meant to be up to you to follow. If you are mostly interested in deep learning, by all means
+only read and do the sections and exercises which are relevant to deep learning. Which section and
+exercise is relevant to which specialization will be explained in the each section. The currently
+supported specializations are deep learning, computer graphics, computer vision and cognitive
+signal processing.
 
 ## Levels
 The guide's way of doing things is to iteratively expand the curriculum and the depth
@@ -71,7 +77,12 @@ multiple times, each time advancing in level or you can jump right in to the rel
 This level is for people unsure about investing the time and effort to do level 2.
 People are busy, and inherently looking to maximize the value given their invested time.
 Just for those people each module has beem boiled down to approximately 2 pages of reading.
-Reading all of the material should take at most an afternoon and is comprised of the bottom of the main page of each module. Basically, you could stop reading once you are done with this "Level 1" header and just click each "MX - XXXX" on the left, read that page until the end, then click on the next "MX - XXXX" title and read that until the end and you would be done. That does not include "*M5 - Projects", that one is only relevant for levels 3 and 4. Happy reading!
+Reading all of the material should take at most an afternoon and is comprised of the bottom
+of the main page of each module. Basically, you could stop reading once you are done with
+this "Level 1" header and just click each "MX - XXXX" on the left, read that page until the
+end, then click on the next "MX - XXXX" title and read that until the end and you would be
+done. That does not include "*M5 - Projects", that one is only relevant for levels 3 and 4.
+Happy reading!
 
 ### Level 2
 At this level you might be a comfortable programmer in Python, you might be a researcher, or you might just be
@@ -80,7 +91,8 @@ C, C++ or Rust.
 It is expected that you checkout the repository and try out the code on your own laptop.
 It is expected that you might change a few variables here and there, but not much more than that.
 Don't worry, it does not require an Nvidia GPU to run on your laptop.
-There will be Rust code, but it will be as simplified Rust code as possible to just focus on making your learning as easy as possible.
+There will be Rust code, but it will be as simplified Rust code as possible to just
+focus on making your learning as easy as possible.
 If you are a systems programmer, you should be able to move through this level rapidly.
 This level does not take into account any module, section, page or info box with a '*' in front of the name.  
 These constitute level 3. You are still welcome to read them of course, but

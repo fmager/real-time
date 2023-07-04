@@ -9,21 +9,21 @@
 * GPU
 * Channels
 * Events
-* *-Sparsity
-* *-Random Access and Monte Carlo (Gyro Dropout)
-* *-Branchless programming
-* *-SIMD
-* *-Sorting
-* *-Graph representations - pointers and indices
-* *-Trees using indices
-* *-Parallel work on graphs
+* \*Sparsity
+* \*Random Access and Monte Carlo (Gyro Dropout)
+* \*Branchless programming
+* \*SIMD
+* \*Sorting
+* \*Graph representations - pointers and indices
+* \*Trees using indices
+* \*Parallel work on graphs
 
-# *-Exercise
+# \*Exercise
 Describe the base architecture of the egui-winit-wgpu template.  
 Expand on the template and program some things (needs suggestions)  
 using some of the primitives introduced in the module
 
-# *S-Exercise
+# S\*Exercise
 Pick items worth a total of 3 points or more, write a 10+ lines interpretation of each item
 
 * 1 - Data-oriented design - Entity component systems

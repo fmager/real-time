@@ -20,8 +20,9 @@ Very popular due to its apparent ease-of-use.  Quite slow in its raw form.
 The main advantage of vanilla python is the ability to glue together a number of libraries  
 written in other languages. In time, improvements have been made, such as putting type hints  
 into your code SUCH AS, which helps catch errors and gives more informative function definitions.  
-In general, if other people reading your code must read the high-quality comments, that you definitely remembered to write... right?,  
-then you are laying the foundation of a codebase that will frustrate people, probably including yourself.
+In general, if other people reading your code must read the high-quality comments,
+that you definitely remembered to write... right?, then you are laying the foundation of a
+codebase that will frustrate people, probably including yourself.
 
 ### Javascript
 The one running on most web pages.  
@@ -54,7 +55,7 @@ and substitute the function for a new optimized version.
 Numba  
 Java  
 
-## *-GPU Specific Languages and APIs
+## \*GPU Specific Languages and APIs
 CUDA/OpenCL
 Older APIs
 Web languages
@@ -71,9 +72,10 @@ Haha! Surprise! CUDA is actually programmed in C++ with some additional function
 Platform specific stuff
 
 ### GLSL/HLSL/WGSL
-Graphics and compute code. Specifically for the 
+Graphics and compute code. Specifically for the
 Can be compiled to SPIR-V, an intermediate representation, sort of like the byte code we discussed earlier.  
-This allows the platform independent SPIR-V to be translated to the specific instructions the GPU the code is actually run on. 
+This allows the platform independent SPIR-V to be translated to the specific instructions the GPU
+the code is actually run on.
 
 ## Domain Specific Languages and Frameworks
 We can take this concept of setting limitations even further  
@@ -83,19 +85,22 @@ Including GPU programming
 [Pytorch](https://pytorch.org/)  
 Has its own compiler from [2.0](https://pytorch.org/get-started/pytorch-2.0/).  
 
-### *-Taichi
+### \*Taichi
 [taichi](https://www.taichi-lang.org/)
 
-### *-Halide
+### \*Halide
 [Halide](https://halide-lang.org/)
 
-### *-Futhark
+### \*Futhark
 [Futhark](https://futhark-lang.org/)
 
-
 ## The guide and languages
-As you can probably see in the column on the left... the guide will be using Rust from here on out. If you read the section on GPU programming, you will see there are no easy, one-size-fits-all, solutions. Thankfully, the guide has clear goals and limitations. 
-To help you get familiar with new topics, we only need reasonable performance and for all the code to be runnable on most laptops.  
+As you can probably see in the column on the left... the guide will be using Rust from here on out.
+If you read the section on GPU programming, you will see there are no easy, one-size-fits-all,
+solutions. Thankfully, the guide has clear goals and limitations.
+To help you get familiar with new topics, we only need reasonable performance and for all
+the code to be runnable on most laptops.  
 After all, it's not much fun playing around with things on someone else's computer.  
-Most importantly, the setup process should be easy and not make you want to stress-eat the contents of your entire fridge when going through the installation process. 
+Most importantly, the setup process should be easy and not make you want to stress-eat
+the contents of your entire fridge when going through the installation process. 
 As such the guide will mainly use Rust and wgpu.

@@ -32,5 +32,5 @@ This is likely to happen less on bigger GPU's.
 ## Project setup
 ## How to compile
 ## Frequent commands and FAQ
-## *-Clippy
-## *-fmt
+## \*Clippy
+## \*fmt
