@@ -9,16 +9,22 @@
 * GPU
 * Channels
 * Events
-* +Sparsity
-* +Random Access and Monte Carlo (Gyro Dropout)
-* +Branchless programming
-* +SIMD
-* +Sorting
-* +Graph representations - pointers and indices
-* +Trees using indices
-* +Parallel work on graphs
+* *-Sparsity
+* *-Random Access and Monte Carlo (Gyro Dropout)
+* *-Branchless programming
+* *-SIMD
+* *-Sorting
+* *-Graph representations - pointers and indices
+* *-Trees using indices
+* *-Parallel work on graphs
 
-# +Specializations/Exercise - Pick items worth a total of 3 points or more, write a 10+ lines interpretation of each item
+# *-Exercise
+Describe the base architecture of the egui-winit-wgpu template.  
+Expand on the template and program some things (needs suggestions)  
+using some of the primitives introduced in the module
+
+# *S-Exercise
+Pick items worth a total of 3 points or more, write a 10+ lines interpretation of each item
 
 * 1 - Data-oriented design - Entity component systems
 * 1 - Array of Structs, Structs of Arrays, Auto-Vectorization
@@ -34,9 +40,3 @@
 * 2 - Flash Attention
 * 2 - Custom memory allocators
 * 2 - [JAX](https://jax.readthedocs.io/en/latest/notebooks/Common_Gotchas_in_JAX.html)
-
-# +Exercise
-
-Describe the base architecture of the egui-winit-wgpu template.  
-Expand on the template and program some things (needs suggestions)  
-using some of the primitives introduced in the module

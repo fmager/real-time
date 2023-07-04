@@ -1,4 +1,4 @@
-# +Less Basic Concepts in Rust
+# *-Less Basic Concepts in Rust
 
 ## Iterators
 

@@ -1,4 +1,4 @@
-# The Real-Timers Guide to the Computational Galaxy
+# Don't Panic!
 A guide designed for both deep learners and systems programmers. Meant to be followed several times at
 deepening levels.
 The material is comprised of 6 modules.
@@ -18,6 +18,7 @@ training and quantization, graphics, computer vision
 * Look into friendlier error handling? Perhaps logging instead of panicing to
 get students used to logging. Introduce anyhow for better error handling?
 * [Loom](https://docs.rs/loom/latest/loom/)
+* Come up with a different name for levels 1/2/3/4, also should the levels be described in a matrix?
 
 ## References and additional reading
 
@@ -42,6 +43,6 @@ get students used to logging. Introduce anyhow for better error handling?
 [RenderDoc](https://renderdoc.org/)  
 [Book of Shaders](https://thebookofshaders.com/)  
 [Scratchapixel](https://www.scratchapixel.com/)  
-[Ray Tracing in One Weekend](https://raytracing.github.io/)
-[Physically Based Rendering](https://www.pbrt.org/)
-[Crafting Interpreters](https://craftinginterpreters.com/)
+[Ray Tracing in One Weekend](https://raytracing.github.io/)  
+[Physically Based Rendering](https://www.pbrt.org/)  
+[Crafting Interpreters](https://craftinginterpreters.com/)  

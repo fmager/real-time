@@ -1,4 +1,4 @@
-# Intro to Rust
+# Introducing Rust
 Why Rust?  
 Rust has specifically been chosen as the guide needed a systems level programming
 language which was easy to setup and use on Windows, Linux and macOS.  
@@ -32,5 +32,5 @@ This is likely to happen less on bigger GPU's.
 ## Project setup
 ## How to compile
 ## Frequent commands and FAQ
-## +Clippy
-## +fmt
+## *-Clippy
+## *-fmt

@@ -3,7 +3,8 @@
 ## GPU Hardware
 ## Programming GPU's
 ## Intro to wgpu
-## +Setup of wgpu
-## +Shared memory, warp shuffling and distributed shared memory
-## +Synchronization
-## +SPIR-V & GLSL/HLSL
+## *-Setup of wgpu
+## *-Shared memory
+## *-Synchronization
+## *-Warp Shuffling and Distributed Shared Memory
+## *-SPIR-V & GLSL/HLSL

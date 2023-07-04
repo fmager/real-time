@@ -1,5 +1,6 @@
-# +Projects
-This whole module is for levels 3 and 4
+# *-Projects
+This whole module is for levels 3 and 4.
+Specifically, all of the tips and tracks are for level 3, where the projects themselves are meant for level 4.
 
 ## How to create real time systems, good frameworks for the different fields and project proposals
 
@@ -54,7 +55,7 @@ This whole module is for levels 3 and 4
 [arewelearningyet](https://www.arewelearningyet.com/neural-networks/)  
 [burn](https://github.com/burn-rs/burn)  
 
-### Specializations - Project proposals
+### S - Project proposals
 
 * Virtual 3D scanner for a point cloud dataset
 * EEG system

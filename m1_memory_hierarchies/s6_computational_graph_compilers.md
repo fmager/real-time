@@ -5,9 +5,9 @@
 ## Swapping operators for fused versions
 ## Building a graph compiler
 ## Testing the graph compiler
-## +Metaprogramming
-Shaders are just strings!
+## *-Metaprogramming
+Programs are just strings!
 
-## +Decomposing to OP codes
-## +A toy example with OP codes
-## +Additional ideas for compiler optimization, buffer reusage, matrix reusage
+## *-Decomposing to OP codes
+## *-A toy example with OP codes
+## *-Additional ideas for compiler optimization, buffer reusage, matrix reusage
