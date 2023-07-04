@@ -102,5 +102,5 @@ To help you get familiar with new topics, we only need reasonable performance an
 the code to be runnable on most laptops.  
 After all, it's not much fun playing around with things on someone else's computer.  
 Most importantly, the setup process should be easy and not make you want to stress-eat
-the contents of your entire fridge when going through the installation process. 
+the contents of your entire fridge when going through the installation process.
 As such the guide will mainly use Rust and wgpu.
