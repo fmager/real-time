@@ -47,7 +47,7 @@ specifically for your type of machine. This is usually done once before running 
 only when changes are made. This is called ahead-of-time compilation (AOT). Most compilers require additional
 constraints to transform and improve your code. Usually, you can also give your compiler additional
 commands to tell it how to compile. It could be things like "please optimize my code to have a smaller
-executable size" or "please show me all warnings as errors". 
+executable size" or "please show me all warnings as errors".
 
 Imagine you ask someone to go get you some milk every Thursday at 12.
 An unreasonably pedantic person (engineer) might be ready at 12 every Thursday and ask you what type of milk
@@ -197,7 +197,7 @@ You don't need to worry about that very much in the guide.
 OpenGL, DirectX, WebGPU and Metal, respectively. GLSL is also the main language of Vulkan,
 but HLSL is also seeing rising popularity. Lately, the tooling for cross compiling and running the
 same shaders on different graphics APIs has become a lot better. Shaders can be compiled to SPIR-V,
-an intermediate representation, sort of like the byte code we discussed earlier. 
+an intermediate representation, sort of like the byte code we discussed earlier.
 This allows the platform independent SPIR-V to be translated to the specific instructions
 the GPU the code is actually run on. One tool for compiling shaders is [naga](https://github.com/gfx-rs/naga).
 
