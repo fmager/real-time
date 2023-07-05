@@ -1,5 +1,5 @@
 # \*Exercises
-Pen and paper exercises to come. Speak to a classmate about your solutions.
+Pen and paper exercises to come. Speak to a classmate about your solutions. Which pointer kills the garbage collector?
 
 Extend the computational graph with an inplace operation for the ReLU operator (only for the non-fused ReLU)
 

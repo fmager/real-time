@@ -19,6 +19,7 @@ training and quantization, graphics, computer vision
 get students used to logging. Introduce anyhow for better error handling?
 * [Loom](https://docs.rs/loom/latest/loom/)
 * Come up with a different name for levels 1/2/3/4, also should the levels be described in a matrix?
+* Should there be an introduction to basic computer architecture somewhere?
 
 ## References and additional reading
 
