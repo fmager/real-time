@@ -6,8 +6,9 @@ some such advanced black magic, but first, a digression...
 There are so many things to keep track of as a modern day programmer and most systems hide these things from the user.
 You call something called... ```?numba?``` and annotate a few functions and it magically makes your code faster.
 You use something caled ```?Py?...?Torch?...``` and it seems really slow for some reason.
-It has something called a profiler, but you don't know how it works and you don't
-know what the hell ```HtoDMemCpy``` even is.
+You're sure you have a GPU in your machine, but it's still slow.
+```PyTorch``` has something called a profiler, but you don't know how it works and you don't
+know what the hell ```DtoHMemCpy``` even is.
 It can be hard to reason about what is going on inside these black boxes.
 On top of that you might not be able to find a tutorial or a guide to talk you through all of the
 stuff you don't know that you don't know.
@@ -34,7 +35,7 @@ everything, without necessarily generating value comensurate to the expended res
 
 If someone trains a deep learning model for two weeks on eight huge data center GPUS in a cluster, it is their
 responsibility that that training process is fairly well optimized, and that all data is responsibly retrieved,
-such that that training does not have to run again for no reason other than sloppiness.
+such that that training does not have to run again because of sloppiness.
 
 And thus stops the finger pointing!
 

@@ -4,13 +4,15 @@ Rust has specifically been chosen as the guide needed a systems level programmin
 language which was easy to setup and use on Windows, Linux and macOS.  
 The setup time needed to be less than 10 minutes and the chosen language needed an
 easy-to-use preferably integrated package manager.  
-The options considered were C, C++ and Rust. C and C++ contained too many footguns.  
-The guide was not supposed to be a guide to learning either of those languages.  
+The options considered were C, C++ and Rust. C and C++ contained too many footguns and required the
+use of an external package manager and the use of header files and build systems.
+Rust takes care of all that.
+The guide was not supposed to be a guide for learning either of those languages.  
 Rust's very helpful compiler is likely to be a boon for guiding users towards sensible code.  
 The process of having to program in such a memory focused, modern, compiled language
 will turn what is otherwise an implicit, unspoken process inside out,
 forcing the user to think about what good code is, where is my memory,
-which elements has access, and so on.
+which thread has access to which data, and so on.
 
 # Setup
 
