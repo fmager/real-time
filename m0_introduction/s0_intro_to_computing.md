@@ -43,8 +43,11 @@ A compiler processes the given code in one or more steps.
 In some steps it might verify that all of your code is correct, it might perform transform and optimize your code,
 it might change it into different representations like byte code or machine code. Some compilers strictly function
 ahead-of-time in an operation like ```some_compiler -compile my_file.code``` and output a runnable executable,
-specifically for your type of machine.
-Most compilers require additional constraints to transform and improve your code.
+specifically for your type of machine. This is usually done once before running your code and then
+only when changes are made. This is called ahead-of-time compilation (AOT). Most compilers require additional
+constraints to transform and improve your code. Usually, you can also give your compiler additional
+commands to tell it how to compile. It could be things like "please optimize my code to have a smaller
+executable size" or "please show me all warnings as errors". 
 
 Imagine you ask someone to go get you some milk every Thursday at 12.
 An unreasonably pedantic person (engineer) might be ready at 12 every Thursday and ask you what type of milk
@@ -158,7 +161,7 @@ the system you are on for support of an extension, which does allow access to sp
 however, end up with several versions of some elements of your code, based on whether some feature is there or not.
 
 ### Platform-Specific APIs
-Some GPU APIs are specific to specific operating systems. 
+Some GPU APIs are specific to specific operating systems.
 [DirectX11](https://en.wikipedia.org/wiki/DirectX#DirectX_11) and
 [DirectX12](https://en.wikipedia.org/wiki/DirectX#DirectX_12) targets Windows and XBox platforms, while
 [Metal](https://en.wikipedia.org/wiki/Metal_(API)) targets Apple devices. The guide won't concern itself too much
@@ -167,12 +170,17 @@ generation as Vulkan. Metal however, seems to be a bit less low-level compared t
 
 ### Cross-Platform APIs
 [OpenGL](https://en.wikipedia.org/wiki/OpenGL) and
-[Vulkan](https://en.wikipedia.org/wiki/Vulkan) are cross platform. OpenGL hasn't seen any updates for a while. Vulkan on the other hand is a low level, but generally popular API. It puts a lot of responsibility on to the programmer, but works on Windows and Linux, as well as Intel, Nvidia and AMD GPUs. It even works fairly decently on Apple devices thanks to [MoltenVK](https://moltengl.com/moltenvk/). Another cross-platform tool is
-[wgpu](https://wgpu.rs/), introduced earlier. It is also the one that will be used in the guide for GPU code.
+[Vulkan](https://en.wikipedia.org/wiki/Vulkan) are cross platform. OpenGL hasn't seen any updates for a
+while. Vulkan on the other hand is a low level, but generally popular API. It puts a lot of
+responsibility on to the programmer, but works on Windows and Linux, as well as Intel, Nvidia and
+AMD GPUs. It even works fairly decently on Apple devices thanks to [MoltenVK](https://moltengl.com/moltenvk/)
+Another cross-platform tool is [wgpu](https://wgpu.rs/), mentioned earlier. It is also the one that will
+be used in the guide for GPU code.
 
 ### Compute APIs
 Some GPU APIs are not for graphics, such as [CUDA](https://en.wikipedia.org/wiki/CUDA)
-[OpenCL](https://en.wikipedia.org/wiki/OpenCL). OpenCL is cross-platform (works on all GPUs), as well as compiling to FPGAs, DSPs and parallelized CPU code. On the other hand CUDA is just for Nvidia GPUs.
+[OpenCL](https://en.wikipedia.org/wiki/OpenCL). OpenCL is cross-platform (works on all GPUs), as well
+as compiling to FPGAs, DSPs and parallelized CPU code. On the other hand CUDA is just for Nvidia GPUs.
 CUDA is widely used in scientific computing and mostly dominates academia. Both CUDA and OpenCL have their kernels
 written in a specialized version of C++.
 
@@ -180,12 +188,12 @@ written in a specialized version of C++.
 Shader languages are languages specifically tailored for the combined graphics/compute APIs.
 Graphics APIs have some specific functionality which the language has to support.
 Usually you will find support for small vectors and matrices (up to 4x4) and various types you might not find
-on the CPU such as fp16. They will also usually have something called textures, bindings, samplers and built-in variables.¨
+on the CPU such as fp16. They will also usually have something called textures, bindings, samplers and built-in variables.
 You don't need to worry about that very much in the guide.
 [GLSL](https://en.wikipedia.org/wiki/OpenGL_Shading_Language),
 [HLSL](https://en.wikipedia.org/wiki/High-Level_Shader_Language),
 [WGSL](https://en.wikipedia.org/wiki/Shading_language#WebGPU_Shading_Language) and
-[MSL](https://en.wikipedia.org/wiki/Metal_(API)) are all shading languages developed for graphics APIs. 
+[MSL](https://en.wikipedia.org/wiki/Metal_(API)) are all shading languages developed for graphics APIs.
 OpenGL, DirectX, WebGPU and Metal, respectively. GLSL is also the main language of Vulkan,
 but HLSL is also seeing rising popularity. Lately, the tooling for cross compiling and running the
 same shaders on different graphics APIs has become a lot better. Shaders can be compiled to SPIR-V,
@@ -205,6 +213,9 @@ Another way of achieving speedy results in a flexible format is retrofitting an 
 Python, with a slightly different language. [taichi](https://www.taichi-lang.org/) combines a domain specific
 language to JIT compile highly performant code, which can also run graphics, to whatever platform you are running
 on. It can do this because of increased requirements of the user. Namely, annotating their code and setting
-limitations. [Halide](https://halide-lang.org/) on the other hand restricts itself to be a JIT-compiled language embedded in C++ made specifically for working with images and tensors.
+limitations. [Halide](https://halide-lang.org/) on the other hand restricts itself to be a AOT- or
+JIT-compiled language embedded in C++ made specifically for working with images and tensors.
 
-[Futhark](https://futhark-lang.org/) is a language made specifically for replacing the parts of your code which need to be fast. As such it is not a general language and can make opinionated choices which allows it to generate more performant programs.
+[Futhark](https://futhark-lang.org/) is a language made specifically for replacing the parts of your code
+which need to be fast. As such it is not a general language and can make opinionated choices which allows
+it to generate more performant programs.
