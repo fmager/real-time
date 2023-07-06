@@ -105,7 +105,8 @@ The guide elects not to fix this, because the return statement was put there to 
 # \*rustfmt
 [rustfmt](https://github.com/rust-lang/rustfmt) is a formatter for Rust. Surprise!
 You can install it by running ```rustup component add rustfmt``` in a terminal. From then on you can run commands
-like ```cargo fmt```, which automatically changes the code in your current crate (subproject, or the entire project if you are standing in the root). 
+like ```cargo fmt```, which automatically changes the code in your current crate (subproject,
+or the entire project if you are standing in the root).
 
 # \*fix
 [fix](https://doc.rust-lang.org/book/appendix-04-useful-development-tools.html#fix-your-code-with-rustfix) is
