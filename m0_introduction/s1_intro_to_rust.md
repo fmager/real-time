@@ -52,8 +52,12 @@ which will be empty to begin with. But if you write some dependencies, next time
 of the dependencies. By default cargo will look in the ```src``` directory. All of the files with the
 ```.rs``` suffix are Rust source files.
 
-## How to compile
-## Frequent commands and FAQ
+Entering ```cargo run``` will compile and run your code in debug mode, which means it will be easier to step
+through the code and getting better error messages. It will also result in significantly less compilation
+time, but slower run time. If you add ```cargo run --release``` it will compile in release mode.
+Compilation will take longer, the code will run faster, but debugging will be harder.
+
+## Frequent commands
 To save on space, especially for some of the smaller projects where you just need to run a command or two,
 write ```cargo clean``` once you are done to remove all of the relevant dependencies.
 
@@ -84,4 +88,26 @@ as the tests are running concurrently. All of the tests requiring GPU access wil
 sharing resources. Even then it might fail. You can just try a few more times or try to run tests individually.  
 
 # \*Clippy
-# \*fmt
+[Clippy](https://doc.rust-lang.org/stable/clippy/index.html) is cargo's tool for giving suggestions for improving
+your code and making it more akin to idiomatic Rust. The guide has most code conformant to Clippy's suggestions,
+however the guide chooses to diverge where making the code simpler and easier to understand for people who have
+never programmed Rust before is a priority. Clippy's messages are very informative and a good learning experience.
+It is recommended that you use Clippy in your own code. It is as simple as calling ```cargo clippy```.
+
+Running it on the ```how_to_test``` project, Clippy returns the following message -
+<figure markdown>
+![Image](../figures/clippy.png){ width="500" }
+<figcaption>
+The guide elects not to fix this, because the return statement was put there to make a point.
+</figcaption>
+</figure>
+
+# \*rustfmt
+[rustfmt](https://github.com/rust-lang/rustfmt) is a formatter for Rust. Surprise!
+You can install it by running ```rustup component add rustfmt``` in a terminal. From then on you can run commands
+like ```cargo fmt```, which automatically changes the code in your current crate (subproject, or the entire project if you are standing in the root). 
+
+# \*fix
+[fix](https://doc.rust-lang.org/book/appendix-04-useful-development-tools.html#fix-your-code-with-rustfix) is
+a tool for taking as many of those pesky compiler warnings as possible, and fixing your code for you. You just
+enter ```cargo fix```.
