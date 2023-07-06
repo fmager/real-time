@@ -6,6 +6,8 @@
 
 ## Traits
 
+## Deriving Traits
+
 ## Templates
 
 ## Gentle Lifetimes
