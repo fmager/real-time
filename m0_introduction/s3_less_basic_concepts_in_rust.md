@@ -8,7 +8,7 @@
 
 ## Deriving Traits
 
-## Templates
+## Generics
 
 ## Gentle Lifetimes
 
