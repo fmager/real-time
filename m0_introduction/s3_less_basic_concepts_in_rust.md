@@ -14,7 +14,8 @@ specific language construct, but some concepts it might help to know.
 ## Aliasing
 Aliasing is a term for when two pointers or references refer to the same place in memory.
 That might not sound like much of a problem at first, but it allows the compiler to make optimizations.
-Take a look at this code
+Take a look at this code -
+
 ```rust
 fn compute(input: &u32, output: &mut u32) {
     if 10 < *input {
@@ -37,7 +38,6 @@ fn compute(input: &u32, output: &mut u32) {
         *output *= 2;
     }
 }
-
 ```
 
 You can also check the Rustonomicon for a
@@ -58,17 +58,19 @@ just get a program behaving "weird". In another case it would also mean you coul
 and save that value in a local variable to do a bunch of operations before writing it somewhere. It already
 sounds very headscratching and like you should only ever do single threaded programs. But thankfully,
 the borrow checker is there to keep things in check for you. One recommendation, you should try
-to minimize the time that a mutable reference to a value will exist. 
+to minimize the time that a mutable reference to a value will exist.
 
 ## Multiple Function Definitions Not Allowed
 As opposed to languages like C++, you cannot have multiple functions with the same name in Rust.
 In C++ this is perfectly legal, and the compiler will attempt to deduce which one you mean based
 on the way you are calling function().
+
 ```c++
 void function(int argument_a, int argument_b) {}
 void function(int argument_a, int argument_b, int argument_c) {}
 void function(int argument_a, int argument_b, float argument_c) {}
 ```
+
 Rust seems to be designed in a way as to minimize the amount of ambiguity faced by the compiler (and you too).
 Sometimes in Rust code you will see several different constructor functions, such as build, build_from_ints,
 new and default. In one way, that is a pain in the ass. In another way, it's quite nice.
@@ -78,16 +80,19 @@ that. Remember this... *ahem* RED FLAG! Fix your stuff so people don't have to g
 probably make the next person to read your code hate you slightly less. Which is a good thing!
 
 ## Index Checking
-Whenever you access an element in an indexed collection such as a Vec: 
+Whenever you access an element in an indexed collection such as a Vec:
+
 ```rust
 for index in 0..data.len() {
     do_something(data[index]);
 }
 ```
+
 Whenever you do this in Rust, there is a runtime check to make sure this index is not outside of the
 memory of the vector. This does have some performance cost, but unless you are absolutely sure this processing
 is happening in a hot region (a region of your code where a lot of time is spent), it is not recommended to try
-and circumvent this. 
+and circumvent this.
+
 ```rust
 for index in 0..data.len() {
     unsafe {
@@ -95,24 +100,28 @@ for index in 0..data.len() {
     }
 }
 ```
+
 It requires an unsafe region, which is a region in your code where you tell the compiler
 to allow you to do some things it would otherwise not allow you to, and call the function get_unchecked(index).
 An unsafe region does not turn off all checking, but in general, if you are at the level of reading the guide,
 you don't need it and we won't be talking about it more. If you really want to read more about unsafe,
 the [Rustonomicon](https://doc.rust-lang.org/nomicon/intro.html) is the defacto standard
-introduction to unsafe in Rust. 
+introduction to unsafe in Rust.
 
-The two above functions are equivalent to 
+The two above functions are equivalent to
+
 ```c++
 for(int index{0}; index < data.size(); ++index) {
     do_something(data.at(index));
 }
 ```
+
 ```c++
 for(int index{0}; index < data.size(); ++index)  {
     do_something(data[index]);
 }
 ```
+
 Note however, that square bracket indexing is the defacto standard way of accessing an array element in both
 languages. This showcases a core difference between the two languages. One being safety opt-out, and
 another being safety opt-in.
