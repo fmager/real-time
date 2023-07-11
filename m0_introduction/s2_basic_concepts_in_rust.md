@@ -7,12 +7,6 @@ The real contents of this section is the project in ```m0_introduction/code/basi
 Go into the file corresponding to each function being called in the ```main``` function in ```main.rs```
 and read all of the comments in order.
 The code can also be found
+<!-- markdownlint-disable -->
 [online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m0_introduction/code/basic_concepts).
-
-# Supplementary Comments
-
-## Aliasing
-
-## Multiple Function Definitions Not Allowed
-
-## Index Checking
+<!-- markdownlint-restore -->
