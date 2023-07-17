@@ -8,11 +8,11 @@ Where is the memory. Memory is slower than compute.
 Some parts of the hierarchy are implicit.
 
 ## GPU's
-GPU's. 
+GPU's.
 
 ## Expanding the Memory Hierarchy
 Memory hierarchies, within and without.
-GPU's and virtualization. 
+GPU's and virtualization.
 
 ## Complex Systems
 We are increasingly using sophisticated systems, like JIT-compilers and computational graphs to accelerate.

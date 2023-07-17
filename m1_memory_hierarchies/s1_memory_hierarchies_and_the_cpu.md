@@ -47,7 +47,6 @@ Trees
 Reference counting
 Object Pools
 
-
 ## \*Further Reading
 An explanation of memory allocation, stack and heap
 [in C](https://cs2461-2020.github.io/lectures/dynamic.pdf)
@@ -57,5 +56,5 @@ of the register, cache, main memory and virtual memory parts of the memory hiera
 
 For more about
 [garbage collection in Python](https://devguide.python.org/internals/garbage-collector/),
-[more basic garbage collection in Pyton](https://stackify.com/python-garbage-collection/) or 
-[garbage collection in Java](https://blogs.oracle.com/javamagazine/post/understanding-garbage-collectors). 
+[more basic garbage collection in Pyton](https://stackify.com/python-garbage-collection/) or
+[garbage collection in Java](https://blogs.oracle.com/javamagazine/post/understanding-garbage-collectors).

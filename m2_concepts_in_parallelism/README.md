@@ -24,7 +24,8 @@ Expand on the template and program some things (needs suggestions)
 using some of the primitives introduced in the module
 
 # S\*Exercise
-Pick items worth a total of 3 points or more, write am interpretation of each item of at least 10 times the number of points lines.
+Pick items worth a total of 3 points or more, write am interpretation of each
+item of at least 10 times the number of points lines.
 
 * 1 - Data-oriented design - Entity component systems
 * 1 - Array of Structs, Structs of Arrays, Auto-Vectorization

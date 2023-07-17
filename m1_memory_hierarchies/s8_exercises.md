@@ -7,7 +7,6 @@ Weak pointers.
 Write out the memory of THIS sequence of vector operations.
 N dimensional indexing in 1D array
 
-
 ## Programming
 Extend the computational graph with an inplace operation for the ReLU operator (only for the non-fused ReLU)
 

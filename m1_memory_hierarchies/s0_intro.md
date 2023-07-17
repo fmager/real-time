@@ -9,5 +9,5 @@ In order to reason about these black box systems, it is quite helpful to have so
 of what is going on.
 
 ## Code
-In this module you will find the code in ´´´m1_memory_hierarchies/code/´´´. 
+In this module you will find the code in ´´´m1_memory_hierarchies/code/´´´.
 Most of the sections deal with the project in ´´´computational_graphs´´´.
