@@ -2,6 +2,12 @@
 ## Introduction to profiling, Optimization case studies
 
 * Profilers (PyTorch, web, GPU, general)
+* Memory bound
+* Compute bound
+* Timing
+* Variance
+* Multiple samples
+* Where to measure
 
 ## Specializations
 

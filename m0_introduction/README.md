@@ -5,7 +5,7 @@ some such advanced black magic, but first, a digression...
 
 There are so many things to keep track of as a modern day programmer and most systems hide these things from the user.
 You call something called... ```?numba?``` and annotate a few functions and it magically makes your code faster.
-You use something caled ```?Py?...?Torch?...``` and it seems really slow for some reason.
+You use something called ```?Py?...?Torch?...``` and it seems really slow for some reason.
 You're sure you have a GPU in your machine, but it's still slow.
 ```PyTorch``` has something called a profiler, but you don't know how it works and you don't
 know what the hell ```DtoHMemCpy``` even is.
@@ -23,8 +23,11 @@ That overlap is getting bigger, but not swiftly enough.
 The speed of execution of a program is approximately correlated to the energy consumption of that program.
 Until we use 100% green, renewable, energy in all of computing we have a shared responsibility to at the very least
 practice some modicum of restraint and sensibility in our resource consumption. Taken to the limit by putting
-large scale machine learning, with its massive energy consumption for both training and inference, in
-everything, without necessarily generating value comensurate to the expended resources, is an irresponsible use of resources.
+large scale machine learning, with its 
+[massive energy consumption](https://towardsdatascience.com/chatgpts-electricity-consumption-7873483feac4) 
+for both training and inference, in
+everything, without necessarily generating value comensurate to the expended resources, is an
+[irresponsible use of resources](https://towardsdatascience.com/environmental-impact-of-ubiquitous-generative-ai-9e061bac6800).
 
 <figure markdown>
 ![Image](../figures/chatgpt-is-so.jpg){ width="500" }
