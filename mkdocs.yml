@@ -79,15 +79,14 @@ nav:
     - S4 - *Exercises: m0_introduction/s4_exercises.md
   - M1 - Memory Hierarchies:
     - m1_memory_hierarchies/README.md
-    - S0 - Introduction: m1_memory_hierarchies/s0_intro.md
-    - S1 - Memory Hierarchies and the CPU: m1_memory_hierarchies/s1_memory_hierarchies_and_the_cpu.md
-    - S2 - Computational Graphs: m1_memory_hierarchies/s2_computational_graphs.md
-    - S3 - Introduction To GPU's: m1_memory_hierarchies/s3_intro_to_gpus.md
-    - S4 - Immediate GPU Computation: m1_memory_hierarchies/s4_immediate_gpu_computation.md
-    - S5 - Building a Computational Graph: m1_memory_hierarchies/s5_building_a_computational_graph.md
-    - S6 - Computational Graph Compilers: m1_memory_hierarchies/s6_computational_graph_compilers.md
-    - S7 - Outro: m1_memory_hierarchies/s7_outro.md
-    - S8 - *Exercises: m1_memory_hierarchies/s8_exercises.md    
+    - S0 - Memory Hierarchies and the CPU: m1_memory_hierarchies/s0_memory_hierarchies_and_the_cpu.md
+    - S1 - Computational Graphs: m1_memory_hierarchies/s1_computational_graphs.md
+    - S2 - Introduction to GPU's: m1_memory_hierarchies/s2_intro_to_gpus.md
+    - S3 - Immediate GPU Computation: m1_memory_hierarchies/s3_immediate_gpu_computation.md
+    - S4 - Building a Computational Graph: m1_memory_hierarchies/s4_building_a_computational_graph.md
+    - S5 - Computational Graph Compilers: m1_memory_hierarchies/s5_computational_graph_compilers.md
+    - S6 - Outro: m1_memory_hierarchies/s6_outro.md
+    - S7 - *Exercises: m1_memory_hierarchies/s7_exercises.md    
   - M2 - Concepts in Parallelism:
     - m2_concepts_in_parallelism/README.md
   - M3 - Types:

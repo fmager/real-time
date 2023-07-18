@@ -1,10 +1,28 @@
 # Memory Hierarchies and the CPU
+As mentioned in the module intro, 
 
 ## Introduction to memory hierarchies
+Go back to just CPU, registers, caches and memory.
 Computer diagram
 Register
 Cache
 RAM
+
+<figure markdown>
+![Image](../figures/memory_hierarchy_PLACEHOLDER.png){ width="500" }
+<figcaption>
+<a href="https://www.cs.umd.edu/~meesh/411/CA-online/chapter/memory-hierarchy-design-basics/index.html">
+Image credit REPLACE ME </a>
+</figcaption>
+</figure>
+
+<figure markdown>
+![Image](../figures/amd_athlon_hierarchy.png){ width="500" }
+<figcaption>
+<a href="https://en.wikipedia.org/wiki/File:Hwloc.png">
+Image credit </a>
+</figcaption>
+</figure>
 
 ## Pointers, Heap and Stack, Dynamic Arrays
 ### Pointers and Allocations
@@ -53,6 +71,8 @@ An explanation of memory allocation, stack and heap
 
 A more rigorous [explanation](http://eceweb.ucsd.edu/~gert/ece30/CN5.pdf)
 of the register, cache, main memory and virtual memory parts of the memory hierarchy.
+
+Checkout the memory and cache specs for Apple's [M1 series](https://en.wikipedia.org/wiki/Apple_M1).
 
 For more about
 [garbage collection in Python](https://devguide.python.org/internals/garbage-collector/),
