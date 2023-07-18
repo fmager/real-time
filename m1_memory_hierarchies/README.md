@@ -10,7 +10,7 @@ e.g. go from RAM to disk. This is even more important given the relatively slow 
 <figure markdown>
 ![Image](../figures/compute_vs_memory.png){ width="500" }
 <figcaption>
-<a href="https://www.cs.umd.edu/~meesh/411/CA-online/chapter/memory-hierarchy-design-basics/index.html"> 
+<a href="https://www.cs.umd.edu/~meesh/411/CA-online/chapter/memory-hierarchy-design-basics/index.html">
 Image credit</a>
 </figcaption>
 </figure>
@@ -40,7 +40,7 @@ L1-L3 caches, the main memory (RAM) and the disk.
 The register is the fastest and smallest of the bunch. It resides right next to the parts of the CPU that does the computations.
 As a rule of thumb, all of the variables you declare in the scope of your function, unless there is A LOT of variables,
 will be kept in registers. The caches and the main memory all work in conjunction with each other as an invisible
-way of speeding up the accesses to the main memory. 
+way of speeding up the accesses to the main memory.
 
 Say you load in a file from the disk. If small enough, that entire file can be kept in RAM.
 Which is great! We could keep all of the values in a great big array which we
@@ -57,7 +57,7 @@ This is just as slow as it sounds.
 <figure markdown>
 ![Image](../figures/memory_hierarchy_PLACEHOLDER.png){ width="500" }
 <figcaption>
-<a href="https://www.cs.umd.edu/~meesh/411/CA-online/chapter/memory-hierarchy-design-basics/index.html"> 
+<a href="https://www.cs.umd.edu/~meesh/411/CA-online/chapter/memory-hierarchy-design-basics/index.html">
 Image credit REPLACE ME </a>
 </figcaption>
 </figure>
@@ -73,7 +73,8 @@ where the contention around this data, also know as a
 [data race](https://www.brainkart.com/article/Data-Races_9445/),
 is caught and we even end up with a correct result.
 Most likely thread A will end up with a stale version of the data and will continue as if the value had never been modified.
-Thread A will then write its own new version of the value, or just be working off an old version, resulting in incorrect results.
+Thread A will then write its own new version of the value, or just be working off an old version, resulting in
+incorrect results.
 
 Nudging the programmer (that's you!), to better define your program, not just line-by-line, but as a whole,
 to constrain these sorts of contentions, is one of the myriad reasons why
