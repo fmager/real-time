@@ -9,7 +9,7 @@ Cache
 RAM
 
 <figure markdown>
-![Image](../figures/memory_hierarchy_PLACEHOLDER.png){ width="500" }
+![Image](../figures/cpu_hierarchy.png){ width="500" }
 <figcaption>
 <a href="https://www.cs.umd.edu/~meesh/411/CA-online/chapter/memory-hierarchy-design-basics/index.html">
 Image credit REPLACE ME </a>

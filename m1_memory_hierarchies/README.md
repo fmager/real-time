@@ -45,10 +45,9 @@ there is A LOT of variables, will be kept in registers. The caches and the main 
 in conjunction with each other as an invisible way of speeding up the accesses to the main memory.
 
 <figure markdown>
-![Image](../figures/memory_hierarchy_PLACEHOLDER.png){ width="500" }
+![Image](../figures/cpu_hierarchy.png){ width="500" }
 <figcaption>
-<a href="https://www.cs.umd.edu/~meesh/411/CA-online/chapter/memory-hierarchy-design-basics/index.html">
-Image credit REPLACE ME </a>
+A simplified view of the CPU memory hierarchy.
 </figcaption>
 </figure>
 
@@ -64,6 +63,13 @@ and so on, until we reach memory. If our file was too big to fit in memory, the 
 virtualize (don't worry about it) the memory and go all the way to the disk or to the internet to retrieve our value.
 Which is just as slow as it sounds.
 
+<figure markdown>
+![Image](../figures/2_cpus_hierarchy.png){ width="500" }
+<figcaption>
+An example view of what CPU memory hierarchy can look like with 2 cores.
+</figcaption>
+</figure>
+
 To further complicate things, multicore CPU's have each CPU sharing the disk, memory and L3 cache, sometimes they also share
 the L2 cache with a few other CPUs.
 We are also at risk of each core not just reading from the same values, but what if some of them modified
@@ -78,6 +84,13 @@ Most likely thread A will end up with a stale version of the data and will conti
 had never been modified.
 Thread A will then write its own new version of the value, or just be working off an old version, resulting in
 incorrect results.
+
+<figure markdown>
+![Image](../figures/8_cpus_hierarchy.png){ width="500" }
+<figcaption>
+An example view of what CPU memory hierarchy can look like with 8 cores.
+</figcaption>
+</figure>
 
 Nudging the programmer (that's you!), to better define your program, not just line-by-line, but as a whole,
 to constrain these sorts of contentions, is one of the myriad reasons why
