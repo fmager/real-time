@@ -1,5 +1,5 @@
 # Memory Hierarchies and the CPU
-As mentioned in the module intro, 
+As mentioned in the module intro,
 
 ## Introduction to memory hierarchies
 Go back to just CPU, registers, caches and memory.

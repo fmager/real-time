@@ -72,7 +72,7 @@ to the registers of thread A, might be invalid because thread B wrote to that va
 the value in memory and in thread B's registers, L1 and L2 caches, hopefully, it also updated it in an
 L2 and/or L3 cache it shared with thread A, but even then we would still need to move the value from
 L2/L3, to thread A's L1 cache and registers for it to be valid. Which is probably not happening.
-Multiple threads reading from a piece of data, which one or more threads are writing to is also known as a 
+Multiple threads reading from a piece of data, which one or more threads are writing to is also known as a
 [data race](https://www.brainkart.com/article/Data-Races_9445/).
 Most likely thread A will end up with a stale version of the data and will continue as if the value
 had never been modified.
@@ -142,7 +142,7 @@ with your model, completely on the GPU, meaning less transfers, less communicati
 
 If you wanted to make things worse however, and have your local systems administrator put you on speed dial,
 you would fetch your entire data set from the internet every time you launched a job. I am absolutely
-certain no one has ever just downloaded a Hugging Face data set whenever they launched a job... 
+certain no one has ever just downloaded a Hugging Face data set whenever they launched a job...
 The internet can in this way be thought of as yet another, even slower, component of the memory hierarchy.
 Not much good comes from the internet. Try to avoid it. Except for this guide of course, which is very helpful.
 
@@ -155,6 +155,6 @@ Image credit </a>
 </figure>
 
 ## Wrapping Things Up
-Hopefully, this teaser hasn't scared you away from charging ahead and learning more about memory hierarchies 
+Hopefully, this teaser hasn't scared you away from charging ahead and learning more about memory hierarchies
 and computational graphs. Memory hierarchies are at the center of getting good performance in pretty much
 all programs and it is worth spending some time on having at least a tenuous grasp of how to use them.
