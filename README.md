@@ -48,3 +48,5 @@ get students used to logging. Introduce anyhow for better error handling?
 [Physically Based Rendering](https://www.pbrt.org/)  
 [Crafting Interpreters](https://craftinginterpreters.com/)  
 [Programming Rust](https://www.oreilly.com/library/view/programming-rust-2nd/9781492052586/)  
+[Godbolt](https://godbolt.org/)  
+[Advent of Code](https://adventofcode.com/)  

@@ -12,6 +12,7 @@ f32 only, dtype=f32
 Linear memory, sometimes called the raw view
 ## Data dependencies and control dependencies
 Working on a graph
+Contatenation (multiple writes to the same node)
 ## Testing the correctness of the nodes
 Testing in Rust
 ## Inlining
