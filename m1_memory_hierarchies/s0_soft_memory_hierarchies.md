@@ -2,7 +2,7 @@
 <figure markdown>
 ![Image](../figures/amd_athlon_hierarchy.png){ width="600" }
 <figcaption>
-Memory hierarchy of the AMD Athlon. 
+Memory hierarchy of the AMD Athlon.
 <a href="https://en.wikipedia.org/wiki/File:Hwloc.png">
 Image credit </a>
 </figcaption>
@@ -19,7 +19,7 @@ One of the core mechanisms in using memory is the pointer! All it does is point 
 Why? Because a pointer is basically just an address. Anti-climactic, I know, but as one of the core building
 blocks of computing, we need to take a bit of time to look at what it is.
 If you have ever tried programming in C, you will invariably have been introduced to the pointer.
-The examples in this heading will be in C, but don't worry, we won't even define an entire function. 
+The examples in this heading will be in C, but don't worry, we won't even define an entire function.
 It is rife with opportunities for making trouble, to a degree where in Rust, which is made to be a
 reasonably safe language, you can't directly interact with a pointer unless you have an unsafe region
 around the pointer interaction. Yikes! On the other hand, you can get some of the most extreme performance
@@ -28,26 +28,34 @@ by using raw pointers. So let's take a look!
 ### Allocation
 First of all, how do we get a pointer? Please note that checks for whether we have been given a valid pointer
 have been omitted. In the example below we get a pointer to a piece of memory which can hold up to 42 elements.
+
 ```c
 int element_count = 42;
 int* integer_array;
 integer_array = malloc(element_count * sizeof(int));
 ```
-Let's break it down! 
+
+Let's break it down!
+
 ```c
 int element_count = 42;
 ```
+
 We assign the number of elements to a variable in order to not have magic numbers.
+
 ```c
 int* integer_array;
 ```
+
 This is actually bad practice. We have an uninitialized variable here. We could try and dereference the pointer,
 more on that in just a second, and try to access memory which we either don't have the right to access
 or which doesn't exist. The pointer at this point is likely to either be 0 or complete garbage.
 ```int*``` reads as "a pointer to integers" or "address of one or more integers".
+
 ```c
 integer_array = malloc(element_count * sizeof(int));
 ```
+
 We ask for a memory allocation ([malloc](https://en.cppreference.com/w/c/memory/malloc)) from the
 operating system. What we get back is just a runtime dependent address.
 The address itself is what is known as a [word](https://en.wikipedia.org/wiki/Word_(computer_architecture)).
@@ -70,6 +78,7 @@ how we dereference the pointer and what happens when we do.
 ### Dereferencing
 A pointer is a reference to another place in memory. Quite literally it is just a number.
 Dereferencing is a term for following the address to what it points to.
+
 ```c
 int element_count = 42;
 int* integer_array;
@@ -81,17 +90,22 @@ integer_array[2] = 2;
 integer_array = integer_array + 3;
 *integer_array = 3;
 ```
+
 In this example there's three different ways of dereferencing shown.
+
 ```c
 *integer_array = 0;
 ```
+
 In C, we use the ```*``` operator in front of the pointer to follow the address to the memory.
 The base pointer we got from ```malloc``` is the address of the first of the 42 elements in our memory.
 Another way of seeing it is that ```integer_array``` holds an address, let's say... 42. Our program
 now asks the CPU to write to the address 42, the number 0. So far so good. But then this happens.
+
 ```c
 *(integer_array + 1) = 1;
 ```
+
 This is one of the myriad reasons why we needed to have an ```int*```. If the address in ```integer_array``` is
 42, to get the next integer element, we don't go to the address 43, which would just be the second byte of the
 first element. No, we want to go to the address 46, where the second element in the array begins. Since
@@ -103,18 +117,23 @@ as trying to access an element outside of our allocation will be catastrophic, a
 Back to the line on hand. We put our ```integer_array``` in a parentheses to make sure the
 dereferencing doesn't happen until after we have changed the address. So we increment the base pointer (42)
 with a stride of 4 (46), and then dereference (*) to assign a value of 1 to the second element in our array.
+
 ```c
 integer_array[2] = 2;
 ```
+
 A short hand for the previous line, is this line. ```integer_array[2]``` is shorthand
 for ```*(integer_array + 2)```.
+
 ```c
 integer_array = integer_array + 3;
 *integer_array = 3;
 ```
+
 With these lines we manipulate the base pointer itself, by reassigning a value of the base address (42), incremented by 3 (54), before doing a simple dereferencing and assigning a value of 3. This is not a recommended
 way of doing things. How do we ensure that we always have the pointer to the base address?
 The least you can do is to copy the base pointer and increment that. Why?
+
 ```c
 int element_count = 42;
 int* base_integer_array = malloc(element_count * sizeof(int));
@@ -127,6 +146,7 @@ int* integer_array = base_integer_array + 3;
 *integer_array = 3;
 integer_array[1] = 4;
 ```
+
 Because we need the address to give the memory back to the operating system.
 
 ### Deallocation
@@ -136,6 +156,7 @@ which is when our program uses more and more memory until the program is stopped
 The operating system might keep track of the memory though and clean up once our less than stellar code terminates.
 
 In C, we can return our memory like this, using the [free](https://en.cppreference.com/w/c/memory/free) function.
+
 ```c
 int element_count = 42;
 int* base_integer_array = malloc(element_count * sizeof(int));
@@ -150,12 +171,14 @@ integer_array[1] = 4;
 
 free(integer_array);
 ```
+
 Spot the error?
 
 We had two pointers and forgot to ```free``` using the base pointer, ```base_integer_array```.
 This is [undefined behavior](https://en.wikipedia.org/wiki/Undefined_behavior),
 which means that there are literally no definitions of what will happen.
 It is really bad. What we should have done was this.
+
 ```c
 int element_count = 42;
 int* base_integer_array = malloc(element_count * sizeof(int));
@@ -170,6 +193,7 @@ integer_array[1] = 4;
 
 free(base_integer_array);
 ```
+
 Note that ```free``` takes a ```void*```. Our ```int*``` is cast, without us asking explicitly, to a ```void*```.
 The operating system just wants an address. This allows the operating system to mark the section,
 denoted by the start of the section, and probably by its own record of the length.
@@ -179,6 +203,7 @@ We could try to dereference it after giving it to ```free```, which is the notor
 This is also undefined behavior as we try to access memory that is no longer accessible by our program.
 What we could do is to set ```base_integer_array``` and ```integer_array``` to new values to denote
 that they were invalid.
+
 ```c
 int element_count = 42;
 int* base_integer_array = malloc(element_count * sizeof(int));
@@ -195,13 +220,16 @@ free(base_integer_array);
 base_integer_array = NULL;
 integer_array = NULL;
 ```
+
 This does not however, stop us from trying to dereference those pointers, but it does allow for a more
 general check to see whether the pointers are still valid.
+
 ```c
 if (base_integer_array != NULL){
     free(base_integer_array);
 }
 ```
+
 If this all seems a bit scary, that's because it is.
 Anytime a system depends on humans just not making any errors and being
 rockstars at everything, it's a dangerous system and you should be on guard.
@@ -218,6 +246,7 @@ What is in the cache line is dictated by
 [cache line alignment](https://en.algorithmica.org/hpc/cpu-cache/alignment/).
 If for example you had made a struct (it's like an object, but just the data) like the one below
 and you elected to turn off the auto-alignment with ```__attribute__ ((packed))```
+
 ```c
 struct __attribute__ ((packed)) my_struct
 { 
@@ -225,13 +254,16 @@ struct __attribute__ ((packed)) my_struct
     int second; // 4 bytes
 }
 ```
+
 and you made allocated an array of ```my_struct``` like so
+
 ```c
 int element_count = 4;
 my_struct* structs = malloc(element_count * sizeof(my_struct)); // 4 * 6
 structs[1].first = 0;
 structs[1].second = 0;
 ```
+
 if you had an alignment of say, 8 bytes, the last two lines would result in 2 cache lines being retrieved.
 
 <figure markdown>
@@ -260,7 +292,9 @@ my_struct* structs = malloc(element_count * sizeof(my_struct)); // 4 * 6
 structs[1].first = 0;
 structs[1].second = 0;
 ```
+
 Then our alignment becomes this.
+
 <figure markdown>
 ![Image](../figures/cache_alignment_fixed.png){ width="600" }
 <figcaption>
@@ -274,6 +308,7 @@ run through an array of values.
 Sequential, Strided, Random
 Some code located at ```m1_memory_hierarchies/code/access_patterns/``` or
 [online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m1_memory_hierarchies/code/access_patterns).
+
 <figure markdown>
 ![Image](../figures/access_patterns.png){ width="600" }
 <figcaption>
