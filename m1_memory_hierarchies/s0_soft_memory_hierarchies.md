@@ -130,7 +130,8 @@ integer_array = integer_array + 3;
 *integer_array = 3;
 ```
 
-With these lines we manipulate the base pointer itself, by reassigning a value of the base address (42), incremented by 3 (54), before doing a simple dereferencing and assigning a value of 3. This is not a recommended
+With these lines we manipulate the base pointer itself, by reassigning a value of the base address (42),
+incremented by 3 (54), before doing a simple dereferencing and assigning a value of 3. This is not a recommended
 way of doing things. How do we ensure that we always have the pointer to the base address?
 The least you can do is to copy the base pointer and increment that. Why?
 
@@ -238,7 +239,7 @@ rockstars at everything, it's a dangerous system and you should be on guard.
 One important part of you understanding memory is increasing your understanding of what it takes to get valid,
 predictable, boring code. Which is the best kind. The other is for you to get performant code. An absolutely
 essential part of getting performant code is how we access the underlying memory. Yes, we can address
-memory a single byte at a time with [byte addressing](https://en.wikipedia.org/wiki/Byte_addressing). 
+memory a single byte at a time with [byte addressing](https://en.wikipedia.org/wiki/Byte_addressing).
 But, whenever we ask for a byte, the memory is transported as a cache line through the memory hierarchy.
 As in, the L3, L2 and L1 cache all receive an entire cache line. That cache line is usually 64 bytes.
 
@@ -324,7 +325,7 @@ Timing access patterns in Rust.
 
 ### Heap
 
-## Dynamic Array 
+## Dynamic Array
 
 A bit like a stack
 Maybe some of this should be moved to vector games  
