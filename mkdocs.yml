@@ -79,7 +79,7 @@ nav:
     - S4 - *Exercises: m0_introduction/s4_exercises.md
   - M1 - Memory Hierarchies:
     - m1_memory_hierarchies/README.md
-    - S0 - Memory Hierarchies and the CPU: m1_memory_hierarchies/s0_memory_hierarchies_and_the_cpu.md
+    - S0 - Soft Memory Hierarchies: m1_memory_hierarchies/s0_soft_memory_hierarchies.md
     - S1 - Computational Graphs: m1_memory_hierarchies/s1_computational_graphs.md
     - S2 - Introduction to GPU's: m1_memory_hierarchies/s2_intro_to_gpus.md
     - S3 - Immediate GPU Computation: m1_memory_hierarchies/s3_immediate_gpu_computation.md

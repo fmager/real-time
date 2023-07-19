@@ -19,14 +19,14 @@ Image credit</a>
 The further you move from simple, albeit heavy, problems such as a matrix-matrix problem to more heterogenous
 problems, such as training a neural network, the harder it can be to get good performance. How do you know or
 reason about what is where when in complex systems like
-[Pytorch](https://pytorch.org/), [Tensorflow](https://www.tensorflow.org/),
+[PyTorch](https://pytorch.org/), [Tensorflow](https://www.tensorflow.org/),
 [JAX](https://jax.readthedocs.io/en/latest/), [Numba](https://numba.pydata.org/) and
 [Taichi](https://www.taichi-lang.org/). All of these frameworks, compilers and domain specific languages have to
 nudge you in different directions to give them the restrictions and hints needed to let them run your code
 as efficiently as possible. Nudges like defining your neural network as a computational graph. If you're unsure
 about what a computational graph is, the basic version is that you define a bunch of operations and how they relate
 to each other. Like input layer, followed by linear layer, followed by ReLU. But more on that later! Other advances
-include Pytorch, after several attempts with various degrees of success, finally introducing a
+include PyTorch, after several attempts with various degrees of success, finally introducing a
 [compiler](https://pytorch.org/tutorials/intermediate/torch_compile_tutorial.html) for optimizing the
 neural network you just defined.
 Or the functional programming style used by
@@ -94,7 +94,7 @@ An example view of what CPU memory hierarchy can look like with 8 cores.
 
 Nudging the programmer (that's you!), to better define your program, not just line-by-line, but as a whole,
 to constrain these sorts of contentions, is one of the myriad reasons why
-frameworks like Pytorch can greatly speed up your code, if you help it along.
+frameworks like PyTorch can greatly speed up your code, if you help it along.
 
 For a more in-depth explanation on the memory hierarchy see this chapter on
 [Memory Hierarchy Design](https://www.cs.umd.edu/~meesh/411/CA-online/chapter/memory-hierarchy-design-basics/index.html).
