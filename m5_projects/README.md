@@ -14,6 +14,7 @@
 * Bindings - PyO3 and cxx
 * Walk, don't run, testing for correctness before optimization
 * Don't use abbreviations
+* Don't talk moon man language to me, ya Blargon!
 * Don't use postfix incrementation++
 * When to care about software engineering and when to care about performance
 * Don't use a string key/identifier or integer, when a type safe enum will do the job
