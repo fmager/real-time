@@ -625,7 +625,7 @@ can even dynamically decide to see the matrix in a different way, for example by
 to swap the number of columns and rows. The formula to access each element is to multiply
 the index by the dimensions that come after it and add it to the next index.
 For example with three dimensions ```x```, ```y``` and ```z```, the index would be
-calculated by 
+calculated by
 
 ```rust
 x_index * y_size * z_size + y_index * z_size + z_index
