@@ -320,7 +320,7 @@ which can be expensive.
 
 Next up is strided access. With strided access we only read every N elements. Based on the size of the stride
 and the size of the elements, it might result in each cache line only being used for a single element.
-In the implementations in the code there is both a non-wrapping and a wrapping stride implementation, 
+In the implementations in the code there is both a non-wrapping and a wrapping stride implementation,
 meaning once we step over the end we wrap back around using a modulo operator.
 This is to ensure that it accesses the same amount of elements as the sequential access.
 With the non-wrapping stride we only access every N elements, but we also end up doing
@@ -376,7 +376,7 @@ or be overwritten at any moment.
 The heap, in this context, is not the actual data structure known as a heap.
 Instead it is a bunch of unstructured memory living in the
 [same reserved space](https://courses.grainger.illinois.edu/cs225/fa2021/resources/stack-heap/)
-as the stack. 
+as the stack.
 
 <figure markdown>
 ![Image](../figures/stack_and_heap.png){ width="500" }
@@ -434,7 +434,7 @@ println("{}", data.len());
 
 we would get an output of 0! We have a ```capacity``` of 4, but a ```size``` of 0. Meaning,
 we have 4 integers of 4 bytes each on the heap, but they are unitialized (containing garbage values),
-and we have not used any of them. If we however use ```push``` to add some actual data and then print 
+and we have not used any of them. If we however use ```push``` to add some actual data and then print
 
 ```rust
 let mut data: Vec<i32> = Vec::<i32>::new();
@@ -457,7 +457,7 @@ println("{}", data[1]);
 
 In this case we print 2, 0 and 1. Push finds the first unused index, which is conveniently indicated
 by the ```size``` value, increments ```size``` and puts the value into the designated index. If we pushed
-5 values however, once we reached the 5th push, assuming the default capacity was 4, we would see the 
+5 values however, once we reached the 5th push, assuming the default capacity was 4, we would see the
 5th push taking a lot of time compared to the other 4 pushes. In this case the vector would allocate
 a new memory segment on the heap with a size of 8, copy all of the values from elements 0-3 and then add
 the 5th value to the vector. Conversely, we can also use the ```pop``` function.
@@ -519,13 +519,14 @@ let data: [i32; 2] = [0, 1];
 ```
 
 If the sizes given to the array definition are constants, known at compile time, the array will be
-stack allocated. 
+stack allocated.
 From what we have learned previously, the elements will be stored in memory in the order of 0 and 1.
 But what if we create a two-dimensional array?
 
 ```rust
 let data: [[i32; 2]; 2] = [[0, 1], [2, 3]];
 ```
+
 In Rust the elements will be ordered in memory 0, 1, 2, 3. But that is not a universal truth.
 This is called row-major ordering and is the standard layout in C, C++, Rust, Python and
 most modern languages.
@@ -579,7 +580,7 @@ for z_index in 0..z_dimension {
 
 If you think back to stride and cache lines, traversing our 3-dimensional array like the above
 in the actual case, where Rust is row-major, would be like the stride access we looked at earlier.
-We could also do this with nested vectors. 
+We could also do this with nested vectors.
 
 ```rust
 let mut data: Vec<Vec<i32>> = Vec::<Vec<i32>>::new();
@@ -622,12 +623,21 @@ We just create a vector with as much room as we need and then access it with a b
 We've flattened our matrix and can now both have it dynamic and with arbitrary dimensions. We
 can even dynamically decide to see the matrix in a different way, for example by deciding
 to swap the number of columns and rows. The formula to access each element is to multiply
-the index by the dimensions that come after it and add it to the next index. 
+the index by the dimensions that come after it and add it to the next index.
 For example with three dimensions ```x```, ```y``` and ```z```, the index would be
-calculated by ```x_index * y_size * z_size + y_index * z_size + z_index``` and for
-the two dimensions ```x``` and ```y```, we would access the 2-dimensional matrix with
-```x_index * y_size + y_index```. I really hope this makes sense. Once it clicks
-it is a very simple formula, if a bit wordy.
+calculated by 
+
+```rust
+x_index * y_size * z_size + y_index * z_size + z_index
+```
+
+and for the two dimensions ```x``` and ```y```, we would access the 2-dimensional matrix with
+
+```rust
+x_index * y_size + y_index
+```
+
+I really hope this makes sense. Once it clicks it is a very simple formula, if a bit wordy.
 Usually libraries will work like this under the surface but wrap it in an interface
 for you to simply access it like it was a multi-dimensional array.
 
