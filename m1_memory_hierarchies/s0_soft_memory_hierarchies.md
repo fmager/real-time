@@ -399,7 +399,7 @@ have a size known at compile time. Moving a pointer from place to place, is also
 a lot cheaper than copying every single element of a large array every time
 ownership changes hands.
 
-## Dynamic Array
+## The Dynamic Array
 The dynamic array is ubiquitous in C++ and Rust. It is quite often what we think
 about, when we think of arrays in those languages. C++ has
 [```std::vector<T>```](https://en.cppreference.com/w/cpp/container/vector)
@@ -539,7 +539,7 @@ in order.
 ```rust
 let data: [[[i32; 2]; 2]; 2] = 
                             [
-                                [[1, 2], [3, 4],
+                                [[1, 2], [3, 4]],
                                 [[5, 6], [7, 8]]
                             ];
 
@@ -667,25 +667,282 @@ is saved by not having the two extra for-loops depends on how much work you are
 actually doing in each iteration. In this benchmark we do pretty much nothing.
 
 ## Move, Copy, Clone, Soldier, Spy
-Clone  
-Copy  
-Move  
-Vector Games  
+Now that we have examined how we can deal with a more expensive type,
+compared to the simpler integer or float, let's expand the scope a little bit.
+How do we actually move around these vectors as data? In each language there are
+some implicit rules, which can have wide reaching consequences, both in terms of
+correctness and performance.
+
+In Python, variables are all references to an underlying object, which is freed
+when there are no longer any references to said object. Don't worry about it too
+much, it is a level 3 concept I will introduce further down the page.
+But, it does have consequences when this happens
+
+```python
+x = [5, 5, 3, 42]
+y = x
+```
+
+There aren't actually two lists, but two references to a list which has
+some data on the heap.
+This can be a bit problematic, as you now have two variables, which can
+both write to the same list without the other knowing.
+Once both ```x``` and ```y``` go out of scope, the list on the heap will be
+deallocated (eventually).
+
+In C and C++, the following actually results in two different lists on the
+heap, kept by two different variables.
+
+```c++
+vector<int> x{5, 5, 3, 42};
+vector<int> y = x;
+```
+
+C++ is copy by default, and this is a deep copy. Which is what Rust would
+call a clone. Rust however, is move by default.
+
+```rust
+let x: Vec<i32> = Vec::from([5, 5, 3, 42]);
+let y: Vec<i32> = x;
+```
+
+Once the values in ```x```, the ```capacity```, ```size``` and the pointer
+to the memory on the heap, have been moved from ```x``` into ```y```,
+```x``` is no longer accessible. The Rust compiler will complain.
+We can however, move it right back.
+
+```rust
+let mut x: Vec<i32> = Vec::from([5, 5, 3, 42]);
+let y: Vec<i32> = x;
+x = y;
+```
+
+Now, ```y``` is inaccessible at the end. We could also create a scope,
+after which ```y``` is dropped, but the ownership is not moved back to ```x```.
+
+```rust
+let x: Vec<i32> = Vec::from([5, 5, 3, 42]);
+{
+    let y: Vec<i32> = x;
+}
+```
+
+Unless we move the values back ourselves.
+
+```rust
+let mut x: Vec<i32> = Vec::from([5, 5, 3, 42]);
+{
+    let y: Vec<i32> = x;
+
+    x = y
+}
+```
+
+To actually create two lists, like we did in the C++ example, we have to
+explicitly ask for a deep copy - a clone in Rust terminology.
+
+```rust
+let x: Vec<i32> = Vec::from([5, 5, 3, 42]);
+let y: Vec<i32> = x.clone();
+```
+
+Usually, in Rust at least, adding lots of clones everywhere is the way
+to get around the borrow checker and have everything be correct. But
+once your first prototype is finished, one of the easiest improvements
+to your performance will be to search for all instances of .clone() and
+see whether there is some other solution that might work better.
+Rust isn't fighting you in this case, even if it can be strict,
+it is trying to protect you from having multiple write-enabled
+references to the same data, as in the Python example, which could make for incorrect code.
+C++ does have these [move operations](https://en.cppreference.com/w/cpp/utility/move)
+as well, it is even highly recommended a lot of the time. It is however,
+not the default behavior of the language.
+
+Rust does however have something called traits (don't worry about it).
+One of these traits is the ```Copy``` trait. If a type implements
+the ```Copy``` trait, it will be
+[copied rather than moved](https://blog.logrocket.com/disambiguating-rust-traits-copy-clone-dynamic/)
+when assigned to a new value or passed as an argument to a function.
+It is sort of like an implicit version of ```.clone()```, except
+in the case of deeper structures, such as ```Vec<T>```, in that case,
+it would copy all of the stack values, ```capacity```, ```size```
+and the pointer to the memory on the heap.
+
+But hold on a minute! That is illegal! We would have two pointers with
+full write rights. Which is illegal in Rust! Which is also why ```Vec<T>```
+doesn't implement ```Copy``` and this has all been a ruse, for your edification.
+ 
+## \*Smart pointers
+Ok, so I promised previously, that I would explain how Python, and most other
+garbage collected languages, deal with assigning one variable to another.
+If you recall the previous example
+
+```python
+x = [5, 5, 3, 42]
+y = x
+```
+
+We start by making a list and assigning a reference to ```x```. In this case
+```x``` is not the actual owner of the list. Instead, the system takes
+ownership of the list, and ```x``` is a live reference to that list.
+The system keeps track of how many live references there are to the list.
+Once ```x``` goes out of scope, the live reference count for the list
+decreases by one. Once the live reference count reaches 0, it is deallocated.
+
+Until we hit the end of the scope, and ```x``` and ```y``` disappear, there
+are two live references to the the list created at line 1. While a fine enough
+solution at first glance, sometimes, answering the question "what is alive"
+can be quite difficult. More on that in the
+[garbage collectors section](https://absorensen.github.io/the-real-timers-guide-to-the-computational-galaxy/m1_memory_hierarchies/s0_soft_memory_hierarchies/#garbage-collectors).
+
+When dealing with raw pointers, like we saw earlier, once a system grows
+beyond absolute simplicity, sharing multiple pointers to the same object
+becomes a bit complex. If you have 5 pointers to the same object floating about
+how do you ensure it isn't used after freeing? Who deallocates the pointer
+and who ensures that the pointers are no longer valid? This at the absolute
+crux of safety and your program not blowing up in C and C++.
+
+In C++11+ and Rust, we can elect to use something called smart pointers. Which
+can handle some of the intricacies for us.
+First off there is the [unique_ptr<T>](https://en.cppreference.com/w/cpp/memory/unique_ptr),
+as in C++, or the [Box<T>](https://doc.rust-lang.org/std/boxed/index.html) in Rust.
+I will just refer to ```Box``` from here on out, their behaviors seem to be more or less the same.
+```Box<T>``` is like a ```T *``` in C (pointer to object of type T). 
+With two notable exceptions. It cannot be copied. As in, you cannot have multiple
+instances of ```Box``` pointing to the same underlying object. Thus ```Box``` in Rust,
+as well as in C++, requires that ownership is moved, and not copied.
+The other notable difference from a raw pointer is that once the ´´´Box´´´ goes out of scope,
+the object on the heap that it is pointing to is deallocated.  
+
+```rust
+let box_variable: Box<i32> = Box::new(42);
+let mut other_box: Box<i32> = box_variable; // box_variable no longer accesible due to move
+let copied_variable: i32 = *other_box; // Dereference and copy the underlying value, this is not a move
+*other_box += 1;
+println!("{}", copied_variable); // prints 42
+println!("{}", *other_box); // prints 43
+```
+
+Next up are the shared pointers. They are essentially what Python is using in the example
+from earlier. In C++ it is called [shared_ptr<T>](https://en.cppreference.com/w/cpp/memory/shared_ptr),
+in Rust it actually comes in two versions;
+[Rc<T>](https://doc.rust-lang.org/std/rc/index.html) and
+[Arc<T>](https://doc.rust-lang.org/std/sync/struct.Arc.html).
+```Rc``` stands for reference counted. It is only made for single threaded usage as the
+reference count itself is susceptible to a data race, which you may recall, is several
+reads and/or writes to the same value. This could result in the count of live references
+being incorrect and the underlying value never being deallocated.
+
+```rust
+use std::rc::Rc;
+fn main() {
+    let shared_reference_a: Rc<i32> = Rc::new(42); // Live references = 1
+    println!("{}", Rc::strong_count(&shared_reference_a)); // prints 1
+
+    let shared_reference_b: Rc<i32> = shared_reference_a.clone(); // Live references = 2
+    println!("{}", Rc::strong_count(&shared_reference_b)); // prints 2
+
+    {
+        let shared_reference_c: Rc<i32> = shared_reference_a.clone(); // Live references = 3
+        let shared_reference_d: Rc<i32> = shared_reference_b.clone(); // Live references = 4
+        
+        println!("{}", *shared_reference_c); // prints 42
+        println!("{}", Rc::strong_count(&shared_reference_a)); // prints 4
+
+        println!("{}", *shared_reference_d); // prints 42
+        println!("{}", Rc::strong_count(&shared_reference_d)); // prints 4
+
+    }
+        // shared_reference_c and shared_reference_d are now dropped
+        println!("{}", Rc::strong_count(&shared_reference_b)); // prints 2
+
+        // Live references = 2
+        println!("{}", *shared_reference_a); // prints 42
+        println!("{}", *shared_reference_b); // prints 42
+}
+```
+
+```Arc<T>``` is here to solve exactly that issue.
+It uses atomic reference counting. Atomics will be introduced in the
+[Concepts in Parallelism](https://absorensen.github.io/the-real-timers-guide-to-the-computational-galaxy/m2_concepts_in_parallelism/)
+module. But in this context, it means that the reference counting is thread-safe, but a bit slower. 
+
+```rust
+use std::sync::Arc;
+
+fn main() {
+let shared_reference_a: Arc<i32> = Arc::new(42); // Live references = 1
+let shared_reference_b: Arc<i32> = shared_reference_a.clone(); // Live references = 2
+
+{
+    let shared_reference_c: Arc<i32> = shared_reference_a.clone(); // Live references = 3
+    let shared_reference_d: Arc<i32> = shared_reference_b.clone(); // Live references = 4
+    
+    println!("{}", *shared_reference_c); // prints 42
+    println!("{}", *shared_reference_d); // prints 42
+}
+    // shared_reference_c and shared_reference_d are now dropped
+
+    // Live references = 2
+    println!("{}", *shared_reference_a); // prints 42
+    println!("{}", *shared_reference_b); // prints 42
+
+}
+```
+
+While ```shared_ptr``` from C++ allows you to mutate the value it refers to
+```Rc``` and ```Arc``` do not. They require a synchronization primitive wrapped around your
+underlying value, like ```Arc<RwLock<i32>>```, but that is more advanced usage,
+and don't worry about it right now. Other than the atomicity, and being shareable between
+threads, ```Rc``` and ```Arc``` work more or less the same.
+
+Finally, we have the weak pointer. This basically exists to weaken cyclical references.
+If object A refers to another object, object B, with an ```Rc```, while the object
+B refers to object A, we have a problem. When either, or both go out of scope,
+they will not be deallocated as there is live references to both.
+
+Try to take a second and imagine this and the things that can go wrong
+when there are multiple references interconnected.
+
+Go on.
+
+I'll wait.
+
+To solve this issue, the weak pointer comes to the rescue. It is along for the party,
+but doesn't actually keep things alive.
+In Rust it is called [Weak<T>](https://doc.rust-lang.org/std/rc/struct.Weak.html).
+It can reference the same underlying object as the shared pointer it comes from,
+but does not contribute to the live reference count. As such, it can allow you
+to have cyclical references, without causing a memory leak.
+If object A points to object B with an ```Rc``` reference, but object B
+holds a ```Weak``` reference to object A, once object A goes out of scope,
+both object A and object B can safely be deallocated.
+
+```rust
+use std::rc::Rc;
+use std::rc::Weak;
+
+fn main() {
+    let shared_reference: Rc<i32> = Rc::new(42); // Live references = 1
+    let weak_reference: Weak<i32> = Weak::new(42); // Create a weak reference from nothing
+    let weak_shared_reference: Weak<i32> = Rc::downgrade(&shared_reference);
+
+    println!("{}", Rc::weak_count(&shared_reference)); // prints 1!
+}
+```
+
+For more information on smart pointers in Rust, there is a nice example
+[here](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html)
+and another example about
+[reference cycles](https://doc.rust-lang.org/book/ch15-06-reference-cycles.html),
+which is what we needed weak pointers for.
 
 ## \*The Vector Reloaded
+Export the diagrams!
 Strided Access and the transposition  
 Permutations  
 Jagged Arrays  
 Sparse Arrays  
-Using indices instead of pointers allow for predictability and seralization  
-
-## \*Smart pointers
-Why smart pointers -> Safety  
-Smart pointers:  
-
-* unique/box
-* shared/rc/arc
-* weak/weak
 
 ## \*Graphs and Trees
 Graphs  
@@ -696,19 +953,19 @@ Graphs and Trees using
 * Smart pointers
 * Indices (static, dynamic issue getting a mutable reference to the collection in Rust)
 
-## \*Virtualized Memory Hierarchy
-Find a more formalized definition of virtualized memory  
-The process' own virtual memory space (the stack and heap share the same memory)  
-Stack/Heap Visualization  
-Disk -> Image addresses for training networks -> Fat nodes/payload options  
-Internet -> Rendering on the internet, or pulling images from the internet  
-
 ## \*Garbage collectors
 Reference counting
 How to still do memory leaks -> cyclical references, but save some for the exercises
 Generational Garbage Collection
 Calling the GC yourself
 Object Pools
+
+## \*Virtualized Memory Hierarchy
+Find a more formalized definition of virtualized memory  
+The process' own virtual memory space (the stack and heap share the same memory)  
+Stack/Heap Visualization  
+Disk -> Image addresses for training networks -> Fat nodes/payload options  
+Internet -> Rendering on the internet, or pulling images from the internet  
 
 ## \*Further Reading
 An explanation of memory allocation, stack and heap
