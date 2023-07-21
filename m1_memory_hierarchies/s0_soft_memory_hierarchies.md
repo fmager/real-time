@@ -771,7 +771,7 @@ and the pointer to the memory on the heap.
 But hold on a minute! That is illegal! We would have two pointers with
 full write rights. Which is illegal in Rust! Which is also why ```Vec<T>```
 doesn't implement ```Copy``` and this has all been a ruse, for your edification.
- 
+
 ## \*Smart pointers
 Ok, so I promised previously, that I would explain how Python, and most other
 garbage collected languages, deal with assigning one variable to another.
@@ -807,7 +807,7 @@ can handle some of the intricacies for us.
 First off there is the [unique_ptr<T>](https://en.cppreference.com/w/cpp/memory/unique_ptr),
 as in C++, or the [Box<T>](https://doc.rust-lang.org/std/boxed/index.html) in Rust.
 I will just refer to ```Box``` from here on out, their behaviors seem to be more or less the same.
-```Box<T>``` is like a ```T *``` in C (pointer to object of type T). 
+```Box<T>``` is like a ```T *``` in C (pointer to object of type T).
 With two notable exceptions. It cannot be copied. As in, you cannot have multiple
 instances of ```Box``` pointing to the same underlying object. Thus ```Box``` in Rust,
 as well as in C++, requires that ownership is moved, and not copied.
@@ -865,7 +865,7 @@ fn main() {
 ```Arc<T>``` is here to solve exactly that issue.
 It uses atomic reference counting. Atomics will be introduced in the
 [Concepts in Parallelism](https://absorensen.github.io/the-real-timers-guide-to-the-computational-galaxy/m2_concepts_in_parallelism/)
-module. But in this context, it means that the reference counting is thread-safe, but a bit slower. 
+module. But in this context, it means that the reference counting is thread-safe, but a bit slower.
 
 ```rust
 use std::sync::Arc;
