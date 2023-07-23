@@ -938,11 +938,184 @@ and another example about
 which is what we needed weak pointers for.
 
 ## \*The Vector Reloaded
-Export the diagrams!
-Strided Access and the transposition  
-Permutations  
-Jagged Arrays  
-Sparse Arrays  
+This isn't meant to be a one-to-one representation of how tensors work in ```numpy``` or
+```PyTorch```, but combined with creating different views on the same underlying
+1-dimensional memory as we learned about earlier, we can look at a few other fun
+concepts in different ways to arrange tensors.
+
+### Strided Access and Transposition
+One of the most used operations is the matrix matrix multiplication.
+If we assume 2 2D matrices as input and output into another 2D matrix,
+one of those input matrices will be accessed with a stride access in
+a column major form.
+
+<figure markdown>
+![Image](../figures/mat_mul_strided_access.png){ width="500" }
+<figcaption>
+Matrix-matrix multiplication. The numbers indicate access order.
+</figcaption>
+</figure>
+
+There is a solution for this. We can just transpose the second input matrix.
+Transposition, as you may remember, is flipping a matrix around the diagonal.
+Another way to do this is to flip all coordinates. (0, 0) becomes (0, 0), but
+(3, 1) becomes (1, 3).
+Transposition is an expensive operation however, and we have to create additional code
+for whether the second input matrix is transposed and the other multiplication
+code for just that case. We also need to keep track of which matrices are transposed.
+In a more general, flexible system, or one in which the system does a lot of optimization
+without user input, we also need to evaluate when and where to tranpose matrices.
+But, if the matrix is fairly static and is read from often, it can definitely be worth
+the time and effort.
+
+<figure markdown>
+![Image](../figures/mat_mul_strided_access_transposed.png){ width="500" }
+<figcaption>
+Matrix-matrix multiplication with the second matrix transposed.
+</figcaption>
+</figure>
+
+Now, lets try out a simple example! CODE DOESN'T GET THE RIGHT RESULTS
+
+### Permutated Arrays
+Sometimes we might want to change around elements in a matrix, without permanently executing
+the change. Not permanently executing these changes may also allow for several different
+views of the same data. So let's take a look at how permutations work.
+
+In the example below, the permutation is kept track of with the data in one vector and
+the index changes in another. The second of the two indices we need to map from one
+index to another is implicit. Thus for our permutation vector, index 0, means that
+at index 0 in our new permuted array resides at index 4 in our original data.
+
+This is likely to be quite a bit slower compared to normal sequential access as we now
+have to follow more than one pointer to get to our data.
+
+<figure markdown>
+![Image](../figures/permutations.png){ width="500" }
+<figcaption>
+Create permutations of an array by creating a list of indices and permuting that list.
+</figcaption>
+</figure>
+
+If we only view the data through the lens of the permutation array anyway and we
+read from this vector alot, we might as well execute the permutation. If we
+wanted to be able to undo the permutation, we could just keep track of the
+permutation we executed and undo it later. But we should now be able to get back
+to sequential access performance.
+
+<figure markdown>
+![Image](../figures/permuted_array.png){ width="500" }
+<figcaption>
+If reading a lot from the same array with the same permutations, go ahead and execute the permutations.
+</figcaption>
+</figure>
+
+There is a middle ground however, which is if we are just permuting rows. As long as the rows are long,
+we should be able to get partially sequential access, at least if we are moving through the elements in
+order.
+
+<figure markdown>
+![Image](../figures/permuted_rows_array.png){ width="500" }
+<figcaption>
+Offset some of the cost of permutations, by just permuting rows.
+</figcaption>
+</figure>
+
+Now, lets try out a simple example!
+
+### Jagged Arrays
+A weird form of array is the jagged array. A 2D matrix can't simply be
+expressed as having dimensions NxM, but Nx? or ?xM dimensions. As in N rows, each with their
+own individual lengths, or M columns, each with individual lengths. It's a highly
+flexible scheme, but unless you are absolutely sure you need it, you should probably avoid it.
+
+In the example below, we attain this complete flexibility by using a vector of vectors,
+which as you may recall is really bad for performance.
+
+<figure markdown>
+![Image](../figures/jagged_array.png){ width="500" }
+<figcaption>
+Create a jagged array by using a vector of vectors.
+</figcaption>
+</figure>
+
+If the difference between the smallest row and the largest row isn't too big,
+we can sacrifice a bit of additional memory for allocating all rows as if they had
+the same length and keep track of the length of the active sections in each row
+in a separate vector.
+
+<figure markdown>
+![Image](../figures/jagged_array_size_constrained_aux.png){ width="500" }
+<figcaption>
+Slightly better now with the data in a single vector.
+</figcaption>
+</figure>
+
+If we really wanted to compact the jagged array above, we could remove all of the
+non-active segments (denoted -1) and use the auxiliary array to indicate where each
+new row starts. Just like the first permutation scheme, we are derefercing two pointers
+for access.
+
+Finally, we could do all of this, still under the constraint that we have a reasonable
+ceiling on the max length of each row, by interleaving the auxiliary array with the data
+array.
+
+<figure markdown>
+![Image](../figures/jagged_array_size_constrained.png){ width="500" }
+<figcaption>
+All of the data in a single vector, with the blue values being the amount of active data in the row.
+</figcaption>
+</figure>
+
+We can do this either compacted or non-compacted.
+
+<figure markdown>
+![Image](../figures/jagged_array_size_constrained_compacted.png){ width="500" }
+<figcaption>
+All of the data in a single vector, with the blue values being the amount of active data in the row. Compacted data.
+</figcaption>
+</figure>
+
+We've now removed what was a consistent implicit form. We now no longer have random access to the row lengths.
+Instead we have to go from row length to row length and find out how many indices we have to move forward to
+get to the next indicator. As such, to get to the lower right corner element (42), we would first have to read
+index 0, jump 4 spots forward to index 4, read the 4, jump 5 spots forward to index 9, and then jump forward
+2 elements to get to what in a dense array would be inded [2, 1].
+
+This sort of makes me miss the auxiliary array. We can sum up the jumps to denote where each row starts,
+this would allow for compaction of the data while keeping us to just 2 jumps. Note that we now keep track of
+the length of each row by taking the difference between the starting index of the row we are looking to find
+and the beginning of the next row. Which is also why I have inserted an extra starting index, which points
+to the end of the array. Otherwise, we can't get the length of the last row.
+
+<figure markdown>
+![Image](../figures/jagged_array_size_compacted_aux.png){ width="500" }
+<figcaption>
+As we compacted the data, we can keep track of the starting index of each row in an auxiliary array.
+</figcaption>
+</figure>
+
+Now for a simple performance benchmark.
+
+### Sparse Arrays
+Finally, we have the sparse array. In the case of huge matrices with lots of values we don't care about,
+especially 0's, we can use the run-length encoding we just saw to encode values. This usually results
+in having to reconstruct where the indices are on the fly. The method below is ok for singular values,
+such as a very large matrix with just diagonal values. If we have a band around the diagonal we could modify
+the strategy from the last example in the jagged arrays section.  
+
+<figure markdown>
+![Image](../figures/sparse_arrays.png){ width="500" }
+<figcaption>
+A sparse array created with run-length encoding.
+</figcaption>
+</figure>
+
+For this to be more efficient than the dense version, you usually need at least 90% sparseness, or an array
+so big that you are having issues with memory. Sparse matrices also require their own separate implementations
+and can be hard to parallelize.
+
+Now for a simple performance benchmark!
 
 ## \*Graphs and Trees
 Graphs  
