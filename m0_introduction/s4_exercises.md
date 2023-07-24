@@ -1,2 +1,2 @@
-# \*Exercises
+# 4️⃣ Exercises
 Basic Rust exercises to come.

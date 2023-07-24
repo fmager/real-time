@@ -1,4 +1,4 @@
-# Soft Memory Hierarchies
+# 2️⃣ Soft Memory Hierarchies
 <figure markdown>
 ![Image](../figures/amd_athlon_hierarchy.png){ width="600" }
 <figcaption>
@@ -772,7 +772,9 @@ But hold on a minute! That is illegal! We would have two pointers with
 full write rights. Which is illegal in Rust! Which is also why ```Vec<T>```
 doesn't implement ```Copy``` and this has all been a ruse, for your edification.
 
-## \*Smart pointers
+_________________
+
+## 3️⃣ Smart pointers
 Ok, so I promised previously, that I would explain how Python, and most other
 garbage collected languages, deal with assigning one variable to another.
 If you recall the previous example
@@ -937,7 +939,7 @@ and another example about
 [reference cycles](https://doc.rust-lang.org/book/ch15-06-reference-cycles.html),
 which is what we needed weak pointers for.
 
-## \*The Vector Reloaded
+## 3️⃣ The Vector Reloaded
 This isn't meant to be a one-to-one representation of how tensors work in ```numpy``` or
 ```PyTorch```, but combined with creating different views on the same underlying
 1-dimensional memory as we learned about earlier, we can look at a few other fun
@@ -975,9 +977,31 @@ Matrix-matrix multiplication with the second matrix transposed.
 </figcaption>
 </figure>
 
-Now, lets try out a simple example! CODE DOESN'T GET THE RIGHT RESULTS
+Now, lets try out a simple example! Checkout the code at
+```m1_memory_hierarchies/code/strided_access_and_transposition``` or check it out
+[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/strided_access_and_transposition/src/main.rs)
+.
 
-### Permutated Arrays
+Interestingly, when running the code there doesn't seem to be much of a difference until
+the matrix sizes become quite big. Why do you think that is?
+
+<figure markdown>
+![Image](../figures/strided_access_transposition_benchmark.png){ width="500" }
+<figcaption>
+Difference gets bigger as the matrices get bigger.
+</figcaption>
+</figure>
+
+One guess would be a combination of the compiler aggresively optimizing the code, the branch prediction of the
+pipeline (don't worry about it) being really good at guessing these very uniform workloads, but most importantly,
+the caches doing a lot of the heavy lifting for us. Once the caches run out of space we begin to see a gap
+between the two ways of doing it. This might be more pronounced on the GPU. In most cases you should probably
+start with making the simplest and easy comprehendible code and try out (AND MEASURE!!!!) potential
+optimizations before spending your time going down rabbit holes. This is will be a bit of a theme
+in the next few sections. Not much of a difference in anything until the caches begin running out of space.
+At least if you aren't coding something really terrible, like randomized access.
+
+### Permuted Arrays
 Sometimes we might want to change around elements in a matrix, without permanently executing
 the change. Not permanently executing these changes may also allow for several different
 views of the same data. So let's take a look at how permutations work.
@@ -1021,7 +1045,28 @@ Offset some of the cost of permutations, by just permuting rows.
 </figcaption>
 </figure>
 
-Now, lets try out a simple example!
+Now, lets try out a simple example! Checkout the code at
+```m1_memory_hierarchies/code/permuted_arrays``` or check it out
+[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/permuted_arrays/src/main.rs)
+
+<figure markdown>
+![Image](../figures/permuted_arrays_benchmark_0.png){ width="500" }
+<figcaption>
+Huh, that's weird. There doesn't seem to be much of a difference.
+</figcaption>
+</figure>
+
+It seems pretty much the same.
+
+<figure markdown>
+![Image](../figures/permuted_arrays_benchmark_1.png){ width="500" }
+<figcaption>
+The differences appear as the cache runs out of space with bigger data sizes.
+</figcaption>
+</figure>
+
+Once we run out of cache however, the executed permutation is quite a bit faster.
+Permuting just the rows can also give quite a performance boost.
 
 ### Jagged Arrays
 A weird form of array is the jagged array. A 2D matrix can't simply be
@@ -1033,7 +1078,7 @@ In the example below, we attain this complete flexibility by using a vector of v
 which as you may recall is really bad for performance.
 
 <figure markdown>
-![Image](../figures/jagged_array.png){ width="500" }
+![Image](../figures/naive_jagged_array.png){ width="500" }
 <figcaption>
 Create a jagged array by using a vector of vectors.
 </figcaption>
@@ -1099,7 +1144,33 @@ As we compacted the data, we can keep track of the starting index of each row in
 </figcaption>
 </figure>
 
-Now for a simple performance benchmark.
+Now for a simple performance benchmark. Checkout the code at
+```m1_memory_hierarchies/code/jagged_arrays``` or check it out
+[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/jagged_arrays/src/main.rs)
+
+<figure markdown>
+![Image](../figures/jagged_arrays_benchmark_0.png){ width="500" }
+<figcaption>
+Huh, that's weird. There doesn't seem to be much of a difference.
+</figcaption>
+</figure>
+
+<figure markdown>
+![Image](../figures/jagged_arrays_benchmark_1.png){ width="500" }
+<figcaption>
+There we go, we ran out of cache!.
+</figcaption>
+</figure>
+
+Note that the only version which is not extremely slow for inserting values is the naive one. But in most other
+cases our final optimized version JaggedArraySizeCompactedAux seems to be the winner. It doesn't take a lot of
+memory compared to the other solutions and it seems to be in some cases on-par with the fastest
+(with a reasonable variance) or the fastest. In most other cases the NaiveJaggedArray seems just fine.
+Again, don't overcomplicate things and measure the differences for your case. In any case, you should
+avoid a jagged array if you can. And especially the CompactedJaggedArray, which costs the least memory, but
+has a catastrophic access time due to needing to accumulate the indices needed to find the row index. Plus,
+having the indices be interleaved with the values is problematic as we mix control flow and data, as well
+as needing to accomodate casting a data value to an index value. Please don't do that!
 
 ### Sparse Arrays
 Finally, we have the sparse array. In the case of huge matrices with lots of values we don't care about,
@@ -1119,7 +1190,7 @@ For this to be more efficient than the dense version, you usually need at least 
 so big that you are having issues with memory. Sparse matrices also require their own separate implementations
 and can be hard to parallelize.
 
-## \*Graphs and Trees
+## 3️⃣ Graphs and Trees
 Graphs  
 Trees  
 Graphs and Trees using  
@@ -1128,21 +1199,21 @@ Graphs and Trees using
 * Smart pointers
 * Indices (static, dynamic issue getting a mutable reference to the collection in Rust)
 
-## \*Garbage collectors
+## 3️⃣ Garbage collectors
 Reference counting
 How to still do memory leaks -> cyclical references, but save some for the exercises
 Generational Garbage Collection
 Calling the GC yourself
 Object Pools
 
-## \*Virtualized Memory Hierarchy
+## 3️⃣ Virtualized Memory Hierarchy
 Find a more formalized definition of virtualized memory  
 The process' own virtual memory space (the stack and heap share the same memory)  
 Stack/Heap Visualization  
 Disk -> Image addresses for training networks -> Fat nodes/payload options  
 Internet -> Rendering on the internet, or pulling images from the internet  
 
-## \*Further Reading
+## 4️⃣ Further Reading
 An explanation of memory allocation, stack and heap
 [in C](https://cs2461-2020.github.io/lectures/dynamic.pdf)
 

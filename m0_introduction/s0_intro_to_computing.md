@@ -1,4 +1,4 @@
-# Introduction to the Computing Landscape
+# 2️⃣ Introduction to the Computing Landscape
 If you are new to programming, or perhaps have been able to get by using scripting languages only,
 you might not have been introduced to the other options. Some of the concepts presented here
 lay the foundations for the choices dictating the rest of the guide.
@@ -123,7 +123,9 @@ control and the absolute best performance isn't as important for the guide as al
 participate and learn as possible. After all, if it doesn't work on your laptop/desktop, you can't really
 play around and have fun with it!
 
-## \*GPU APIs and Languages
+_________________
+
+## 3️⃣ GPU APIs and Languages
 GPUs are some of the most readily available accelerators. Originally made for graphics, since around 2008
 using them for general computation has been in focus as well. All graphics API's now also support general
 computation. Usually it will be called a compute shader. Shader is the common name for a GPU program.
@@ -201,7 +203,7 @@ an intermediate representation, sort of like the byte code we discussed earlier.
 This allows the platform independent SPIR-V to be translated to the specific instructions
 the GPU the code is actually run on. One tool for compiling shaders is [naga](https://github.com/gfx-rs/naga).
 
-## \*Domain Specific Languages and Frameworks
+## 3️⃣ Domain Specific Languages and Frameworks
 Shading languages all benefit from limitations and specializations from being specifically for graphics on a GPU.
 Another form of limitation is domain specific languages and frameworks. One such framework you might know of is
 [Pytorch](https://pytorch.org/). You are generally supposed to formulate your neural network as a graph and not

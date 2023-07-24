@@ -1,4 +1,4 @@
-# \*Exercises
+# 4️⃣ Exercises
 ## Pen & Paper Exercises
 Speak to a classmate about your solutions.
 Which pointer kills the reference counting garbage collector?

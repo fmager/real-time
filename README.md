@@ -21,6 +21,22 @@ get students used to logging. Introduce anyhow for better error handling?
 * Come up with a different name for levels 1/2/3/4, also should the levels be described in a matrix?
 * Should there be an introduction to basic computer architecture somewhere?
 
+## Emojis for later
+🌌  
+🔜  
+1️⃣  
+2️⃣  
+3️⃣  
+4️⃣  
+👨🏼‍💻  
+🧬  
+👽  
+🪐  
+🚀  
+🛰️  
+🦀  
+🔥  
+
 ## References and additional reading
 
 [High Performance Machine Learning](https://engineering.nyu.edu/sites/default/files/2022-01/ECE_GY_9143_S22.pdf)  

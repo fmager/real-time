@@ -1,4 +1,4 @@
-# Memory Hierarchies, Computational Graphs and Compilers
+# 1️⃣ Memory Hierarchies, Computational Graphs and Compilers
 Not all efficiency comes from optimizing the various computational details like multiplications, divisions
 and such of a function.
 Quite a large part of it, in fact, comes from optimizing how much you write to and read from memory.

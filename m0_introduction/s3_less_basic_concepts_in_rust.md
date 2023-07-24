@@ -1,4 +1,4 @@
-# \*Less Basic Concepts in Rust
+# 3️⃣ Less Basic Concepts in Rust
 The real contents of this section is the project in ```m0_introduction/code/less_basic_concepts/```.
 Go into the file corresponding to each function being called in the ```main``` function in ```main.rs```
 and read all of the comments in order.

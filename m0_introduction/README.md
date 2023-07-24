@@ -1,4 +1,4 @@
-# Introduction
+# 1️⃣ Introduction
 Hello there!  
 If you are reading this you might have been enticed by promises of performance and other
 some such advanced black magic, but first, a digression...
