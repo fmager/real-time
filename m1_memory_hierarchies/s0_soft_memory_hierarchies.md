@@ -1076,7 +1076,11 @@ All of the data in a single vector, with the blue values being the amount of act
 </figcaption>
 </figure>
 
-We've now removed what was a consistent implicit form. We now no longer have random access to the row lengths.
+We've now removed what was a consistent implicit form. We no longer have random access to the row lengths.
+We also now have to translate from whatever type is in the data array to valid integers for indexing.
+If the data is integers, casting won't be much of a problem, but for floating point numbers we have to be
+sure to get it right. If a number is not a whole number we are likely to have the number floored to the
+nearest whole number.
 Instead we have to go from row length to row length and find out how many indices we have to move forward to
 get to the next indicator. As such, to get to the lower right corner element (42), we would first have to read
 index 0, jump 4 spots forward to index 4, read the 4, jump 5 spots forward to index 9, and then jump forward
@@ -1114,8 +1118,6 @@ A sparse array created with run-length encoding.
 For this to be more efficient than the dense version, you usually need at least 90% sparseness, or an array
 so big that you are having issues with memory. Sparse matrices also require their own separate implementations
 and can be hard to parallelize.
-
-Now for a simple performance benchmark!
 
 ## \*Graphs and Trees
 Graphs  
