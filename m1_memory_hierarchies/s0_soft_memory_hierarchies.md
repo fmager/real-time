@@ -1191,36 +1191,183 @@ so big that you are having issues with memory. Sparse matrices also require thei
 and can be hard to parallelize.
 
 ## 3️⃣ Graphs and Trees
-Graphs  
-Trees  
-Graphs and Trees using  
+Neural networks/computational graphs  
+Binary trees  
+Octrees  
 
-* Pointers
-* Smart pointers
-* Indices (static, dynamic issue getting a mutable reference to the collection in Rust)
+### Graphs
+Uni-directional  
+Bi-directional  
+DAGs  
+
+### Trees
+#### Binary Trees  
+#### 🧬 Octrees  
+Relevant for all of the specializations that aren't deep learning, especially computer graphics.
+åMight be relevant there too.
+
+### Graphs and Trees using Pointers
+The version most closely resembling our sketches  
+Recursion  
+C example  
+We now have to keep track of the entire graph in order to free everything correctly or follow all of the
+pointers exactly correctly in order to deallocate without a leak.  
+
+### Graphs and Trees using Smart Pointers
+Rust examples  
+Very basic and non-exhaustive talk about code as both graphs and trees
+can be complex in Rust. Especially, if they are mutable after construction - are we doing mutable
+references outside of the main struct?
+
+#### Graph
+Generally considered hard in Rust specifically, which makes sense, because of the many caveats and
+potential issues in graphs. Dynamic graphs especially are problematic and you should consider very carefully
+whether all of the logic is correct.
+Uni-directional is fine
+But how do we keep track of bi-directional?  
+Graphs must at the very least be mutable during creation  
+Wrap the whole thing in an arena, only use weak pointers  
+Have to handle if there is an outside reference using a weak pointer  
+Better explanation of [graphs in Rust](https://github.com/nrc/r4cppp/blob/master/graphs/README.md)  
+[graphs in Rust using indices](http://smallcultfollowing.com/babysteps/blog/2015/04/06/modeling-graphs-in-rust-using-vector-indices/)  
+
+#### Trees
+Actually a bit simpler to make as we have fewer cyclical references. If there is a child-to-parent pointer...
+use weak.
+
+### Graphs and Trees using Indices
+Rust examples  
+Connectivity  
+Read-only  
 
 ## 3️⃣ Garbage collectors
-Reference counting
-How to still do memory leaks -> cyclical references, but save some for the exercises
-Generational Garbage Collection
-Calling the GC yourself
-Object Pools
+Garbage collection is a way of freeing the programmer of having to deal with which memory is and isn't
+relevant. It is usually implemented by most variables (especially the heap allocated ones) being
+reference counted or otherwise tracked, which we will see later in the tracing section.
+Once a variable is found to no longer be referenced it is either immediately cleaned up or cleaned up
+during a garbage collection pass. A full garbage collection pass can be quite expensive, and if the implementation
+is not particularly optimized, lock the whole system while it is being performed as to not have memory that has
+just been cleaned up referenced anew.
+
+Garbage collectors aren't really that relevant to the rest of the guide,
+but if you are coming from Python, C#, Go or Java this section will use some of the concepts
+previously introduced on this page to give you a quick perspective to how garbage collectors work.
+This post takes a look at 
+[how python handles garbage collection](https://stackify.com/python-garbage-collection/)
+although, a bit light on the details for the generational garbage collection. In the following
+sections I will introduce three different types of garbage collectors, and finally
+set you up with a few tricks for working with the garbage collector.
+
+### Reference Counted Garbage Collectors
+[Reference counting garbage collection](https://en.wikipedia.org/wiki/Reference_counting) is one of the
+simplest forms of dealing with garbage collection. Imagine that there is an ```Rc<T>```, like we saw earlier, wrapped
+around every heap-allocated variable. Once the amount of references reaches 0, the object is deallocated. Simple,
+can be handled locally, scales well, doesn't burden the entire system with a lockdown to clean up, which makes it
+good for real-time systems which need to be responsive at all times and not have noticeable freezes.
+What makes it not quite usable is, that it is up to the programmer to not create cyclical references.
+Node A and Node B cannot refer to each other without causing a memory leak, despite not being referenced by
+anything else. They cannot be cleaned, unless one of the references is a weak reference. Just like the
+```Weak<T>``` type we saw in the smart pointer section. But it is up to the programmer to make sure that
+the weak references are used correctly throughout the system, which isn't necessarily non-trivial.
+
+### Tracing Garbage Collectors
+[Tracing garbage collection](https://en.wikipedia.org/wiki/Tracing_garbage_collection) on the other hand
+follows every root, this could for example be the variable holding the pointer to the root node of your graph,
+if there even is such a thing, and then following every pointer making sure to mark all the objects it finds along
+the way as not being ready for clean-up. This does however require that all the memory is frozen. There can't all
+of a sudden be new references to some of the objects or some of them be removed. Once the marking process has
+completed, all of the objects are traversed and every object not marked is cleaned up.
+
+Another more sophisticated method, promises better performance by using a white, gray and black marking. All
+objects start marked as white, and are then moved to grey, and then finally to black. Objects marked in white
+are possibly accessible from roots and are candidates for collection. Gray objects are definitely accessible
+from roots and might have pointers to objects marked in white. Black marked objects are definitely accessible
+from roots and definitely do not have pointers to the white set.
+
+You can read more about tri-color marking
+[here](https://bwoff.medium.com/understanding-gos-garbage-collection-415a19cc485c).
+
+### Generational Garbage Collection
+Generational garbage collection is a different technique which sequesters allocated objects into different memory regions.
+These regions, usually 3, are based on the age of the object. If an object survives a garbage collection pass it
+is promoted from one region to the next, older region. The youngest region will usually be significantly larger
+than the two older regions and it is estimated that most garbage collection will happen in the youngest region.
+This strategy might not find all unreachable objects, however, and can be supplemented by an occasional
+expensive full mark-and-sweep to ensure that no memory leaks go undetected for too long.
+For more on
+[generational garbage collection](https://en.wikipedia.org/wiki/Tracing_garbage_collection#Generational_GC_(ephemeral_GC))
+.
 
 ## 3️⃣ Virtualized Memory Hierarchy
-Find a more formalized definition of virtualized memory  
-The process' own virtual memory space (the stack and heap share the same memory)  
-Stack/Heap Visualization  
-Disk -> Image addresses for training networks -> Fat nodes/payload options  
-Internet -> Rendering on the internet, or pulling images from the internet  
+A simplified definition of virtualized memory is a single address space that doesn't correspond 1-to-1 to physical
+memory. As we have seen earlier in jagged arrays and permuted arrays, if we have all of our data in memory
+the caches, compiler and branch prediction take care of hiding memory access latencies, quite a bit,
+however, what if we don't have all of our data in main memory?
 
-## 4️⃣ Further Reading
+### Virtualized Memory and Operating Systems
+The operating system itself can, and will, [virtualize your memory](https://en.wikipedia.org/wiki/Virtual_memory).
+It may at some point decide to spare the main memory, probably because it doesn't have any more, and instead
+allocate temporary space on the disk to swap in and out of main memory. This is painfully slow, but happens
+seamlessly behind the scenes to be able to continue to allocate more memory for your program. The programmer
+does not have to do anything as the virtualization is hidden. Usually, there will be hardware support for the
+virtualization with components such as a dedicated memory management unit.
+
+Each process, your program would be its own process, is given its own virtual memory space. Meaning that your
+program might see its addresses start in very low numbers despite a number of other processes running concurrently
+on your computer. In face, while the address space given to your process might look continuous it is probably
+fragmented, scattered across diffent physical locations, but the virtualization makes it appear continuous.
+In general, it is a major security risk for programs to read memory outside of the memory
+allocated for it. This is also known as a *segmentation fault*. The operating dislikes this concept so much that it
+is likely to just kill your program entirely. If you have every programmed C or C++, you have probably tried this.
+The virtual memory space allocated for your process, for stuff like heap and stack will typically look like below.
+
+<figure markdown>
+![Image](../figures/virtual_heap_and_stack.png){ width="300" }
+<figcaption>
+The stack and the heap sharing memory in their own virtual address space.
+<a href="https://www.cprogramming.com/tutorial/virtual_memory_and_heaps.html">
+Image credit</a>.
+</figcaption>
+</figure>
+
+### Virtualizing Your Own Application
+As I just described in the presceding virtualized memory section, the operating system will store temporary data
+on the disk if it runs out of space in main memory, keep track of what is not in memory and in disk instead and,
+when needed, invisibly load requested data into memory while swapping some other piece of data unto the disk.
+But we can make our own virtualized memory too! We could for example have a dataset for training a neural network
+that is astronomically big. Terabytes even! We have for some reason decided it is of the utmost importance that we
+always random sample the entire dataset. So we randomly pick 20 samples. 4 were already on the GPU, 2 were in main
+memory, 4 were on disk and the remaining samples are on the internet. It will be slow as all hell, but that is
+something we can optimize too. The easiest would of course be to limit how often we decide to sample the parts
+that are on the internet. We could for example choose to download a random block from the internet portion of our
+virtualized memory, random sample from that block for a while and then download a new block. We could hide this
+by defining data object structs for each sample which have an optional payload, along with a bit of additional
+bookkeeping. We could make a sort of address space by keeping the list of samples, which need to be A LOT smaller
+than the total data set for this to work, and using heuristics on this list of samples and associated metadata to
+optimize our virtualized data set. We could give a priority to each of the samples based on how long ago they were
+sampled last and in which block they were located, on which physical memory they were located (the cloud is just
+someone else's computer). Optimizing these types of systems can be quite a fun algorithms and systems optimization
+process.
+
+### 🧬 Virtualized Rendering
+Another use of this is the rendering of data sets too large to fit in a users computer. You preprocess
+all of the data you need to visualize into a tree structure and then just keep the tree in memory at all times.
+If you then render with progressive rendering, which is where as soon as the camera stands still you render across
+multiple frames into the same uncleared buffers, letting the user see progress while the system downloads, unpacks
+and renders the entire scene. This also allows for rendering of scenes which are too big to fit in GPU memory or
+even main memory.
+
+## 5️⃣ Further Reading
 An explanation of memory allocation, stack and heap
-[in C](https://cs2461-2020.github.io/lectures/dynamic.pdf)
+[in C](https://cs2461-2020.github.io/lectures/dynamic.pdf).
 
 A more rigorous [explanation](http://eceweb.ucsd.edu/~gert/ece30/CN5.pdf)
 of the register, cache, main memory and virtual memory parts of the memory hierarchy.
+For even more [virtual memory](http://csapp.cs.cmu.edu/2e/ch9-preview.pdf).
 
 Check out the memory and cache specs for Apple's [M1 series](https://en.wikipedia.org/wiki/Apple_M1).
+
+For an example of coding a [tri-color marking garbage collector](https://sean.cm/a/tricolor-garbage-collector).
 
 For more about
 [garbage collection in Python](https://devguide.python.org/internals/garbage-collector/),

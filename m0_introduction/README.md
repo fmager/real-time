@@ -115,6 +115,10 @@ At this level everything at level 3 is expected, as well as you doing most or
 all of the exercises. This is for doing a course version or if you
 REALLY want to learn all the guide has to offer.
 
+### Level 5
+The secret bonus level! It is the one where you do levels 1-4 and read all the further reading sections
+(which are more academically rigorous).
+
 ## How to use the materials as a teacher
 If you are a teacher who wants to make use of this material, feel free to use the
 [course site](https://absorensen.github.io/real-time-visual-and-machine-learning-systems/).
