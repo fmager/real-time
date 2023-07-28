@@ -108,7 +108,11 @@ but shouldn't, can make it an arduous experience once the errors start piling up
 The advantage is highly portable code, because everything is essentially just a string... including numbers.  
 
 ## The Guide and Languages
-As you can probably see in the column on the left... the guide will be using Rust from here on out.
+As you can probably see in the column on the left... the guide will be using Rust from here on out,
+with a few exceptions. C will occasionally be used for reasoning about low level stuff like pointers
+and memory allocations, while C++ will be used as a comparison to Rust and Python will be used
+for a bit of perspective. In any case it will be assumed you don't really know any of the languages except Python
+and that you have read the introductions to Rust in this module.
 If you read the section on GPU programming, you will see there are no easy, one-size-fits-all,
 solutions. Thankfully, the guide has clear goals and limitations.
 To help you get familiar with new topics, we only need reasonable performance and for all

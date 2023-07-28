@@ -772,6 +772,74 @@ But hold on a minute! That is illegal! We would have two pointers with
 full write rights. Which is illegal in Rust! Which is also why ```Vec<T>```
 doesn't implement ```Copy``` and this has all been a ruse, for your edification.
 
+## Stacks
+Now let's start looking at a couple of fundamental data structures. Next up is the stack. It isn't an array, but
+most implementations are just an array used in a restricted fashion. A stack is what is called
+Last In, First Out (LIFO). The usual example is, imagine a stack of cantina trays.
+If you put a tray into the stack,
+in order to get a tray, you have to take the top tray, you can't remove a tray that is below the top tray.
+
+<figure markdown>
+![Image](../figures/stack_push.png){ width="500" }
+<figcaption>
+Pushing a value on to the stack. The states are from before the push.
+</figcaption>
+</figure>
+
+If we implement this using a vector, we need at least the following 3 functions - ```push```, ```pop``` and
+```peek```. ```push``` you might already know as the default mechanism for adding an individual element to
+a vector. The element to push is inserted at index ```size``` and ```size``` is incremented. With a ```pop```,
+the element at index ```size - 1``` is returned and ```size``` is decremented. With a call to ```peek```, either
+a copy or a reference to the element at ```size - 1``` is returned. Most, if not all functions are
+already implemented on the vector types, but if we want to maintain the invariant that all of the elements from
+indices 0 to ```size - 1``` are all valid, you need to make sure that only the stack related functions are called.
+In that way, if you need a stack, you should use not just a vector type, but a stack type, which might just be a
+wrapper around a vector, but also restricts anyone using that type to maintain the invariants needed for a valid
+stack. In that way sending a ```Stack<T>``` from function to function, instead of a ```Vec<T>```, will communicate how the value is supposed to be used.
+
+<figure markdown>
+![Image](../figures/stack_pop.png){ width="500" }
+<figcaption>
+Popping a value from the top (end) of the stack. The states are from before the pop, and were the result of the previous push.
+</figcaption>
+</figure>
+
+Stacks scale well and all operations are constant time, except for when enough values have been pushed to
+necessitate a resize, which is amortized constant time.
+
+## Queues
+Queues, just like stacks, are a fundamental data type centered around constant time operations mostly impemented
+on top of dynamic arrays. Queues maintain a First In, First Out (FIFO) principle, just like queues of people.
+The first person to enter af queue, should be the first person to leave it. Now we no longer har ```pop```
+and ```push```, but ```enqueue``` and ```dequeue```. Enqueueing is basically the same as ```push``` on a stack.
+An element is added to the index at ```size```, except, the queue needs two new variables, ```front``` and
+```back```. Once the ```back``` index extends beyond the ```size``` or ```capacity```, it can just wrap
+back around and starting again from 0, as long as it does not become equal to the ```front``` value. If it does so
+and ```capacity < back - front```, it can resize itself and adjust.
+
+<figure markdown>
+![Image](../figures/queue_enqueue.png){ width="500" }
+<figcaption>
+Enqueueing a value from to the back of the queue. The states are from before the enqueue.
+</figcaption>
+</figure>
+
+Resizing is just one way to handle the overlap. In quite a few real-time systems, we don't want the system to be
+overwhelmable. If data comes in too fast to process, and it keeps coming in faster than we can process, we might
+instead say that the ```front``` will move with the ```back``` if they become equal, thus letting the older data
+be overwritten. Other options could be to have whatever is trying to submit an element, wait until a spot opens up
+in the queue or the element could be "added", but not actually added to the queue. You'd of course like to be
+certain of how your queue type would handle being full. It's a central property and should make sure if you are constructing systems with lots of data that you use a queue with the right behavior for your system.
+
+<figure markdown>
+![Image](../figures/queue_dequeue.png){ width="500" }
+<figcaption>
+Dequeueing a value from to the front of the queue. The states are from before the dequeue.
+</figcaption>
+</figure>
+
+Just like the stack, your local vector type probably has the functionality, but if you use it as a queue, you
+should probably just use a queue type, restricting any usage to maintain and communicate that it's a queue.
 _________________
 
 ## 3️⃣ Smart pointers
@@ -1182,7 +1250,8 @@ the strategy from the last example in the jagged arrays section.
 <figure markdown>
 ![Image](../figures/sparse_arrays.png){ width="500" }
 <figcaption>
-A sparse array created with run-length encoding.
+A sparse array created with run-length encoding. We could of course also just linearize the indices to get a single
+number.
 </figcaption>
 </figure>
 
@@ -1190,55 +1259,256 @@ For this to be more efficient than the dense version, you usually need at least 
 so big that you are having issues with memory. Sparse matrices also require their own separate implementations
 and can be hard to parallelize.
 
+## 3️⃣ Hash Maps
+Our final fundamental data structure is the hash map. The hash map takes a key type and a value type.
+The value type can pretty much be anything, don't worry about it! But where things get really interesting is
+the key value. What a hash map does is to take a key value and translate it into an array index using something
+called a hash function. A very simple hash function takes a number, adds a number, multiplies by a very big prime
+number and then modulos that number by a number representing how much space we have available. The base
+recommendation is that a hash map should have at least twice the space needed to densely represent the
+same number of elements. 
+
+INSERT DIAGRAM OF HASH FUNCTION HERE
+
+Generally, a hash map will have constant time lookup and insertion. The reason for the recommendation of
+at least a factor 2 in space is collisions! A collision is when two different keys hash to the same
+value in our storage. Remember that we can have both the initial key that we queried with, and the
+post-hash key used for indexing into storage.
+One way of resolving the collision is to keep searching our storage until we find an empty spot.
+But then if we query our hash map and the first index we look at in storage, we iterate the
+array until we find a key that matches the one we queried with. Much like vectors, the
+hash map can dynamically expand to accomodate inserted data. Once we are done with insertions,
+we might have a fragmented performance. If we know we are done and have a significant amount of
+elements which need to be queried a lot, we can usually ask the data structure to
+```.shrink_to_fit()``` or ```.rehash()```. Rehashing will reconstruct the structure to be
+made as if it had only been the elements currently stored, all along.
+
+INSERT DIAGRAM OF HASH COLLISION SEARCH
+
+I will reiterate a theme here -
+*if it can be done with a basic array, it should probably be done with a basic array*.
+Of course there are different, more optimized methods for implementing hash maps, you can usually find a few
+different ones based on the specific needs for your usage, i.e. if you need better insertion
+performance or better read performance., but this is basically what you need to know.
+In Rust it is ```HashMap<K, V>```, in C++ it is ```std::unordered_map<K, V>```, in
+python and C# it is called a dictionary. You can use anything for the key in Rust,
+as long as the type implements the ```Hashable``` trait. You can even using strings.
+This can be very useful for keeping an assortment of random data which you need to
+distinguish between. For example, if you needed to keep track of different layers of a
+neural network with random access, you can just create a new string "Linear0" and use
+that as a key for the first linear layer and its contents, and then "ReLU0", "Linear1",
+"ReLU1", "Softmax0" and so on. If possible, it is more efficient to use small types as
+your key. Such as an integer.
+
+INSERT BENCHMARK FOR HASH STRING VS HASH INT HERE.
+
+In general hash maps have an alright performance. C#'s dictionary lookup performance will usually go down hill at around 30k entries though. This doesn't happen for arrays.
+
 ## 3️⃣ Graphs and Trees
-Neural networks/computational graphs  
-Binary trees  
-Octrees  
+Now that we have dicked around with variations on a theme (that theme was arrays if you are in doubt),
+let's look at a different fundamental data structure. Graphs! Not the kind with the lines...
+wait these have lines too, uuuh, not the kind that has an x and a y axis, but the kind that has some circles with
+some arrows between them. "But wait!" you say, "The heading says 'Graphs and Trees'" you say, well,
+trees can be seen as a subset of graphs, while all graphs are not necessarily trees.
+
+Graphs and trees are some of the absolutely fundamental data structures which you need to be acquainted with.
+Along with arrays, queues, stacks and hash tables (don't worry, it's the next heading), they are the fundamental
+building blocks with which you can make pretty much anything. Graphs and trees are a bit special, however, in them
+being potentially easy to implement, but also very easy to mess up. Languages like C and C++ let you implement
+them with relative ease, but implementing graphs and trees without cyclical references
+(which can cause memory leaks), without data races, without dangling pointers and other robustness issues, is
+actually quite hard. Sometimes even fundamentally unsafe.
+
+I have used Rust as one of the primary languages for demonstrating and benchmarking things for you.
+The examples under this header will be more along the lines of toy examples as Rust code for graphs
+and trees can get quite involved if you don't wanna just sprinkle ```Arc``` everywhere. And even then you
+might end up having to battle cyclical references.
+It's really nice that the compiler puts on guard rails for you and herds you towards safe behavior.
+Implementing graphs and trees in Rust is notoriously difficult for this exact reason.
+Which is not to say that it is easier in C/C++, the compiler just doesn't stop you from doing
+something problematic.
+
+Anyways... the rest of the module will be about how using data structures like computational graphs,
+which is essentially what is created when you define your entire neural network on a single object in
+PyTorch is, can speed up your code immensely as the structure allows the library/framework/compiler to reason
+about your program. Essentially, computational graphs communicate the intention of your program ahead of time 
+before you start running everything in a loop. It can help the library/framework/compiler to optimize your code,
+optimize where the data should be located, when the data should be moved to/from the GPU, when two operations
+can be fused and so on.
+
+Additionally, I will take a look at one of the simpler trees, the binary tree, and if you are interested in
+graphics or computer vision, the octree is recommended for that specialization.
 
 ### Graphs
-Uni-directional  
-Bi-directional  
-DAGs  
+Ok, so let's get this show on the road. Graphs are primarily made up of two things, nodes and edges.
+Edges are references from one node to another. In a diagram they are usually represented by a line with one more
+arrows on the ends. Edges can be represented by indices, pointers, smart pointers or something else
+that I can't think of right now. The node on the other hand, can be whatever you want SPARKLES. It can even
+be just a number or an index to the corresponding data paylod if you have seperated the graph structure
+from the data payloads.
+
+INSERT DIAGRAM OF BIDIRECTIONAL GRAPH HERE
+
+Graphs come in lots of different flavors, but the three most important, and fundamental, are bidirectional,
+unidirectional and DAGs. Bidirectional means that the edges go both ways. If node A points to node B, node B
+also points to node A. Unidirectional graphs, you guessed it, means that the edges only point one way. That
+does not dictate that node A and B can't point to each other, but that it's not the default and it requires
+inserting two edges into the graph. 
+
+INSERT DIAGRAM OF UNIDIRECTIONAL GRAPH HERE
+
+Finally, the DAG, which stands for directional acyclical graph, is a
+unidirectional graph which does not contain cycles. A cycle is not just node A pointing to node B, which points
+to node A, it can also be node A pointing to node B pointing to node C pointing to node A, and so on an so forth
+until we have an infinite number of nodes to traverse until we get back to node A again, like going all the
+way to Mordor just to go back to the friggin shire. No eagles will save you. You will just have to walk home.
+As you can imagine can be a costly property to assert unless we devise mechanisms to prevent this
+from happening in the first place.
+
+INSERT DIAGRAM OF DAG GRAPH HERE
+
+In general, if you are reading this, you should try to avoid graphs with cycles.
+It's a headache and you'll end up down a headscratching rabbit hole. It's also a good source
+of memory leaks if you haven't implemented your graph or tree in a certain fashion.
+
+INSERT DIAGRAM OF COMPUTATIONAL GRAPH HERE
 
 ### Trees
-#### Binary Trees  
-#### 🧬 Octrees  
-Relevant for all of the specializations that aren't deep learning, especially computer graphics.
-åMight be relevant there too.
+Trees can be seen as a subset of graphs. They can be both bi- and unidirectional. Typically, there is a root
+node which will point to one or more child nodes. If the tree is bidirectional, the children will be pointing back.
+Leaf nodes are nodes which are not pointing to any children.
+Nodes which are not the root, but also not a leaf node are usually called internal nodes.
 
-### Graphs and Trees using Pointers
-The version most closely resembling our sketches  
-Recursion  
-C example  
-We now have to keep track of the entire graph in order to free everything correctly or follow all of the
-pointers exactly correctly in order to deallocate without a leak.  
+INSERT DIAGRAM OF UNIDIRECTIONAL TREE HERE
 
-### Graphs and Trees using Smart Pointers
-Rust examples  
-Very basic and non-exhaustive talk about code as both graphs and trees
-can be complex in Rust. Especially, if they are mutable after construction - are we doing mutable
-references outside of the main struct?
+Typically, a tree can be really good for sorting data, like getting the biggest value, it can be good for finding
+things spatially, like, give me all of the nodes in a 3D scene which can be seen by the camera, or give me the
+closest number to some query. The hierarchical nature of the tree lends itself well to getting approximately
+```log(N)``` performance in a situation which would typically have ```N``` performance. This typically requires
+that the tree is fairly balanced. Meaning that the maximum length from root node to any leaf node is reasonably
+close.
 
-#### Graph
-Generally considered hard in Rust specifically, which makes sense, because of the many caveats and
-potential issues in graphs. Dynamic graphs especially are problematic and you should consider very carefully
-whether all of the logic is correct.
-Uni-directional is fine
-But how do we keep track of bi-directional?  
-Graphs must at the very least be mutable during creation  
-Wrap the whole thing in an arena, only use weak pointers  
-Have to handle if there is an outside reference using a weak pointer  
+INSERT DIAGRAM OF BALANCED AND UNBALANCED TREE HERE
+
+One key difference which makes trees very powerful, compared to the more open definition of graphs, is that we
+need rules to define what makes a tree. Once we know these explicit rules, we can sometimes take advantage to make
+implicit assumptions of the structure, which can save quite a lot of space, reduce the amount of indirections we
+need to follow in order to traverse the structure and make it easier to serialize (write it to a file on disk)
+the tree.
+
+INSERT DIAGRAM OF BIDIRECTIONAL TREE HERE
+
+#### Binary Trees
+Binary trees are some of the simplest trees. Any node has at most two children. These are usually called
+```left``` and ```right```. In C and C++, they could be raw pointers or smart pointers, and you would have to
+check whether they were ```NULL``` or ```nullptr``` whenever you were considering whether child nodes were
+available. In Rust, you might have something like ```Option<Arc<Node>>``` and you would have to check whether the
+child was ```None``` or ```Some(child)```.
+
+```rust
+struct BinaryNode {
+    payload: i32,
+    left: Option<Arc<BinaryNode>>,
+    right: Option<Arc<BinaryNode>>,
+    parent: Option<Weak<BinaryNode>>,
+}
+```
+
+INSERT DIAGRAM HERE SHOWING WHAT THE CODE IS DOING
+
+The baseline definition doesn't go much further than that. But, some variations built on the binary tree,
+like the heap (not the same as the one we talked about earlier), enforces that the binary tree is sorted
+and allows you to insert variations. Allowing the min or max value to bubble up, requires a sorting of the tree,
+but it allows you to very quickly get the minimum or maximum value from a list of nodes. The very predictable
+structure of the binary tree also allows for easy, memory efficient, implementation using just an array and no
+pointers. Especially if it is sorted as we need less array elements marked as empty.
+
+INSERT HEAP AND PRIORITY QUEUE LINKS HERE
+INSERT LINK WITH ARRAY IMPLEMENTATION OF BINARY TREE HERE
+
+### Implementing Graphs (and Trees)
+Implementing graphs is generally considered hard in Rust specifically, which makes sense,
+because of the many caveats and potential issues in graphs. Dynamic graphs especially are problematic and
+you should consider very carefully whether all the logic is correct.To make things more difficult,
+constructing a graph, even if it has to spend the vast majority of its time as a read-only artifact,
+has to have construction phase were pointers can be used, not used, you can end up creating cyclical references.
+Uni-directional DAGs are easier, as long as you don't have to verify their correctness, but if implementing trees
+where you would like a pointer from the child to the parent, you can use a strong pointer from parent to child,
+and a weak pointer from child to parent. With graphs in general you cannot easily make a constraint that enforces
+that each node in your graph is only ever pointed to by a single strong pointer. What you can do however, is to
+contain all of the nodes in a graph object which has a strong reference to every single node, and the connectivity
+between the nodes being dictated by weak pointers. This will tie the lifetime (when the object is alive and not
+deallocated) to the containing object. What is unresolved here is how you can then get writeable access to the
+nodes, which is significantly more complex and I won't go into the details here, as it could easily be its
+own page. Another thing is... we can do all of this without pointers. We still have to contain all of the graph's
+nodes in a containing graph object. This object can instead of holding a pointer to every single node and the
+connectivity being dictated by pointers, just use indices. If you have all of your nodes in a vector without
+being contained by a unique pointer, the connectivity can just be a list of indices. Node A points to node B and
+node C. Easy peasy. We do have to trawl which nodes point to which if we want to remove a node, or we can keep an
+additional connectivity list for node A, specifying all edges pointing to node A, but again, let's
+just keep to the case where we have a construction phase, and then a reading phase- where lots of actors can
+read from the graph. In that case, if lots of functions would otherwise pass around pointers to a node, they can
+just pass around the node index. They can then ask the graph object for access to node N.
+
+Finally with trees, if the structure and rules are well defined, we can use implicit rules and just skip
+connectivity. In the case of the binary search tree, we can simply use an array and the knowledge of its doubling
+nature. In that case we know index 0 will always be the root. Index 1 will always be the left child, index 2 will always be the right child. To access any node's (index N) chidlren, we merely have to read from index 
+INDEX CALCULATIONS HERE. We can handle a node not being present in this otherwise dense structure, by having a
+means of representing an empty value, but the greater the sparseness, the more inefficient this *linearized*
+tree structure works quite well and makes the structure easily serializeable (write it to a file on disk) or transferable to and useable on GPU's.
+
 Better explanation of [graphs in Rust](https://github.com/nrc/r4cppp/blob/master/graphs/README.md)  
 [graphs in Rust using indices](http://smallcultfollowing.com/babysteps/blog/2015/04/06/modeling-graphs-in-rust-using-vector-indices/)  
 
-#### Trees
-Actually a bit simpler to make as we have fewer cyclical references. If there is a child-to-parent pointer...
-use weak.
+### 🧬 Octrees
+Octrees are elevant for all of the specializations that aren't deep learning, especially *computer graphics*.
+But it might be relevant for deep learning too if you do stuff related to geometry or spatial data, though.
 
-### Graphs and Trees using Indices
-Rust examples  
-Connectivity  
-Read-only  
+Octrees are mostly concerned with sorting space. For every node, there are 8 children. If it is sparse, there are
+*up to* 8 children. What cannot change however, is the regular structure. Every node covers a certain space.
+The space covered by the child nodes are strictly within this space and are halved on each axis based on the
+center point of the parent node. Child 0 would be the eighth of space with ```x```, ```y``` and ```z``` starting
+from the minimum value of the parent space up to the center point of the parent space. Child 1 could be the eighth
+of space the same as child 0, except with the x range starting from the midpoint's ```x``` value, going to the
+maximum ```x``` value of the parent space. So on and so forth, all child nodes get's an eight of space. But again,
+there doesn't need to be exactly 8 active children, they do all need to go into predictable slots. If the
+definition child 0 is what I wrote earlier, that range ALWAYS needs to reside in child 0. It cannot be moved to
+other children or other slots. One nice property of the octree is that we can describe any path from root to leaf
+by a string numbers from 0 to 7.
+
+Now let's talk about payloads. A typical use case within graphics is to use an octree to reason about which scene
+geometry to render or to use for nearest neighbor queries. Let's start with the simpler payload, point clouds.
+INSERT POINT CLOUD LINK HERE! We have a list of three dimensional points.
+We want to find the nearest one relative to our current point.
+This is quite useful for algorithms like ICP INSERT LINK HERE. We start with the whole
+array of points and then continually go through our points sending them to one of the 8 children until a child
+receives only a single point, at which point that child node becomes a leaf node. Once the octree is built we
+can traverse the tree keeping track of which points have been closest so far. There is one issues though,
+given a query point Q, we might have a current closest point A, found in cell 0. The euclidean distance between
+point Q and point A might be 350. That is great so far. But right on the other side of the spatial divide in
+cell 7, there is another point, point B, with a distance to point Q which is only, let's say, 42 units from
+point Q. We only find that point if we continually search all relevant cells to point Q within some cell distance,
+e.g. if we know point Q is contained by some cell, we always need to examine the neighboring cells. But just the
+neighboring cells. We still need to compare our point Q against a good number of points, but it is way less than
+the potentially hundreds of millions of points.
+
+INSERT WRONG NEAREST NEIGHBOR DIAGRAM HERE
+
+For nearest neighbor queries having a single point per leaf node is wildly inefficient though, and you should
+consider fattening up the leaf nodes to contain more points and have some amount of points in the interior nodes as
+well. These could be efficiently searched by sorting them into linearized octrees. More on those in a future
+module. Quite often a node is not much more than 4x32-bits, in which case it is wildly inefficent to have more
+than 1 pointer per node. You might also end up with a stack overflow if you try to build the octree recursively.
+Last time I tried that in C++ I got a stack overflow at a depth of 1000. If you absolutely need a pointer based
+tree, try to add nodes of interest to a queue instead and just process that queue. E.g. you arrive at node X, it
+has 8 children. You deem 4 of them to be of interest, add all 4 to a processing queue, then dequeue the next node
+for you to process. This might take you all of the tree though. Another option could be using a stack.
+For spatially larger payloads, like meshes, you might also need to keep a reference to that geometry
+across more than one node, ending up with some geometry being evaluated more than once.
+You win some, you lose some. But it's all the same to me. It's the eight of space.
+
+Another use case where the octree is very useful is when deciding what to render and at what level-of-detail.
+It also makes for a useful abstraction over virtualized geometry. More on that in a later module.
 
 ## 3️⃣ Garbage collectors
 Garbage collection is a way of freeing the programmer of having to deal with which memory is and isn't
@@ -1252,7 +1522,7 @@ just been cleaned up referenced anew.
 Garbage collectors aren't really that relevant to the rest of the guide,
 but if you are coming from Python, C#, Go or Java this section will use some of the concepts
 previously introduced on this page to give you a quick perspective to how garbage collectors work.
-This post takes a look at 
+This post takes a look at
 [how python handles garbage collection](https://stackify.com/python-garbage-collection/)
 although, a bit light on the details for the generational garbage collection. In the following
 sections I will introduce three different types of garbage collectors, and finally
@@ -1373,3 +1643,5 @@ For more about
 [garbage collection in Python](https://devguide.python.org/internals/garbage-collector/),
 [more basic garbage collection in Pyton](https://stackify.com/python-garbage-collection/) or
 [garbage collection in Java](https://blogs.oracle.com/javamagazine/post/understanding-garbage-collectors).
+
+INSERT LINKS TO OCTREE, BVH, LEVELS OF DETAIL
