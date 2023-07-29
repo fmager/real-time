@@ -1260,7 +1260,7 @@ so big that you are having issues with memory. Sparse matrices also require thei
 and can be hard to parallelize.
 
 ## 3️⃣ Hash Maps
-Our final fundamental data structure is the hash map. The hash map takes a key type and a value type.
+Another fundamental data structure is the hash map. The hash map takes a key type and a value type.
 The value type can pretty much be anything, don't worry about it! But where things get really interesting is
 the key value. What a hash map does is to take a key value and translate it into an array index using something
 called a hash function. A very simple hash function takes a number, adds a number, multiplies by a very big prime
@@ -1268,7 +1268,18 @@ number and then modulos that number by a number representing how much space we h
 recommendation is that a hash map should have at least twice the space needed to densely represent the
 same number of elements. 
 
-INSERT DIAGRAM OF HASH FUNCTION HERE
+```rust
+// Not actually a good hash function
+fn example_hash_function(key: Vec<char>) -> usize {
+    const PRIME: usize = 6457;
+    let mut hash: usize = 0;
+    for element in key {
+        hash = ( (hash * 31) + key as usize ) ^ PRIME;
+    }
+
+    hash
+}
+```
 
 Generally, a hash map will have constant time lookup and insertion. The reason for the recommendation of
 at least a factor 2 in space is collisions! A collision is when two different keys hash to the same
@@ -1283,7 +1294,12 @@ elements which need to be queried a lot, we can usually ask the data structure t
 ```.shrink_to_fit()``` or ```.rehash()```. Rehashing will reconstruct the structure to be
 made as if it had only been the elements currently stored, all along.
 
-INSERT DIAGRAM OF HASH COLLISION SEARCH
+<figure markdown>
+![Image](../figures/hash_map_find_key.png){ width="500" }
+<figcaption>
+A number of keys have been inserted in random order. We try to find the entry corresponding to the key "Ni" at index 3. But its natural spot was already taken by a spillover from the index 2. We find the entry in the next index instead. This is also known as open addressing.
+</figcaption>
+</figure>
 
 I will reiterate a theme here -
 *if it can be done with a basic array, it should probably be done with a basic array*.
@@ -1300,9 +1316,24 @@ that as a key for the first linear layer and its contents, and then "ReLU0", "Li
 "ReLU1", "Softmax0" and so on. If possible, it is more efficient to use small types as
 your key. Such as an integer.
 
-INSERT BENCHMARK FOR HASH STRING VS HASH INT HERE.
+Now for a simple performance benchmark. Checkout the code at
+```m1_memory_hierarchies/code/hash_maps``` or check it out
+[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/hash_maps/src/main.rs)
 
-In general hash maps have an alright performance. C#'s dictionary lookup performance will usually go down hill at around 30k entries though. This doesn't happen for arrays.
+As you can see the hash map using integers clearly outperforms Strings. To be fair, every insertion in the
+string based map, requires a clone of the original string, the read and update only requires a reference.
+But we can expect just about a factor 2 performance difference by using the simpler type with the simpler
+hashing function. It should however, be noted that the string keys were all just the integer keys
+as strings, which might have an influence on the distribution in the hash table. What we could do
+in our previous neural network layer example would be to have an integer value representing each layer type
+and then the id. We could relegate them to different parts of an integer. This could for example be the first 20
+bits reserved for the layer type and the last 44, or perhaps just 12, bits reserved for the layer id. This
+does however incur a significant amount of extra code and the code will become more complex and implicit,
+so it's probably only worth it if you are doing A LOT of accesses for each layer.
+
+In general hash maps have an alright performance. C#'s dictionary lookup performance will usually go down
+hill at around 30k entries though. This doesn't happen for arrays. You can read more about different hash table
+implementations [here](https://www.cs.princeton.edu/courses/archive/fall06/cos226/lectures/hash.pdf).
 
 ## 3️⃣ Graphs and Trees
 Now that we have dicked around with variations on a theme (that theme was arrays if you are in doubt),
@@ -1330,7 +1361,7 @@ something problematic.
 
 Anyways... the rest of the module will be about how using data structures like computational graphs,
 which is essentially what is created when you define your entire neural network on a single object in
-PyTorch is, can speed up your code immensely as the structure allows the library/framework/compiler to reason
+PyTorch, can speed up your code immensely as the structure allows the library/framework/compiler to reason
 about your program. Essentially, computational graphs communicate the intention of your program ahead of time 
 before you start running everything in a loop. It can help the library/framework/compiler to optimize your code,
 optimize where the data should be located, when the data should be moved to/from the GPU, when two operations
@@ -1347,15 +1378,25 @@ that I can't think of right now. The node on the other hand, can be whatever you
 be just a number or an index to the corresponding data paylod if you have seperated the graph structure
 from the data payloads.
 
-INSERT DIAGRAM OF BIDIRECTIONAL GRAPH HERE
+<figure markdown>
+![Image](../figures/bidirectional_graph.png){ width="500" }
+<figcaption>
+A bidirectional graph. Each edge points both ways.
+</figcaption>
+</figure>
 
 Graphs come in lots of different flavors, but the three most important, and fundamental, are bidirectional,
 unidirectional and DAGs. Bidirectional means that the edges go both ways. If node A points to node B, node B
 also points to node A. Unidirectional graphs, you guessed it, means that the edges only point one way. That
 does not dictate that node A and B can't point to each other, but that it's not the default and it requires
-inserting two edges into the graph. 
+inserting two edges into the graph. Note that edges can also have weights or other values themselves.
 
-INSERT DIAGRAM OF UNIDIRECTIONAL GRAPH HERE
+<figure markdown>
+![Image](../figures/unidirectional_graph.png){ width="500" }
+<figcaption>
+A unidirectional graph. Each edge points one way. Note that edges can also have weights.
+</figcaption>
+</figure>
 
 Finally, the DAG, which stands for directional acyclical graph, is a
 unidirectional graph which does not contain cycles. A cycle is not just node A pointing to node B, which points
@@ -1365,13 +1406,27 @@ way to Mordor just to go back to the friggin shire. No eagles will save you. You
 As you can imagine can be a costly property to assert unless we devise mechanisms to prevent this
 from happening in the first place.
 
-INSERT DIAGRAM OF DAG GRAPH HERE
+<figure markdown>
+![Image](../figures/directed_acyclic_graph.png){ width="500" }
+<figcaption>
+The unidirectional graph is verified as being a DAG through a topological sorting. No edges points backwards.
+</figcaption>
+</figure>
 
-In general, if you are reading this, you should try to avoid graphs with cycles.
+In the diagram, I have sorted the previous graph topologically. As long as none of the edges go backwards, we have
+a DAG. In general, if you are reading this, you should try to avoid graphs with cycles.
 It's a headache and you'll end up down a headscratching rabbit hole. It's also a good source
 of memory leaks if you haven't implemented your graph or tree in a certain fashion.
 
-INSERT DIAGRAM OF COMPUTATIONAL GRAPH HERE
+<figure markdown>
+![Image](../figures/computational_graph.png){ width="500" }
+<figcaption>
+A neural network formulated as a computational graph.
+</figcaption>
+</figure>
+
+Note that formulating a neural network in advance like this, also allows us to perform dimension checking between
+all layers before running the network.
 
 ### Trees
 Trees can be seen as a subset of graphs. They can be both bi- and unidirectional. Typically, there is a root
@@ -1379,7 +1434,12 @@ node which will point to one or more child nodes. If the tree is bidirectional, 
 Leaf nodes are nodes which are not pointing to any children.
 Nodes which are not the root, but also not a leaf node are usually called internal nodes.
 
-INSERT DIAGRAM OF UNIDIRECTIONAL TREE HERE
+<figure markdown>
+![Image](../figures/unidirectional_tree.png){ width="500" }
+<figcaption>
+A binary tree where parent nodes point to children nodes, but children nodes don't point back.
+</figcaption>
+</figure>
 
 Typically, a tree can be really good for sorting data, like getting the biggest value, it can be good for finding
 things spatially, like, give me all of the nodes in a 3D scene which can be seen by the camera, or give me the
@@ -1388,7 +1448,13 @@ closest number to some query. The hierarchical nature of the tree lends itself w
 that the tree is fairly balanced. Meaning that the maximum length from root node to any leaf node is reasonably
 close.
 
-INSERT DIAGRAM OF BALANCED AND UNBALANCED TREE HERE
+<figure markdown>
+![Image](../figures/tree_balance.png){ width="500" }
+<figcaption>
+A balanced and an unbalanced binary tree. Note the sparseness and the differences
+in minimum and maximum height (distance from root node).
+</figcaption>
+</figure>
 
 One key difference which makes trees very powerful, compared to the more open definition of graphs, is that we
 need rules to define what makes a tree. Once we know these explicit rules, we can sometimes take advantage to make
@@ -1396,7 +1462,13 @@ implicit assumptions of the structure, which can save quite a lot of space, redu
 need to follow in order to traverse the structure and make it easier to serialize (write it to a file on disk)
 the tree.
 
-INSERT DIAGRAM OF BIDIRECTIONAL TREE HERE
+<figure markdown>
+![Image](../figures/bidirectional_tree.png){ width="500" }
+<figcaption>
+A bidirectional tree. Note if the pointers pointing from children nodes to parent nodes are strong pointers,
+the tree is rife with cyclical references.
+</figcaption>
+</figure>
 
 #### Binary Trees
 Binary trees are some of the simplest trees. Any node has at most two children. These are usually called
