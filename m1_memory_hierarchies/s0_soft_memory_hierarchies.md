@@ -795,12 +795,14 @@ already implemented on the vector types, but if we want to maintain the invarian
 indices 0 to ```size - 1``` are all valid, you need to make sure that only the stack related functions are called.
 In that way, if you need a stack, you should use not just a vector type, but a stack type, which might just be a
 wrapper around a vector, but also restricts anyone using that type to maintain the invariants needed for a valid
-stack. In that way sending a ```Stack<T>``` from function to function, instead of a ```Vec<T>```, will communicate how the value is supposed to be used.
+stack. In that way sending a ```Stack<T>``` from function to function, instead of a ```Vec<T>```,
+will communicate how the value is supposed to be used.
 
 <figure markdown>
 ![Image](../figures/stack_pop.png){ width="500" }
 <figcaption>
-Popping a value from the top (end) of the stack. The states are from before the pop, and were the result of the previous push.
+Popping a value from the top (end) of the stack. The states are from before the pop, and were
+the result of the previous push.
 </figcaption>
 </figure>
 
@@ -829,7 +831,8 @@ overwhelmable. If data comes in too fast to process, and it keeps coming in fast
 instead say that the ```front``` will move with the ```back``` if they become equal, thus letting the older data
 be overwritten. Other options could be to have whatever is trying to submit an element, wait until a spot opens up
 in the queue or the element could be "added", but not actually added to the queue. You'd of course like to be
-certain of how your queue type would handle being full. It's a central property and should make sure if you are constructing systems with lots of data that you use a queue with the right behavior for your system.
+certain of how your queue type would handle being full. It's a central property and should make sure if you
+are constructing systems with lots of data that you use a queue with the right behavior for your system.
 
 <figure markdown>
 ![Image](../figures/queue_dequeue.png){ width="500" }
@@ -1266,7 +1269,7 @@ the key value. What a hash map does is to take a key value and translate it into
 called a hash function. A very simple hash function takes a number, adds a number, multiplies by a very big prime
 number and then modulos that number by a number representing how much space we have available. The base
 recommendation is that a hash map should have at least twice the space needed to densely represent the
-same number of elements. 
+same number of elements.
 
 ```rust
 // Not actually a good hash function
@@ -1297,7 +1300,9 @@ made as if it had only been the elements currently stored, all along.
 <figure markdown>
 ![Image](../figures/hash_map_find_key.png){ width="500" }
 <figcaption>
-A number of keys have been inserted in random order. We try to find the entry corresponding to the key "Ni" at index 3. But its natural spot was already taken by a spillover from the index 2. We find the entry in the next index instead. This is also known as open addressing.
+A number of keys have been inserted in random order. We try to find the entry corresponding to the key "Ni"
+at index 3. But its natural spot was already taken by a spillover from the index 2. We find the entry
+in the next index instead. This is also known as open addressing.
 </figcaption>
 </figure>
 
@@ -1362,7 +1367,7 @@ something problematic.
 Anyways... the rest of the module will be about how using data structures like computational graphs,
 which is essentially what is created when you define your entire neural network on a single object in
 PyTorch, can speed up your code immensely as the structure allows the library/framework/compiler to reason
-about your program. Essentially, computational graphs communicate the intention of your program ahead of time 
+about your program. Essentially, computational graphs communicate the intention of your program ahead of time
 before you start running everything in a loop. It can help the library/framework/compiler to optimize your code,
 optimize where the data should be located, when the data should be moved to/from the GPU, when two operations
 can be fused and so on.
@@ -1528,15 +1533,16 @@ just pass around the node index. They can then ask the graph object for access t
 Finally with trees, if the structure and rules are well defined, we can use implicit rules and just skip
 connectivity. In the case of the binary search tree, we can simply use an array and the knowledge of its doubling
 nature. In that case we know index 0 will always be the root. Index 1 will always be the left child, index 2 will
-always be the right child. To access any node's (index N) children, we merely have to read from index 
-```N * 2 + 1``` for the left child and ```N * 2 + 2``` for the right. We can handle a node not being
+always be the right child. To access any node's (index N) children, we merely have to read from index
+```N*2+1``` for the left child and ```N*2+2``` for the right. We can handle a node not being
 present in this otherwise dense structure, by having a
 means of representing an empty value, but the greater the sparseness, the more inefficient this *linearized*
 tree structure works quite well and makes the structure easily serializeable
 (write it to a file on disk) or transferable to and useable on GPU's.
 
 Better explanation of [graphs in Rust](https://github.com/nrc/r4cppp/blob/master/graphs/README.md)  
-[graphs in Rust using indices](http://smallcultfollowing.com/babysteps/blog/2015/04/06/modeling-graphs-in-rust-using-vector-indices/)  
+graphs in Rust using
+[indices](http://smallcultfollowing.com/babysteps/blog/2015/04/06/modeling-graphs-in-rust-using-vector-indices/)  
 
 ### 🧬 Octrees
 Octrees are elevant for all of the specializations that aren't deep learning, especially *computer graphics*.
@@ -1732,7 +1738,7 @@ For more about
 
 For more on implementing a [heap with an array](https://www.programiz.com/dsa/heap-data-structure),
 [priority queues](https://www.programiz.com/dsa/priority-queue),
-[binary trees](https://www.programiz.com/dsa/binary-tree), 
+[binary trees](https://www.programiz.com/dsa/binary-tree),
 [binary trees using arrays in Python](https://programmingoneonone.com/array-representation-of-binary-tree.html).
 These pages have implementation details in C/C++/Python.
 
