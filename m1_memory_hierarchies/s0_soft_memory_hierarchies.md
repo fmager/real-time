@@ -1481,12 +1481,18 @@ child was ```None``` or ```Some(child)```.
 struct BinaryNode {
     payload: i32,
     left: Option<Arc<BinaryNode>>,
-    right: Option<Arc<BinaryNode>>,
     parent: Option<Weak<BinaryNode>>,
+    right: Option<Arc<BinaryNode>>,
 }
 ```
 
-INSERT DIAGRAM HERE SHOWING WHAT THE CODE IS DOING
+<figure markdown>
+![Image](../figures/binary_tree_node_weak_parent.png){ width="500" }
+<figcaption>
+A unidirectional binary tree with weak pointers from child to parent. In this case, due to the regular structure
+of the binary tree, we could have made do with indices.
+</figcaption>
+</figure>
 
 The baseline definition doesn't go much further than that. But, some variations built on the binary tree,
 like the heap (not the same as the one we talked about earlier), enforces that the binary tree is sorted
@@ -1494,9 +1500,6 @@ and allows you to insert variations. Allowing the min or max value to bubble up,
 but it allows you to very quickly get the minimum or maximum value from a list of nodes. The very predictable
 structure of the binary tree also allows for easy, memory efficient, implementation using just an array and no
 pointers. Especially if it is sorted as we need less array elements marked as empty.
-
-INSERT HEAP AND PRIORITY QUEUE LINKS HERE
-INSERT LINK WITH ARRAY IMPLEMENTATION OF BINARY TREE HERE
 
 ### Implementing Graphs (and Trees)
 Implementing graphs is generally considered hard in Rust specifically, which makes sense,
@@ -1524,10 +1527,13 @@ just pass around the node index. They can then ask the graph object for access t
 
 Finally with trees, if the structure and rules are well defined, we can use implicit rules and just skip
 connectivity. In the case of the binary search tree, we can simply use an array and the knowledge of its doubling
-nature. In that case we know index 0 will always be the root. Index 1 will always be the left child, index 2 will always be the right child. To access any node's (index N) chidlren, we merely have to read from index 
-INDEX CALCULATIONS HERE. We can handle a node not being present in this otherwise dense structure, by having a
+nature. In that case we know index 0 will always be the root. Index 1 will always be the left child, index 2 will
+always be the right child. To access any node's (index N) children, we merely have to read from index 
+```N * 2 + 1``` for the left child and ```N * 2 + 2``` for the right. We can handle a node not being
+present in this otherwise dense structure, by having a
 means of representing an empty value, but the greater the sparseness, the more inefficient this *linearized*
-tree structure works quite well and makes the structure easily serializeable (write it to a file on disk) or transferable to and useable on GPU's.
+tree structure works quite well and makes the structure easily serializeable
+(write it to a file on disk) or transferable to and useable on GPU's.
 
 Better explanation of [graphs in Rust](https://github.com/nrc/r4cppp/blob/master/graphs/README.md)  
 [graphs in Rust using indices](http://smallcultfollowing.com/babysteps/blog/2015/04/06/modeling-graphs-in-rust-using-vector-indices/)  
@@ -1549,22 +1555,29 @@ other children or other slots. One nice property of the octree is that we can de
 by a string numbers from 0 to 7.
 
 Now let's talk about payloads. A typical use case within graphics is to use an octree to reason about which scene
-geometry to render or to use for nearest neighbor queries. Let's start with the simpler payload, point clouds.
-INSERT POINT CLOUD LINK HERE! We have a list of three dimensional points.
-We want to find the nearest one relative to our current point.
-This is quite useful for algorithms like ICP INSERT LINK HERE. We start with the whole
-array of points and then continually go through our points sending them to one of the 8 children until a child
-receives only a single point, at which point that child node becomes a leaf node. Once the octree is built we
-can traverse the tree keeping track of which points have been closest so far. There is one issues though,
-given a query point Q, we might have a current closest point A, found in cell 0. The euclidean distance between
-point Q and point A might be 350. That is great so far. But right on the other side of the spatial divide in
-cell 7, there is another point, point B, with a distance to point Q which is only, let's say, 42 units from
-point Q. We only find that point if we continually search all relevant cells to point Q within some cell distance,
-e.g. if we know point Q is contained by some cell, we always need to examine the neighboring cells. But just the
+geometry to render or to use for nearest neighbor queries. Let's start with the simpler payload,
+[point clouds](https://en.wikipedia.org/wiki/Point_cloud).
+We have a list of three dimensional points. We want to find the nearest one relative to our current point.
+This is quite useful for algorithms like [ICP](https://en.wikipedia.org/wiki/Iterative_closest_point).
+We start with the whole array of points and then continually go through our points sending them to one of the 8
+children until a child receives only a single point, at which point that child node becomes a leaf node.
+Once the octree is built we can traverse the tree keeping track of which points have been closest
+so far. There is one issues though, given a query point Q, we might have a current closest point A,
+found in cell 0. The euclidean distance between point Q and point A might be 350. That is great so far.
+But right on the other side of the spatial divide in cell 7, there is another point, point B, with a
+distance to point Q which is only, let's say, 42 units from point Q. We only find that point if we
+continually search all relevant cells to point Q within some cell distance, e.g. if we know point Q
+is contained by some cell, we always need to examine the neighboring cells. But just the
 neighboring cells. We still need to compare our point Q against a good number of points, but it is way less than
 the potentially hundreds of millions of points.
 
-INSERT WRONG NEAREST NEIGHBOR DIAGRAM HERE
+<figure markdown>
+![Image](../figures/octree_nearest_neighbor.png){ width="500" }
+<figcaption>
+The blue star is our query point. The full arrow line is towards the closest point, if we do not search the
+neighbors.
+</figcaption>
+</figure>
 
 For nearest neighbor queries having a single point per leaf node is wildly inefficient though, and you should
 consider fattening up the leaf nodes to contain more points and have some amount of points in the interior nodes as
@@ -1574,7 +1587,7 @@ than 1 pointer per node. You might also end up with a stack overflow if you try 
 Last time I tried that in C++ I got a stack overflow at a depth of 1000. If you absolutely need a pointer based
 tree, try to add nodes of interest to a queue instead and just process that queue. E.g. you arrive at node X, it
 has 8 children. You deem 4 of them to be of interest, add all 4 to a processing queue, then dequeue the next node
-for you to process. This might take you all of the tree though. Another option could be using a stack.
+for you to process. This might take you all over the tree though. Another option could be using a stack.
 For spatially larger payloads, like meshes, you might also need to keep a reference to that geometry
 across more than one node, ending up with some geometry being evaluated more than once.
 You win some, you lose some. But it's all the same to me. It's the eight of space.
@@ -1602,12 +1615,13 @@ set you up with a few tricks for working with the garbage collector.
 
 ### Reference Counted Garbage Collectors
 [Reference counting garbage collection](https://en.wikipedia.org/wiki/Reference_counting) is one of the
-simplest forms of dealing with garbage collection. Imagine that there is an ```Rc<T>```, like we saw earlier, wrapped
-around every heap-allocated variable. Once the amount of references reaches 0, the object is deallocated. Simple,
-can be handled locally, scales well, doesn't burden the entire system with a lockdown to clean up, which makes it
-good for real-time systems which need to be responsive at all times and not have noticeable freezes.
-What makes it not quite usable is, that it is up to the programmer to not create cyclical references.
-Node A and Node B cannot refer to each other without causing a memory leak, despite not being referenced by
+simplest forms of dealing with garbage collection. Imagine that there is an ```Rc<T>```, like we saw earlier,
+wrapped around every heap-allocated variable. Once the amount of references reaches 0,
+the object is deallocated. Simple, can be handled locally, scales well, doesn't burden the
+entire system with a lockdown to clean up, which makes it good for real-time systems which need
+to be responsive at all times and not have noticeable freezes. What makes it not quite usable is,
+that it is up to the programmer to not create cyclical references. Node A and Node B cannot refer
+to each other without causing a memory leak, despite not being referenced by
 anything else. They cannot be cleaned, unless one of the references is a weak reference. Just like the
 ```Weak<T>``` type we saw in the smart pointer section. But it is up to the programmer to make sure that
 the weak references are used correctly throughout the system, which isn't necessarily non-trivial.
@@ -1716,4 +1730,16 @@ For more about
 [more basic garbage collection in Pyton](https://stackify.com/python-garbage-collection/) or
 [garbage collection in Java](https://blogs.oracle.com/javamagazine/post/understanding-garbage-collectors).
 
-INSERT LINKS TO OCTREE, BVH, LEVELS OF DETAIL
+For more on implementing a [heap with an array](https://www.programiz.com/dsa/heap-data-structure),
+[priority queues](https://www.programiz.com/dsa/priority-queue),
+[binary trees](https://www.programiz.com/dsa/binary-tree), 
+[binary trees using arrays in Python](https://programmingoneonone.com/array-representation-of-binary-tree.html).
+These pages have implementation details in C/C++/Python.
+
+If you are into spatial data structures and/or graphics, computer vision, etc here's some links for
+[octrees](https://www.gamedev.net/articles/programming/general-and-gameplay-programming/introduction-to-octrees-r3529/),
+[BVHs](https://pbr-book.org/3ed-2018/Primitives_and_Intersection_Acceleration/Bounding_Volume_Hierarchies),
+[Kd-Trees](https://pbr-book.org/3ed-2018/Primitives_and_Intersection_Acceleration/Kd-Tree_Accelerator),
+[a comparison between kD tree and octree](https://doc.cgal.org/latest/Orthtree/index.html),
+[levels-of-detail for point clouds (chapter 3)](https://publik.tuwien.ac.at/files/publik_252607.pdf)
+and [levels-of-detail for meshes](https://www.evl.uic.edu/vchand2/thesis/papers/Marching%20Cubes.pdf).
