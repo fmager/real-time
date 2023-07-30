@@ -1,4 +1,4 @@
-# Computational Graphs
+# 2️⃣ Computational Graphs
 
 ## Intro to computational graphs - overview of immediate, graph and compiled graph
 
@@ -19,8 +19,8 @@ Testing in Rust
 What is inlining
 Perspective to kernel fusion
 
-## \*Compiler verifications and the restrict keyword
-## \*Intermediate representations
-## \*Graph representations
-## S\*Perspective to render graphs
+## 3️⃣ Compiler verifications and the restrict keyword
+## 3️⃣ Intermediate representations
+## 3️⃣ Graph representations
+## 🧬3️⃣ Perspective to render graphs
 For graphics

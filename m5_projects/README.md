@@ -1,4 +1,4 @@
-# Tips and Tricks in Real-Time Systems
+# 🧬4️⃣ Tips and Tricks in Real-Time Systems
 
 * Events
 * Key and Mouse events
@@ -37,7 +37,7 @@
 * If using recursion and risking stack overflow, use a loop and a queue
 * If you can, always prefer ana array over more complicated structures
 
-# S\*Projects
+## Projects
 This whole module is for levels 3 and 4.
 Specifically, all of the tips and tracks are for level 3, where the projects themselves are meant for level 4.
 
@@ -61,7 +61,7 @@ are relevant to your project and why?
 * How did you determine which parts of your system to optimize?
 * What else would you like to do with your system?
 
-## SProject Proposals
+## Project Proposals
 
 * Virtual 3D scanner for a point cloud dataset
 * EEG system

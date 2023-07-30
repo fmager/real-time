@@ -9,14 +9,14 @@
 * Quantization
 * Sparsity
 * Pruning
-* \*Fast inverse square root
-* \*Bit tricks
-* \*Basic compression
-* \*Batch based data processing
-* \*Tensor Cores
-* \*Using integers instead of strings in hash tables
+* 3️⃣ Fast inverse square root
+* 3️⃣ Bit tricks
+* 3️⃣ Basic compression
+* 3️⃣ Batch based data processing
+* 3️⃣ Tensor Cores
+* 3️⃣ Using integers instead of strings in hash tables
 
-## \*Exercise
+## 4️⃣ Exercise
 
 Find a suitable model and inference library.  
 Perform inference.  

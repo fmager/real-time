@@ -8,22 +8,22 @@
 * Channels
 * Data parallelism, work stealing - rayon
 * Data parallelism, non-work stealing - crossbeam
-* GPU
-* \*Branchless programming, branch prediction and pipelines
-* \*SIMD
-* \*Sparsity
-* \*Random Access and Monte Carlo (Gyro Dropout)
-* \*Sorting
-* \*Graph representations - pointers and indices
-* \*Trees using indices
-* \*Parallel work on graphs
+* 3️⃣ GPU - 3️⃣ Warp Shuffling and Distributed Shared Memory 3️⃣ SPIR-V & GLSL/HLSL
+* 3️⃣ Branchless programming, branch prediction and pipelines
+* 3️⃣ SIMD
+* 3️⃣ Sparsity
+* 3️⃣ Random Access and Monte Carlo (Gyro Dropout)
+* 3️⃣ Sorting
+* 3️⃣ Graph representations - pointers and indices
+* 3️⃣ Trees using indices
+* 3️⃣ Parallel work on graphs
 
-# \*Exercise
+# 4️⃣ Exercise
 Describe the base architecture of the egui-winit-wgpu template.  
 Expand on the template and program some things (needs suggestions)  
 using some of the primitives introduced in the module
 
-# S\*Exercise
+# 🧬4️⃣ Exercise
 Pick items worth a total of 3 points or more, write am interpretation of each
 item of at least 10 times the number of points lines.
 
