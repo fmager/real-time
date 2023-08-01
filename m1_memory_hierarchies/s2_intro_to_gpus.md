@@ -1,4 +1,7 @@
 # 2️⃣ Intro to GPU's
+Now, I'll just give you a quick introduction to GPU's as the next section is about immediate mode
+GPU computation.
+
 GPU's are fairly ubiquitous at this point. They started off as purely for graphics, but
 around 2008, enough researchers had tinkered with workarounds to use them for general
 computing, that Nvidia put out CUDA, opening up GPU's for more general usage. GPU's still do lots
@@ -143,27 +146,64 @@ recently with most consumer grade GPU's having around 8 GB of memory and locally
 like diffusion models easily being able to use more than that. A desktop GPU with more than 16GB of RAM would
 probably still outperform an integrated graphics card with 16GB of RAM available, but it would be very expensive.
 
-## 3️⃣ Introducing wgpu
+## 3️⃣ Introducing wgpu and wgsl
+The guide will for all GPU purposes make use of the graphics library wgpu, but only the compute parts.
+wgpu is based on the WebGPU spec, which is supposed to be the new web GPU API, as well as not being particularly
+creative with their naming, the actual support in browsers for WebGPU is nascent. Chrome supports if you fiddle
+with some settings, but for most systems, especially if you aren't actually running in a browser, wgpu
+will default to using different, more powerful backends. For example, at the time of writing this,
+I am using an HP laptop, with an Intel integrated graphics card running Windows 10. Whenver I run a program
+with wgpu, wgpu tells me it has chosen Vulkan as my current backend. We could of course just write Vulkan,
+but it would be a bit more complicated, as Vulkan is slightly more low-level than wgpu, but it would also
+be more powerful. But attaining ultimate performance isn't the purpose of the guide. It's to get as many
+people as possible started as soon as possible. It has to run on an Apple computer and it has to be easy to
+install. So, wgpu it is. While any API which has to cover as many platforms as wgpu does will usually be hampered
+by the lowest common denominator, it is possible to query wgpu for hardware support for various features, such
+as fp16. While wgpu is still quite new, it has some exciting features on the way, such as a hardware accelerated
+ray tracing extension.
 
-## 3️⃣ Setting up wgpu
-Imported how in rust
-What is the initial setup of a compute pipeline
-[Learn Wgpu](https://sotrh.github.io/learn-wgpu/).
+The default shading language (the language you use to write the code the GPU will run) is wgsl, which
+was defined along with the WebGPU specification. It is possible to use other shading languages, such
+as glsl and hlsl, which also have more info and general documentation, but because of the increased code
+complexity in building the files to SPIR-V and then ingesting them, I elected to just use what was simplest.
+
+We can add wgpu to a project by going into the ```Cargo.toml``` file in the root directory,
+and under ```[dependencies]``` write the line ```wgpu = "*"```. It will pull down the latest version of wgpu.
+You can of course also get a specific version of it, such as ```wgpu = "0.16.3"```.
 
 ## 3️⃣ Basic GPU Programming
-API and Shader language are not the same
-Host side
-Device side
-Remove the loop where?
+GPU programming, as has previously been mentioned, has two major elements. Host (CPU) code and device (GPU)
+code. We'll start off with the basics of the host code and then move on the GPU code. Just enough
+for you to be able to read the following sections and understand what is going on in this entire module,
+as it doesn't go into the finer details of GPU programming, but is centered around a GPU-centric paradigm.
+
+The rest of this section will be make use of the code location at ```m1_memory_hierarchies/code/gpu_add/``` or
+[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m1_memory_hierarchies/code/gpu_add).
+
+If you want to learn more about wgpu you can visit [Learn Wgpu](https://sotrh.github.io/learn-wgpu/).
+
+### Host side
+Is there a GPU available?
+Is it compatible with what we need?
+Get the device and queue
+What are they?
+Create a compute pipeline and a few buffers
+
+### Device side
+Our addition shader
+Bindings
+
+### Remove the loop where, you say?
+Vector add function, remove one loop
 
 ## 3️⃣ Warp Divergence, Occupancy and Overlap
+If statements, and warp divergence, softened cost
+Occupancy and Overlap
 
 ## 3️⃣ Coalesced Accessing and Strides
+Stride in the loop
 
-## 3️⃣ Synchronization
-A small code sample from wgsl
-
-## 3️⃣ Shared memory
+## 3️⃣ Synchronization and Shared Memory
 A small code sample from wgsl
 
 ## 5️⃣ Further Reading
@@ -177,3 +217,6 @@ The last entry is highly recommended.
 A slightly more detailed explanation of
 [asynchronous memory transfers](https://engineering.purdue.edu/~smidkiff/ece563/NVidiaGPUTeachingToolkit/Mod14DataXfer/Mod14DataXfer.pdf)
 for GPUs.
+
+If you want to learn more about wgpu, this is the most used tutorial -
+[Learn Wgpu](https://sotrh.github.io/learn-wgpu/).
