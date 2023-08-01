@@ -55,8 +55,6 @@ get students used to logging. Introduce anyhow for better error handling?
 [Z-order curves](https://www.nocentino.com/Nocentino10.pdf)  
 [Linearised Trees on the GPU](https://developer.nvidia.com/blog/thinking-parallel-part-iii-tree-construction-gpu/)  
 [Vivienne Sze - Energy Efficient AI](https://www.youtube.com/watch?v=WbLQqPw_n88)  
-[Visual Computing - Stanford](https://gfxcourses.stanford.edu/cs348k/spring23)  
-[Parallel Computing - Stanford](https://gfxcourses.stanford.edu/cs149/fall21)  
 [Rust Profiling](https://nnethercote.github.io/perf-book/profiling.html)  
 [RenderDoc](https://renderdoc.org/)  
 [Book of Shaders](https://thebookofshaders.com/)  
@@ -67,3 +65,7 @@ get students used to logging. Introduce anyhow for better error handling?
 [Programming Rust](https://www.oreilly.com/library/view/programming-rust-2nd/9781492052586/)  
 [Godbolt](https://godbolt.org/)  
 [Advent of Code](https://adventofcode.com/)  
+
+# I'm done, but I want more!
+[Visual Computing Systems - Stanford](https://gfxcourses.stanford.edu/cs348k/spring23)  
+[Parallel Computing - Stanford](https://gfxcourses.stanford.edu/cs149/fall22)

@@ -105,7 +105,7 @@ and the internet!
 Let's start off with the GPU. It is an accelerator originally made for just computing graphics as fast as
 possible. It has a whole bunch of threads in it, meaning it can do very parallel work, like making every pixel
 of an image slightly darker. At the end of the 2000's, Nvidia saw a bunch of academics hacking the GPU to do
-stuff like fast fourier transforms using the fragment shader. Don't worry about what that is, but shader
+stuff like fast fourier transforms using the fragment shader. Don't worry about what a fragment shader is, but shader
 basically means GPU program. So Nvidia releases CUDA as a pure compute (no graphics) API for using your GPU.
 It only runs on Nvidia GPU's though. Transfering memory from the CPU to the GPU and back, can be a
 quite explicit process. Not only does the CPU need to reserve some memory for copying to the GPU,
