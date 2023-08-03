@@ -360,7 +360,7 @@ fn main(
 When that works, you can begin thinking about how to remove that pesky loop. You do that by removing a dimension
 in your shader, but adding one in your dispatch and then making accomodations in your shader. We can take that
 and transform it by instead dispatching more 1D threads: ```cpass.dispatch_workgroups(launch_blocks, 1, 1);```.
-Then we change the shader to have each thread work on a single element - 
+Then we change the shader to have each thread work on a single element -
 
 ```rust
 @compute @workgroup_size(32, 1, 1) 
@@ -380,7 +380,7 @@ until the third dimension, usually you can launch less threads in the third dime
 also have to remember to check whether the thread is outside of the valid range for each dimension. You
 should always look up for your graphics cards and your GPU API how many threads you can launch. You might have to
 break it into several passes. It's not actually quite this simple, as, well you remember how we learned stride
-had a negative impact on performance earlier? Well, that is not quite the same on GPU's. 
+had a negative impact on performance earlier? Well, that is not quite the same on GPU's.
 
 ## 3️⃣ Coalesced Accessing and Strides
 Because of the way threads and work groups share memory on a GPU, and each thread executing the same line of
