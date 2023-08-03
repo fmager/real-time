@@ -322,15 +322,134 @@ Adding our two vectors, it should be easily verifiable that it is correct.
 
 Maybe now might be a good time to go back to the code and try to run through it yourself again.
 
-### Remove the loop where, you say?
-Vector add function, remove one loop
+## 3️⃣ Remove the loop where, you say?
+When writing GPU programs, you should usually start writing a CPU-based program. Once that works, you have
+something to verify your GPU program against. Often the part of your program that you want to offload to the GPU,
+will have loops. For example, in a vector addition snippet you might have -
+
+```rust
+for index in 0..ouput.len() {
+    output[index] = input_a[index] + input_b[index];
+}
+```
+
+When transferring your program to a GPU shader, as a way to get comfortable with thinking about this sort of
+parallelism, you should start with writing a single threaded version on the GPU. You can do this by dispatching
+a single thread ```cpass.dispatch_workgroups(1, 1, 1);```. It WILL be slower than the CPU
+version, but it allows you to get all of the transfers and synchronizations out of the way first. Once you have
+done that, and you have verified that it works, mind you, you can start adding, or rather removing dimensions.
+You do that by removing one of the for-loops in your code and replacing it with added dimensionality in your shader
+dispatch. So in your first version of your vector addition shader, it might look like this sketch (don't know if
+it compiles) -
+
+```rust
+@compute @workgroup_size(32, 1, 1) 
+fn main(
+    @builtin(global_invocation_id) global_id: vec3<u32>,
+    ) {
+    let thread_id: u32 = global_id.x;
+    
+    if (thread_id < 1) {
+        for (var index: u32 = 0u; index < dimensions.element_count; index += 1u) { 
+            output[index] = input_a[index] + input_b[index];
+        }
+    }
+}
+```
+
+When that works, you can begin thinking about how to remove that pesky loop. You do that by removing a dimension
+in your shader, but adding one in your dispatch and then making accomodations in your shader. We can take that
+and transform it by instead dispatching more 1D threads: ```cpass.dispatch_workgroups(launch_blocks, 1, 1);```.
+Then we change the shader to have each thread work on a single element - 
+
+```rust
+@compute @workgroup_size(32, 1, 1) 
+fn main(
+    @builtin(global_invocation_id) global_id: vec3<u32>,
+    ) {
+    let thread_id: u32 = global_id.x;
+    
+    if (thread_id < dimensions.element_count) {
+        output[thread_id] = input_a[thread_id] + input_b[thread_id];        
+    }
+}
+```
+
+If there had been more dimensions we could have continued expanding and removing dimensionality. We can continue
+until the third dimension, usually you can launch less threads in the third dimension than in the first two. You
+also have to remember to check whether the thread is outside of the valid range for each dimension. You
+should always look up for your graphics cards and your GPU API how many threads you can launch. You might have to
+break it into several passes. It's not actually quite this simple, as, well you remember how we learned stride
+had a negative impact on performance earlier? Well, that is not quite the same on GPU's. 
+
+## 3️⃣ Coalesced Accessing and Strides
+Because of the way threads and work groups share memory on a GPU, and each thread executing the same line of
+code at the same time, if thread A calls for memory at indices 0, 1, 2, 3 and thread B, which is right next to it
+in the same work group, calls for indices 4, 5, 6, 7, they will be asking for two different cache lines at the
+same time. Imagine the whole work group doing this at the same time. They will all be waiting, while
+requesting different cache lines. What is normally faster, is if, given a work group size of 32,
+thread A calls for indices 0, 32, 64 and 96, with thread B calling for indices 1, 33, 65 and 97. This allows for
+the work group to call for a minimum of cache lines in lock step and each getting a piece of the cache line.
+This is called *coalesced accessing* and if you ever say that to a GPU programmer, you will see a faint smile on
+their face. Think of a jigsaw puzzle, where the pieces are slowly being adjusted.
+Eventually, they all snap into place. All of the pieces fit exactly right.
+
+Here's a small example, if we for some reason were intent on turning our vector addition shader into
+2D matrix addition, but we were deadset on keeping the thread grid for our dispatch one dimensional we
+could do something like this -
+
+```rust
+const BLOCK_SIZE: u32 = 32u;
+@compute @workgroup_size(32, 1, 1) 
+fn main(
+    @builtin(global_invocation_id) global_id: vec3<u32>,
+    ) {
+    let thread_id: u32 = global_id.x;
+    
+    if (thread_id < dimensions.first_dimension_count) {
+        for (
+            var index: u32 = thread_id; 
+            index < dimensions.second_dimension_count; 
+            index += BLOCK_SIZE
+        ) { 
+            output[index] = input_a[index] + input_b[index];
+        }
+    }
+}
+```
+
+Again, not verified/compiled code. But hold on for a second! We have to remember that there are other work groups
+too. We can't necessarily just stride through the single dimension in the same way. We would be reprocessing
+elements that had already been processed by a different work group. What we could do instead would be to step
+along the rows instead.
+
+```rust
+@compute @workgroup_size(32, 1, 1) 
+fn main(
+    @builtin(global_invocation_id) global_id: vec3<u32>,
+    ) {
+    let thread_id: u32 = global_id.x;
+    
+    if (thread_id < dimensions.first_dimension_count) {
+        for (
+            var index: u32 = thread_id; 
+            index < dimensions.second_dimension_count; 
+            index += dimensions.first_dimension_count
+        ) { 
+            output[index] = input_a[index] + input_b[index];
+        }
+    }
+}
+```
+
+In other cases, using a stride of the work group size can work as well. In this case, stepping along the rows
+made better sense, but keep thinking in these terms, implement different versions and test them! It's the
+only way to be sure! Once you have made a couple of different versions and done simple timing you can always
+add in a profiler, m4 has got you covered!
 
 ## 3️⃣ Warp Divergence, Occupancy and Overlap
 If statements, and warp divergence, softened cost
 Occupancy and Overlap
-
-## 3️⃣ Coalesced Accessing and Strides
-Stride in the loop
 
 ## 3️⃣ Synchronization and Shared Memory
 A small code sample from wgsl
