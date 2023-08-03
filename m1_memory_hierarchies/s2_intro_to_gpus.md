@@ -201,7 +201,8 @@ If we are in a normal function and we call an ```async``` function, we have to w
 on the function call, which is of course ```pollster::block_on()```. Inside the ```async``` function it self it can
 either block on async function calls by using ```await``` - such as ```let result = async_function().await;``` or
 you can store what is known as a future. We could set in motion the loading of a number of files, and then once we
-were done and actually genuinely NEEDED to use the files for something, ```await``` on the future. The ```async``` function, when called from a normal function also returns a future, but we can't use ```.await``` on it.
+were done and actually genuinely NEEDED to use the files for something, ```await``` on the future. The ```async```
+function, when called from a normal function also returns a future, but we can't use ```.await``` on it.
 
 ```rust
 pub async fn load_four_files(path_a: &str, path_b: &str, path_c: &str, path_d: &str) -> (File, File, File, File) {
@@ -293,7 +294,7 @@ binds the array of bindings in order. Do note that we don't specify what can and
 was specified at the creation of the ```storage_buffer```s and it will be specificed locally in the binding of
 the buffers in the shader.
 
-Once we have our bindings set up, we create a ```CommandEncoder```, which we get from ```Device```. 
+Once we have our bindings set up, we create a ```CommandEncoder```, which we get from ```Device```.
 The command encoder is a buffer of commands. We can add stuff like render and compute operations, their sort of like
 a collection of operations and state, and transfer operations. The command encoder needs to be finished, before it
 is submitted to the queue. Remember the ```Queue``` we got earlier? This is what it was for. We submit
