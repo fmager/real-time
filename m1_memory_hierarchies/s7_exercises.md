@@ -14,6 +14,9 @@ The following list is sorted by expected complexity - do at least 1
 
 * Implement a version of the linear layer functions which uses shared memory and tiling
 * Add reusable buffers to the computational graph system
+* Change the ```Tensor2DGPU``` to have switchable access details on its buffers. It should be able to
+accomodate some tensors being exclusively read-only. Do you see any performance differences for whether
+they are read-only or not?
 * Implement the tree reduction version of the sum function and add it to the softmax function.
 Also compare the single pass and the tree reduction performance graphs. [Reference](https://developer.download.nvidia.com/assets/cuda/files/reduction.pdf)
 * Implement a max pooling operator, as well as fusing with ReLU, in all levels and implement tests

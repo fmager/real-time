@@ -44,3 +44,4 @@ item of at least 10 times the number of points lines.
 * 2 - Custom memory allocators
 * 2 - [JAX](https://jax.readthedocs.io/en/latest/notebooks/Common_Gotchas_in_JAX.html)
 * 1 - [Branch Prediction](https://stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array)
+* 2 - [Work Graphs in DX12](https://devblogs.microsoft.com/directx/d3d12-work-graphs-preview/)

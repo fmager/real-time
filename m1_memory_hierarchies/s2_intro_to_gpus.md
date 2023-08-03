@@ -179,19 +179,147 @@ as it doesn't go into the finer details of GPU programming, but is centered arou
 
 The rest of this section will be make use of the code location at ```m1_memory_hierarchies/code/gpu_add/``` or
 [online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m1_memory_hierarchies/code/gpu_add).
-
+Make sure to go and actually read the code. It is full of comments! And they're made just for you!
 If you want to learn more about wgpu you can visit [Learn Wgpu](https://sotrh.github.io/learn-wgpu/).
 
-### Host side
-Is there a GPU available?
-Is it compatible with what we need?
-Get the device and queue
-What are they?
-Create a compute pipeline and a few buffers
+Be sure to read through the code! Do this before you read the rest of this section, which will go into greater
+detail.
 
-### Device side
-Our addition shader
-Bindings
+Starting in the ```main``` function, first we initialize the environment logger with ```env_logger::init()```.
+This will get us more helpful feedback from wgpu. This should only happen once in your code, so by putting it
+as the very first line, we should be sure that it shouldn't need to happen anywhere else.
+
+Next up, we call ```pollster::block_on(self_test())```. The ```self_test``` function, is a function I made, and
+use elsewhere to make sure your system is compatible and to print the system info so you can see what GPU is being
+found and what backend is being used. ```pollster::block_on``` allows us to call asynchronous code from a normal
+function. If you don't remember what asynchronous means, just think of it as being non-blocking. Meaning, we can
+launch an asynchronous function and just continue on to the next line of code. But the way we do this is different
+depending on whether we are inside a normal function or an ```async``` function. An ```async``` function definition
+example - ```pub async fn self_test() -> bool {```.
+
+If we are in a normal function and we call an ```async``` function, we have to wait for it to complete. As in, block
+on the function call, which is of course ```pollster::block_on()```. Inside the ```async``` function it self it can
+either block on async function calls by using ```await``` - such as ```let result = async_function().await;``` or
+you can store what is known as a future. We could set in motion the loading of a number of files, and then once we
+were done and actually genuinely NEEDED to use the files for something, ```await``` on the future. The ```async``` function, when called from a normal function also returns a future, but we can't use ```.await``` on it.
+
+```rust
+pub async fn load_four_files(path_a: &str, path_b: &str, path_c: &str, path_d: &str) -> (File, File, File, File) {
+    let file_future_a = load_file_async(path_a);
+    let file_future_b = load_file_async(path_b);
+    let file_future_c = load_file_async(path_c);
+    let file_future_d = load_file_async(path_d);
+
+    let file_a = file_future_a.await; // Block on the future
+    let file_b = file_future_b.await;
+    let file_c = file_future_c.await;
+    let file_d = file_future_d.await;
+
+    (file_a, file_b, file_c, file_d)
+}
+```
+
+Ok, so why do we need ```async``` when dealing with the GPU? In some cases, we don't care about synchronization.
+We just want to keep transferring data to the GPU as fast as we can get it, the GPU might output to the display
+or we might get some data transferred back, but if we are doing this in a real-time setting, we might not care
+to synchronize, as in block, and we just need things when they are ready. Anything to do with gpu - ```async```
+will be involved. At least in Rust.
+
+Let's move on. We set up our CPU-side data. This is a simple vector addition, and I elected to make the data
+in a way that was easily verifiable as correct for humans. Input A and B are just vectors of 32-bit floats
+with values equal to their index. The correct result in the output vector should of course be double the
+index value then.
+
+Finally, we call ```initialize_gpu()``` and block on it. Let's go into that function!
+
+First we get an ```Instance```. The ```Instance``` is a wgpu context which we will use to get ```Adapter``` and
+```Surface```. The ```Adapter``` corresponds to your GPU. We specifically request the adapter with high performance.
+If you are on a system with more than one GPU, such as a laptop with an integrated GPU, which shares memory with
+the CPU and a more powerful dedicated GPU, it should try to get access to the dedicated GPU. We also request
+```None``` for ```compatible_surface```. Surfaces are what you would render to if you were doing graphics. Think
+of an image with extra steps which you could show on your display. If we don't need to do graphics, not having one
+is less work. It also means we can run on data center GPU's, which might not even have a display port. So we just
+get the ```Adapter```. We use the ```Adapter``` to get ```Device```, which will be our handle to the GPU
+from now on. Whereas the ```Adapter``` is more of a raw connection, where we can't do much with it, the
+```Device``` is a handle that has some guaranteed features. The ```Adapter``` tells us what features we can get.
+Once those features are guaranteed, it is much easier for wgpu to open up for more functionality with
+the ```Device```. We actually don't need the ```Adapter``` after we get the device,
+but I keep it around in the GPUHandles for you to tinker around with in auto-complete to see what it can
+do. We do need the ```Device``` though. We also need the ```Queue```. The ```Queue``` is where we
+can submit the work we want the GPU to do.
+
+Note that when defining our ```DeviceDescriptor``` for getting a ```Device``` that lives up to our needs
+our current requested ```features``` is ```wgpu::Features::empty()```. We just want the absolute basics.
+But we could request, or at least see whether we could get them, features like 16-bit floating point support.
+
+Now back to the ```main``` function!
+
+We now have our bundled GPU-related handles. Now we calculate how many threads we need to launch for our
+problem size. ```let element_count: usize = 100;```, so we need to launch AT LEAST 100 threads if each thread
+only processes one element of our problem. Which it does in our simplified case. Given that we would like to fill
+up our work groups, I have elected to use 32 threads per work group. ```let block_size: usize = 32;```.
+Given that the register pressure is likely very low for our shader, this should be no problem. Finally, we
+calculate how many blocks to launch. This simple calculation is found all of the place when doing
+GPGPU programming. ```let launch_blocks: u32 = ((element_count + block_size - 1) / block_size) as u32;```.
+The basic premise is that we add one element less than the full work group size and then use integer division
+to make sure we always have at least as many threads as we need. In the worst case of a work group size of 32,
+we will have a work group at the very end of the vectors with 31 idle threads doing nothing.
+
+Next up, we compile our shader code ```add_vectors.wgsl``` with ```create_shader_module()```.
+Compiling shaders is quite expensive, so if you are programming a bigger system than this, you might want to
+save the compiled code or do it as a build step and load it from disk when needed. Once we have compiled
+our shader code we can create a compute pipeline with a specific entry point. The entry point is just the function
+that will be called when dispatching the shader call later on. Once we have a ```ComputePipeline``` we can
+begin doing our bind group layouts. In CUDA you can pass device side pointers to your CUDA functions
+when dispatching. Or phrased differently, when using CUDA you can pass along memory addresses for buffers you have
+explicitly allocated on the GPU. When using the graphics APIs the most basic thing to do, if you are
+not going bindless, which is... well, don't worry about it, is to use bindings. There is a certain amount of bind
+slots available in a shader depending on the API and perhaps the system. What can be a bit tricky is the binding
+slot you declare on the CPU for buffer X, has to match the exact binding slot in the shader. E.g. if you bound
+your input buffer to binding slot 0 on the CPU, it has to be bound to binding slot 0 in your shader code.
+Additionally, the compiler will complain if you don't use that buffer in the shader. Finally, you can have multiple
+sets of bindings in the same shader. These are called bind groups and each has N binding slots.
+
+When I created the ```GPUVector```s earlier, the ```new``` function allocated a storage buffer, which is visible
+to the shader and transferred the contents of the given vector to the GPU. This can be done more effectively, but
+it's a nice and easy way to start things off. We don't have to keep track of whether we remembered to transfer
+our data to the GPU or not, which makes sure we don't use initialized data. In the case of the output vector, we
+have also allocated a ```staging_buffer``` to more explicitly transfer data back to the CPU. This ```Buffer```
+has also been flagged as readable from the CPU.
+
+The ```storage_buffer```s we have created, when creating the ```GPUVector```s from before, can be bound. I
+add these binding references to a vector and send them to a convenience function ```create_bind_group()```, which
+binds the array of bindings in order. Do note that we don't specify what can and cannot be done at this step. It
+was specified at the creation of the ```storage_buffer```s and it will be specificed locally in the binding of
+the buffers in the shader.
+
+Once we have our bindings set up, we create a ```CommandEncoder```, which we get from ```Device```. 
+The command encoder is a buffer of commands. We can add stuff like render and compute operations, their sort of like
+a collection of operations and state, and transfer operations. The command encoder needs to be finished, before it
+is submitted to the queue. Remember the ```Queue``` we got earlier? This is what it was for. We submit
+finished ```CommandEncoder```s to our ```Queue```, which submits the jobs to the GPU. For this specific program
+we add two commands to the ```CommandEncoder```. We dispatch our compute shader, enclosed in a ```ComputePass``` and
+launch the appropriate number of threads. Note also the ```label``` field. This field permeates wgpu usage. It is
+mostly for debugging. It helps us identify what is causing an issue. Once we have finished our ```ComputePass```,
+due to it going out of scope, we add a transfer operation. We use the ```staging_buffer``` on our ```output```
+vector, to read the output back to the CPU. Then we finish our ```CommandEncoder``` and submit it
+to the ```Queue```.
+
+We then setup a ```oneshot_channel```. Don't worry too much about this. It is a connection which can only be used
+for sending data once. We map the ```staging_buffer``` and send its data using the sender/receiver pair. Once
+we have done this ```map_async``` call, we wait for the GPU to be finish all operations currently in its queue.
+Once it has finished we block on the receiver. Until the receiver sends the ```Ok``` signal we wait. Once we get
+it we retrieve the data. This is raw data in bytes, ```u8```, which we recast to the type we know it is, which in
+this case is ```f32```. We do a bit of clean up, and don't you know it, that's the program!
+
+<figure markdown>
+![Image](../figures/intro_to_gpu_vector_add_results.png){ width="600" }
+<figcaption>
+Adding our two vectors, it should be easily verifiable that it is correct.
+</figcaption>
+</figure>
+
+Maybe now might be a good time to go back to the code and try to run through it yourself again.
 
 ### Remove the loop where, you say?
 Vector add function, remove one loop

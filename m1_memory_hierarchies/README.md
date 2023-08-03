@@ -160,7 +160,7 @@ The internet can in this way be thought of as yet another, even slower, componen
 Not much good comes from the internet. Try to avoid it. Except for this guide of course, which is very helpful.
 
 <figure markdown>
-![Image](../figures/welcometotheinternet.jpg){ width="500" }
+![Image](../figures/welcometotheinternet.jpg){ width="400" }
 <figcaption>
 <a href="http://www.quickmeme.com/meme/3rmoyk">
 Image credit </a>
