@@ -447,12 +447,94 @@ made better sense, but keep thinking in these terms, implement different version
 only way to be sure! Once you have made a couple of different versions and done simple timing you can always
 add in a profiler, m4 has got you covered!
 
-## 3️⃣ Warp Divergence, Occupancy and Overlap
-If statements, and warp divergence, softened cost
-Occupancy and Overlap
+## 3️⃣ Divergence, Overlap and Occupancy
+One statement I tried to sweep under the rug in the last section was - "each thread in a work group executes in lock step".
+It is highly desirable for a work group to have each thread executing in lock step. That is each thread is executing the
+same line in your program. If you have branches, like if-statements, some threads might execute path A and some threads
+might execute path B. This will lead to divergence.
 
-## 3️⃣ Synchronization and Shared Memory
-A small code sample from wgsl
+<figure markdown>
+![Image](../figures/work_group_divergence.png){ width="700" }
+<figcaption>
+An if-statement causes a work group to diverge into two.
+<a href="https://developer.nvidia.com/blog/using-cuda-warp-level-primitives/">
+Image credit </a>
+</figcaption>
+</figure>
+
+As you can imagine, this expands the timeline of executing the code compared to a non-diverging execution.
+But if you were within a workgroup where all ```threadIdx.x < 4``` there wouldn't be an issue.
+Thankfully, recent hardware takes less of a performance hit when work groups diverge.
+
+Once you have most of your work groups not diverging, are you sure your threads aren't just sitting around
+waiting? Whenever a thread wants to load a piece of data all the way from memory, it can take quite a long
+while to retrieve. If however, you have dispatched enough work, the threads waiting around for memory
+can be swapped out for another work group which might be able to do some work, once this work group has time
+for a nap, like when it is also requesting data from memory, the first work group can be swapped back in,
+when the requested data has, hopefully, arrived. Without this overlap, GPU programs are likely to seem
+a lot slower than they need to be. If however, you launch a lot more threads than there are physical
+execution units, you are likely to see this overlap resulting in higher occupancy. The higher the occupancy
+the more time a physical execution unit spends on doing actual work and not just stalling until everything
+is ready. So you can either launch a lot of independent work, or use a lot of elements in your data.
+Like really big matrices! 
+
+In machine learning terms, if you have pipelined and made your computational graph
+relatively indpendent, you might see a big increase in occupancy by choosing fewer layers, but using very
+big layers.
+
+## 3️⃣ Shared Memory and Synchronization
+Just two final pieces are missing before we go back to memory hierarchies. Shared memory and synchronization.
+GPU's have more programmable pieces of the memory hiearchy, such as sharing directly between threads, sharing
+between work groups and more, but WGSL has the primitives for shared memory, which is the only one
+I will present for you. Shared memory is a programmable section of the L1 cache. If a cache miss, resulting
+in retrieving data all the way from memory costs 100's of cycles, quite often somewhere around 250-300,
+accessing data from shared memory costs around 10 cycles. This is very useful if each piece of data is
+accessed more than once. It could for example be overlaps in convolutions or storing preliminary results
+in shared memory, for the work group to finally reduce the results internally in the workgroup using
+shared memory to share the results between the threads.
+
+Typically using shared memory, you will first see a section where each thread loads one or more pieces
+of data into shared memory, followed by a synchronization primitive. This synchronization primitive
+is available in wgsl and is called ```workgroupBarrier();```. It is available in most shader languages,
+although it will likely be named something else. It is a barrier ensuring that all threads in the
+workgroup will stall and wait until each thread has signalled that it is ready to proceed. This
+is very handy when you are loading data into shared memory for reuse between the threads. A small
+example snippet -
+
+```rust
+var<workgroup> shared_data: array<f32, BLOCK_SIZE>;
+
+@compute @workgroup_size(32, 1, 1) 
+fn workgroup_phase(
+    @builtin(workgroup_id) group_id: vec3<u32>, 
+    @builtin(local_invocation_id) local_id: vec3<u32>,
+    ) {
+    var tid: u32 = local_id.x;
+    if (group_id.x == 0u) {
+        // In this first section we can use all 32 threads
+        var elements_left: u32 = sum_uniform.block_count;
+        var i: u32 = tid;
+        var sum_value: f32 = 0.0;
+        // How do we handle the odd case?
+        while (BLOCK_SIZE < elements_left) {
+            sum_value += data[i];
+            elements_left -= BLOCK_SIZE;
+            i += BLOCK_SIZE;
+        }
+        if (0u < elements_left) {
+            if(tid < elements_left) {
+                sum_value += data[i];
+            }
+        }
+
+        shared_data[tid] = sum_value;
+        workgroupBarrier();
+    }
+```
+As usual, this code isn't very well tested and there might be some cases where it isn't fully functional,
+but you can see the primitives for declaring shared memory, accessing it and synchronizing.
+Now back to the memory hierarchies!
+
 
 ## 5️⃣ Further Reading
 [The GPU Memory Hierarchy](https://www.cs.cmu.edu/afs/cs/academic/class/15869-f11/www/lectures/08_mem_hierarchy.pdf),
@@ -468,3 +550,6 @@ for GPUs.
 
 If you want to learn more about wgpu, this is the most used tutorial -
 [Learn Wgpu](https://sotrh.github.io/learn-wgpu/).
+
+To learn more about
+[optimzing shaders with shared memory](https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#shared-memory).
