@@ -476,7 +476,7 @@ a lot slower than they need to be. If however, you launch a lot more threads tha
 execution units, you are likely to see this overlap resulting in higher occupancy. The higher the occupancy
 the more time a physical execution unit spends on doing actual work and not just stalling until everything
 is ready. So you can either launch a lot of independent work, or use a lot of elements in your data.
-Like really big matrices! 
+Like really big matrices!
 
 In machine learning terms, if you have pipelined and made your computational graph
 relatively indpendent, you might see a big increase in occupancy by choosing fewer layers, but using very
@@ -531,10 +531,10 @@ fn workgroup_phase(
         workgroupBarrier();
     }
 ```
+
 As usual, this code isn't very well tested and there might be some cases where it isn't fully functional,
 but you can see the primitives for declaring shared memory, accessing it and synchronizing.
 Now back to the memory hierarchies!
-
 
 ## 5️⃣ Further Reading
 [The GPU Memory Hierarchy](https://www.cs.cmu.edu/afs/cs/academic/class/15869-f11/www/lectures/08_mem_hierarchy.pdf),
