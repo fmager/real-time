@@ -126,7 +126,7 @@ This creates a complete and total copy of ```some_tensor```. If we manipulate or
 ```copy_of_some_tensor``` will not be affected as they no longer have anything to do with each other.
 
 Next, take a look at the ```new``` function. In it we create a new ```Tensor2D``` by creating a new
-```Vec<f32>``` with size ```row_count * column_count```. Each element is given a value of ```scale*index```.
+```Vec<f32>``` with size ```row_count*column_count```. Each element is given a value of ```scale*index```.
 This is just for testing purposes so I found it useful for this to not be all zeros and not all random numbers.
 This allows us to verify that the GPU implementations are functionally equivalent to the CPU implementations.
 
