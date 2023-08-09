@@ -110,7 +110,7 @@ We are going to create a data type which will hold the data our operators consum
 Let's call it ```Tensor2D```. Our 2D tensor will actually be a simple piece of 1 dimensional memory under the
 hood and we will keep track of the number of rows and columns to find out how to access each piece of data.
 If you are in the root directory for ```computational_graphs``` go to ```src/shared/tensor_2d.rs``` or
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m1_memory_hierarchies/code/computational_graphs/src/shared/tensor_2d.rs).
+[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/tensor2d.rs).
 
 Start by taking a look at the definition of the ```Tensor2D``` struct at the very top. The ```derive``` stuff
 at the top is asking some macros to automatically implement (derive) some traits (interfaces and behavior)
