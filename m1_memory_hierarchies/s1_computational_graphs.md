@@ -61,7 +61,7 @@ from the Python code above and then optimizes that code to run faster and/or use
 
 So why does it need the graph? That is something the rest of this module will try to answer,
 along with a really basic introduction something called fusion, where layers can be combined
-to be more efficient. 
+to be more efficient.
 
 ## What is a graph?
 A graph is [a type of structure](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)),
@@ -97,7 +97,7 @@ at fusion, new operators will be produced, linear-ReLU and linear-ReLU-softmax. 
 <figure markdown>
 ![Image](../figures/example_computational_graph.png){ width="300" }
 <figcaption>
-An example computational graph. 
+An example computational graph.
 </figcaption>
 </figure>
 
@@ -105,7 +105,7 @@ The code for the rest of the module can be found at ```m1_memory_hierarchies/cod
 [online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m1_memory_hierarchies/code/computational_graphs).
 
 ## What's in a tensor
-First of all we are going to start on the CPU. 
+First of all we are going to start on the CPU.
 We are going to create a data type which will hold the data our operators consume on the CPU.
 Let's call it ```Tensor2D```. Our 2D tensor will actually be a simple piece of 1 dimensional memory under the
 hood and we will keep track of the number of rows and columns to find out how to access each piece of data.
@@ -114,7 +114,7 @@ If you are in the root directory for ```computational_graphs``` go to ```src/sha
 
 Start by taking a look at the definition of the ```Tensor2D``` struct at the very top. The ```derive``` stuff
 at the top is asking some macros to automatically implement (derive) some traits (interfaces and behavior)
-automatically. ```Clone``` means we can call a Tensor2D element as below - 
+automatically. ```Clone``` means we can call a Tensor2D element as below -
 
 ```rust
 let some_tensor: Tensor2D = Tensor2D::new(0.1, 8, 8);
@@ -126,7 +126,7 @@ This creates a complete and total copy of ```some_tensor```. If we manipulate or
 ```copy_of_some_tensor``` will not be affected as they no longer have anything to do with each other.
 
 Next, take a look at the ```new``` function. In it we create a new ```Tensor2D``` by creating a new
-```Vec<f32>``` with size ```row_count * column_count```. Each element is given a value of ```scale * index```.
+```Vec<f32>``` with size ```row_count * column_count```. Each element is given a value of ```scale*index```.
 This is just for testing purposes so I found it useful for this to not be all zeros and not all random numbers.
 This allows us to verify that the GPU implementations are functionally equivalent to the CPU implementations.
 
@@ -202,7 +202,7 @@ it locally, don't worry, I got you covered!
 ![Image](../figures/linear_layer_cpu_benchmark_stack.png){ width="800" }
 <figcaption>
 This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
-Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively. 
+Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 </figcaption>
 </figure>
 
@@ -234,7 +234,7 @@ let loop_range: Vec<usize> = (0..101).collect();
 ```
 
 You can zoom in on these parts of the graph by modifying ```lib.rs``` to just test values in these
-interesting ranges. Like right around the size of the last bend. 
+interesting ranges. Like right around the size of the last bend.
 Another thing to note is that only the versions of the linear operator that uses local accumulation
 significantly outperform the naive version. One surprise is that keeping the bias outside of the
 matrix-matrix loop, is better performing than moving the bias in. Sometimes it really is better to
@@ -242,7 +242,6 @@ keep things simple. So from now on, the
 ```linear_layer_local_accumulation``` version will be the preferred one.
 
 ### ReLU
-
 
 ### Softmax
 
