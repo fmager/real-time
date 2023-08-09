@@ -177,9 +177,11 @@ out what is best. As you will see in the function ```linear_layer_preallocated_i
 is not different in any way.
 
 Next up is the function ```linear_layer_local_accumulation```. Now it's memory hierarchy time! While I didn't
-get rid of the strided memory access of the weights tensor, I elected to not accumulate the result of each
-output element directly in the output tensor. Instead I accumulate in a local variable, which will hopefully
-be kept in a register.
+get rid of the strided memory access of the weights tensor, I removed some of that control flow overhead,
+by linearizing the bias part. Now it is just a single for-loop, instead of two, because the dimensions of
+the output and bias tensors match, and there are no transformations to be made. So we get to just iterate
+through all elements. I also elected to not accumulate the result of each output element directly in the output
+tensor. Instead I accumulate in a local variable, which will hopefully be kept in a register.
 
 Think back! Where is the register located? And why can it be problematic to accumulate in the output tensor?
 
@@ -201,6 +203,7 @@ it locally, don't worry, I got you covered!
 <figure markdown>
 ![Image](../figures/linear_layer_cpu_benchmark_stack.png){ width="800" }
 <figcaption>
+Benchmarking linear operator functions on the CPU.
 This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
 Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 </figcaption>
@@ -238,10 +241,40 @@ interesting ranges. Like right around the size of the last bend.
 Another thing to note is that only the versions of the linear operator that uses local accumulation
 significantly outperform the naive version. One surprise is that keeping the bias outside of the
 matrix-matrix loop, is better performing than moving the bias in. Sometimes it really is better to
-keep things simple. So from now on, the
-```linear_layer_local_accumulation``` version will be the preferred one.
+keep things simple. So from now on, the ```linear_layer_local_accumulation``` version will be the preferred one.
 
 ### ReLU
+Next up, we have the ReLU function, which is embarrasingly simple. It returns the maximum of two numbers.
+One of the numbers is zero. Done.
+
+So, move your way down to the ```relu``` and ```relu_preallocated``` functions. Here I also completely flatten
+out the two dimensional tensor to save on the amount of time spent on control flow vs. actual computation.
+But then we get a new variant. The ```relu_inplace``` function. Because it is possible to do the ReLU operation
+directly on the input array, let's try that variant as well and see what the effect is. Finally, we have
+```relu_inplace_inline```. This function is definitely small enough that it might benefit from inlining.
+
+So now go back into the same folder where you found the linear benchmark output and look at what your computer
+could crunch out. Alternatively, if you couldn't run it, I got you covered here.
+
+<figure markdown>
+![Image](../figures/relu_cpu_stack.png){ width="800" }
+<figcaption>
+Benchmarking ReLU operator functions on the CPU.
+This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
+Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
+</figcaption>
+</figure>
+
+Note the huge difference between the naive version and the other ones. Why do you think there is
+this huge difference?
+
+You guessed it! All of the other functions have either preallocated the output matrix, or do the
+operations in-place. Since the ReLU operation is so simple, it becomes easily dominated by allocation
+and memory costs. The difference between the preallocated version and the inplace version is neglible. It is
+still doing 1 read and 1 write after all. But we see the inline version absolutely dominating. First, we saw
+the allocation dominate, then the cost of the function call itself as it is apparently quite costly for this
+simple function. Go back and look at the how much was gained by inlining the much more complex linear operator
+in the previous benchmark! Go on!
 
 ### Softmax
 

@@ -1,5 +1,4 @@
-# 🧬4️⃣ Tips and Tricks in Real-Time Systems
-
+# 3️⃣ Tips and Tricks in Real-Time Systems
 * Events
 * Key and Mouse events
 * Event Loops
@@ -35,11 +34,11 @@
 * Static/Dynamic Dispatch - dyn, enum, trait
 * The Markov Chain
 * If using recursion and risking stack overflow, use a loop and a queue
-* If you can, always prefer ana array over more complicated structures
+* If you can, always prefer an array over more complicated structures
 
-## Projects
-This whole module is for levels 3 and 4.
-Specifically, all of the tips and tracks are for level 3, where the projects themselves are meant for level 4.
+_________________
+
+# 🧬4️⃣ Projects
 
 ## How to create real time systems, good frameworks for the different fields and project proposals
 
