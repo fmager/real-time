@@ -63,7 +63,7 @@ So why does it need the graph? That is something the rest of this module will tr
 along with a really basic introduction something called fusion, where layers can be combined
 to be more efficient.
 
-## What is a graph?
+## What is a Graph?
 A graph is [a type of structure](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)),
 for our needs, a data structure. In s0 there is a more elaborate examination of the concept for level 3.
 So for right now, just give the link to graph's wiki page a quick look. You should get the gist just by
@@ -74,7 +74,7 @@ The graph we will concern ourselves with will be defined as being one way, unidi
 node can point to at most one other node. This reduces the entire graph to just being a list of operations
 which will be executed sequentially.
 
-## The network we want to support
+## The Network We Want to Support
 For illustrating how computational graphs can benefit your code we don't really need to support
 a lot of operators. We need transfers to and from the GPU (eventually), a linear operator
 (matrix-matrix multiplication followed by an addition), a ReLU operator (single call to a max function with 0)
@@ -104,7 +104,7 @@ An example computational graph.
 The code for the rest of the module can be found at ```m1_memory_hierarchies/code/computational_graphs/``` or
 [online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m1_memory_hierarchies/code/computational_graphs).
 
-## What's in a tensor
+## What's in a Tensor2D?
 First of all we are going to start on the CPU.
 We are going to create a data type which will hold the data our operators consume on the CPU.
 Let's call it ```Tensor2D```. Our 2D tensor will actually be a simple piece of 1 dimensional memory under the
@@ -136,7 +136,7 @@ elements, such as we do when setting all of the elements to some value or accumu
 we can do away with the two dimensional stuff. Keeping up that illusion unneccesarily induces extra cost
 in the form of more time and code spent on control flow statements like ```for-loops``` and ```if-statements```.
 
-## Implementing operators
+## Implementing Operators
 In this section I will be going through various implementations of the three operators and their fused variants
 and show benchmarks to show you how big of a performance impact these sort of first guess optimizations can have
 even without profiling or microoptimizations.
@@ -269,33 +269,97 @@ Note the huge difference between the naive version and the other ones. Why do yo
 this huge difference?
 
 You guessed it! All of the other functions have either preallocated the output matrix, or do the
-operations in-place. Since the ReLU operation is so simple, it becomes easily dominated by allocation
+operations inplace. Since the ReLU operation is so simple, it becomes easily dominated by allocation
 and memory costs. The difference between the preallocated version and the inplace version is neglible. It is
-still doing 1 read and 1 write after all. But we see the inline version absolutely dominating. First, we saw
+still doing one read and one write after all. But we see the inline version absolutely dominating. First, we saw
 the allocation dominate, then the cost of the function call itself as it is apparently quite costly for this
 simple function. Go back and look at the how much was gained by inlining the much more complex linear operator
 in the previous benchmark! Go on!
 
+Inplace operations are also available in PyTorch. The ReLU actually has a flag for the
+[inplace version](https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html).
+
 ### Softmax
+Now let's look at the softmax operator. It isn't that complicated, except as we'll see when we talk about
+the GPU version, the max and sum values are actually non-trivial to implement on a GPU using more than a
+single work group (a group of threads).
+
+Anyways, head down to ```softmax``` and ```softmax_preallocated```. In ```softmax_preallocated``` we
+have 3 distinct sections. The first section is finding the global maximum value. Once that is found
+a modified sum reduction is performed using the max value. Finally the sum and max are used to calculate
+an offset value which is used to modify all of the values in place. The sum of all the values should
+now be 1. Note that we only use one for-loop for all of the elements as softmax doesn't care
+about dimensions. This allows us once again to cut down on control flow overhead. Once again,
+we create an inplace and an inline-inplace version. Try and look at the code for a second
+and go through why we can an unproblematic inplace version of softmax.
+
+Got it?
+
+Finally, checkout the results in your output folder! Or if you couldn't run them locally I have
+some here -
+
+<figure markdown>
+![Image](../figures/softmax_cpu_stack.png){ width="800" }
+<figcaption>
+Benchmarking Softmax operator functions on the CPU.
+This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
+Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
+</figcaption>
+</figure>
+
+As can be seen, the inplace and inline versions beat the naive and preallocated versions by an extremely wide margin.
+The different between the inplace and inline seems quite small, but the inplace version seems to consistently beat
+the inline version.
 
 ### Fused
+Finally, let's see what we can do with combining the operators with fusion! First take a look at the functions
+```linear_layer_local_accumulation_relu``` and ```linear_layer_optimized_relu```. In these two I combine
+the linear operator with the ReLU operator. In the local accumulation variant, the bias and ReLU are handled
+in their own distinct loop (loop fission). In the optimized variant, they are in the same loop as the
+matrix-matrix multiplication.
 
-## Data dependencies and control dependencies
-Working on a graph
-Contatenation (multiple writes to the same node)
-Do the dimensions fit
+Now let's add in the softmax operator. Take a look at ```linear_relu_softmax_fused_fission``` and
+```linear_relu_softmax_fused```. In the fission version, the max value is found in the same loop as
+the bias and ReLU computation. In fused version, bias, ReLU and max are all moved into the ending of the
+matrix-matrix multiplication loop.
 
-## Testing the correctness of the nodes
-Testing in Rust
+Finally, checkout the results in your output folder! Or if you couldn't run them locally I have
+some here -
+
+<figure markdown>
+![Image](../figures/linear_relu_softmax_fused_cpu_stack.png){ width="800" }
+<figcaption>
+Benchmarking fused operators functions on the CPU.
+This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
+Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
+</figcaption>
+</figure>
+
+As can be seen the naive version, which is just successive function calls to linear, ReLU and softmax operators
+is massively outperformed by the fused linear-relu-softmax operators, with the fissioned version with bias
+outside of the matrix-matrix loop winning out. Of course the linear-relu version are the fastest,
+as they don't do softmax, but between the two of them it is actually the one with bias in the matrix-matrix
+loop that seems to consistently win.
+
+It's hard to make a general conclusion based on that, without going a lot deeper, but in any case,
+you should always test and measure! Now, you can either continue on reading the level 3 material
+or go to the next section to get a general introduction to GPUs. We will be using the GPU on
+your laptop, with no CUDA involved, to see if we can make this even faster.
 
 _________________
 
-## 3️⃣ Compiler verifications and the restrict keyword
-Perspective back to aliasing and graphs
+## 3️⃣ Testing Operators
+All of the operators have been tested to be numerically equivalent. Rust has some nice
+test facilities to help with this. If you look at the file next to ```tensor2d.rs```,
+called ```tensor2d_test.rs```, you can see a bunch of tests. This used to be in
+```tensor2d.rs```, but I moved it to this file during a clean up, because the file
+was getting massive.
 
-## 3️⃣ Intermediate representations
-
-## 3️⃣ Graph representations
+The generic way to run these tests is writing ```cargo test``` from the same spot you
+would otherwise write ```cargo run --release```. This works just fine for all of the
+CPU based tests. The testing system launches lots of tests in parallel to speed up
+the amount of time it takes to run the tests. As we will see later, this parallel
+test launch can create some issues when testing our GPU functions.
 
 ## 🧬3️⃣ Graphs in Graphics/GPU Programming
 Computational graphs are even making their way into the way you can program the GPU!
