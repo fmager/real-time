@@ -209,9 +209,10 @@ Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 </figcaption>
 </figure>
 
+Huh, it seems our loop fission didn't really matter in the grand scheme of things!
 The graph is quite high resolution to allow you to zoom in. The X-axis is the size of the tensors. Only NxN matrices
-are used. The Y-axis is time in nanoseconds averaged over 10 runs, which is a bit on the low side. Note the how the
-lines are piece-wise linear. There are two points where all of the lines get quite a bit slower and scale worse
+are used. The Y-axis is time in nanoseconds averaged over 1000 runs. Note how the
+lines are piecewise linear. There are two points where all of the lines get quite a bit slower and scale worse
 with the size of the tensors. Why do you think that is?
 
 You guessed it! You are seeing the size of the tensor becoming too big for the different caches! It looks like the
@@ -270,10 +271,11 @@ this huge difference?
 
 You guessed it! All of the other functions have either preallocated the output matrix, or do the
 operations inplace. Since the ReLU operation is so simple, it becomes easily dominated by allocation
-and memory costs. The difference between the preallocated version and the inplace version is neglible. It is
-still doing one read and one write after all. But we see the inline version absolutely dominating. First, we saw
-the allocation dominate, then the cost of the function call itself as it is apparently quite costly for this
-simple function. Go back and look at the how much was gained by inlining the much more complex linear operator
+and memory costs. The difference between the preallocated version and the inplace version is not as big, but
+still substantial enough to warrant the optimization. Inlining on the other hand didn't make a big difference
+in this case.
+It is still doing one read and one write after all. 
+Go back and look at the how much was gained by inlining the much more complex linear operator
 in the previous benchmark! Go on!
 
 Inplace operations are also available in PyTorch. The ReLU actually has a flag for the
@@ -307,9 +309,9 @@ Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 </figcaption>
 </figure>
 
-As can be seen, the inplace and inline versions beat the naive and preallocated versions by an extremely wide margin.
-The different between the inplace and inline seems quite small, but the inplace version seems to consistently beat
-the inline version.
+As can be seen, the inplace and inline versions beat the naive and preallocated versions by an extremely wide
+margin. The different between the inplace and inline seems quite small, but the inplace version seems to
+consistently beat the inline version.
 
 ### Fused
 Finally, let's see what we can do with combining the operators with fusion! First take a look at the functions
@@ -338,8 +340,8 @@ Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 As can be seen the naive version, which is just successive function calls to linear, ReLU and softmax operators
 is massively outperformed by the fused linear-relu-softmax operators, with the fissioned version with bias
 outside of the matrix-matrix loop winning out. Of course the linear-relu version are the fastest,
-as they don't do softmax, but between the two of them it is actually the one with bias in the matrix-matrix
-loop that seems to consistently win.
+as they don't do softmax, but between the two of them it is again the version without the bias calculation
+at the end of the matrix-matrix loop which wins ever so slightly.
 
 It's hard to make a general conclusion based on that, without going a lot deeper, but in any case,
 you should always test and measure! Now, you can either continue on reading the level 3 material

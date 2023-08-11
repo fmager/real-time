@@ -30,6 +30,10 @@ Rust and a GPU API abstraction layer called [wgpu](https://wgpu.rs/). You don't 
 right now, but it means that you should be able to run all code, including GPU code, on your platform, even if
 it's made by Apple or AMD.
 
+In general, I will be using terminology specific to the compute part of the graphics API's and I will
+keep to ```wgpu``` and ```wgsl``` terminology. You might see significant differences in terminology
+if you follow up this guide with some ```CUDA``` programming.
+
 ## GPU Hardware
 First off, when dealing with the GPU, you will have to manipulate the GPU from the CPU with commands
 like "allocate this much memory", "transfer this memory from the CPU to GPU", "execute this shader/kernel" and
@@ -145,6 +149,8 @@ This makes for faster transfers, but probably slower overall computation. This h
 recently with most consumer grade GPU's having around 8 GB of memory and locally run neural networks
 like diffusion models easily being able to use more than that. A desktop GPU with more than 16GB of RAM would
 probably still outperform an integrated graphics card with 16GB of RAM available, but it would be very expensive.
+
+_________________
 
 ## 3️⃣ Introducing wgpu and wgsl
 The guide will for all GPU purposes make use of the graphics library wgpu, but only the compute parts.

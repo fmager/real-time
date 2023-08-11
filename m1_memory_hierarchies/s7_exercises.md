@@ -12,6 +12,7 @@ Extend the computational graph with an inplace operation for the ReLU operator (
 
 The following list is sorted by expected complexity - do at least 1
 
+* Implement a shader cached version of the immediate mode GPU operators and add it to the benchmark
 * Implement a version of the linear layer functions which uses shared memory and tiling
 * Add reusable buffers to the computational graph system
 * Change the ```Tensor2DGPU``` to have switchable access details on its buffers. It should be able to

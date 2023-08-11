@@ -4,15 +4,17 @@ Sum and Max functions wildly inefficient
 Currently allocating a staging buffer too much
 The graph-loop's amount of transfers are a bit off
 
+## Transfers
+
 ## Seeing the GPU memory hierarchy - caches, shared memory and RAM
 
 ## Graph compilers and OP codes
 
 ## Swapping operators for fused versions
 
-## Building a graph compiler
+## Building a Graph Compiler
 
-## Testing the graph compiler
+_________________
 
 ## 3️⃣ Metaprogramming
 Programs are just strings!
