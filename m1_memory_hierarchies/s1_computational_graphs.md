@@ -273,8 +273,7 @@ You guessed it! All of the other functions have either preallocated the output m
 operations inplace. Since the ReLU operation is so simple, it becomes easily dominated by allocation
 and memory costs. The difference between the preallocated version and the inplace version is not as big, but
 still substantial enough to warrant the optimization. Inlining on the other hand didn't make a big difference
-in this case.
-It is still doing one read and one write after all. 
+in this case. It is still doing one read and one write after all.
 Go back and look at the how much was gained by inlining the much more complex linear operator
 in the previous benchmark! Go on!
 

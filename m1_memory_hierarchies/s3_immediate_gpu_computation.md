@@ -28,7 +28,8 @@ There are three central files for this. ```src::shared::tensor2d_gpu.rs```,
 ```src::shared::shaders::linear_layer.wgsl``` and ```src::immediate::nodes.rs```.
 If you don't have them locally you can them
 [here](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/tensor2d_gpu.rs),
-[here](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/shaders/linear_layer.wgsl) and
+[here](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/shaders/linear_layer.wgsl)
+and
 [here](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/immediate/nodes.rs)
 respectively.
 
