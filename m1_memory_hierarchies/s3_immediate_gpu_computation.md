@@ -109,7 +109,7 @@ along with an inline implementation in ```shaders::relu_inline.wgsl``` or
 <figure markdown>
 ![Image](../figures/relu_gpu_immediate.png){ width="800" }
 <figcaption>
-Benchmarking ReLU operators on the GPU. If there is no underscore between the operators they were fused.
+Benchmarking ReLU operators on the GPU.
 This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
 Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 </figcaption>
