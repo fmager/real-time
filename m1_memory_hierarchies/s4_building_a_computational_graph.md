@@ -31,7 +31,8 @@ Newtons per second and meters per second. We can even ensure that only certain o
 for a ```NewtonsPerSecond``` type. One of those operations could be a
 ```GarbblediGook(&self, meters_per,_second: &MetersPerSecond) -> NewtonMetersPerSecondPerSecond```
 function (sorry, I'm not a physicist), which would nudge us towards correct type usage. Getting back to
-our graph system, in much the same way, our ```GraphRunner``` found in ```src::graph::graph_runner.rs``` can take in a ```Vec<GraphOperator>``` and output a verified ```Vec<Node>``` which contains not only
+our graph system, in much the same way, our ```GraphRunner``` found in ```src::graph::graph_runner.rs```
+can take in a ```Vec<GraphOperator>``` and output a verified ```Vec<Node>``` which contains not only
 verified data and dimensions, but additional information. So what happens for the ```HostToDevice``` and
 ```DeviceToHost``` on the CPU is basically just dimension verification. Just keeping track of which buffer
 goes where. You can almost think of it as a passthrough operation. It is used when verifying the
@@ -79,7 +80,8 @@ and allocation. Start by perusing the relevant files - ```src::graph::nodes_gpu.
 ```graph_runner_gpu.rs```. The validation is the exact same.
 
 Once again, the GPU graph runner, takes a vector of nodes, it validates the correctness, it translates
-the nodes to its own intermediate representation (see below), and allocates any and all buffers. It uses the indices to share data between operators.
+the nodes to its own intermediate representation (see below), and allocates any and all buffers.
+It uses the indices to share data between operators.
 
 ```rust
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
@@ -139,7 +141,7 @@ One node writing to multiple buffers is fine.
 <figure markdown>
 ![Image](../figures/graph_this_is_also_fine.png){ width="400" }
 <figcaption>
-One node reading from multiple buffers is fine. The dashed line is a synchronization barrier. 
+One node reading from multiple buffers is fine. The dashed line is a synchronization barrier.
 Nodes A and B can write to buffers, node C just has to be sure that nodes A and B are done before reading.
 </figcaption>
 </figure>
