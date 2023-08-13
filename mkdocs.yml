@@ -85,8 +85,7 @@ nav:
     - S3 - Immediate GPU Computation: m1_memory_hierarchies/s3_immediate_gpu_computation.md
     - S4 - Building a Computational Graph: m1_memory_hierarchies/s4_building_a_computational_graph.md
     - S5 - Computational Graph Compilers: m1_memory_hierarchies/s5_computational_graph_compilers.md
-    - S6 - Outro: m1_memory_hierarchies/s6_outro.md
-    - S7 - 4️⃣ Exercises: m1_memory_hierarchies/s7_exercises.md    
+    - S6 - 4️⃣ Exercises: m1_memory_hierarchies/s6_exercises.md    
   - M2 - Concepts in Parallelism:
     - m2_concepts_in_parallelism/README.md
   - M3 - Types:
