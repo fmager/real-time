@@ -70,7 +70,7 @@ Ok, so we just saw some results previously. I am mostly concerned with showing y
 I probably wouldn't be benchmarking on a laptop, but there a number of caveats that might make the benchmarks
 look slightly different. Some of these I might fix if/when I get the time, some are left as potential exercises,
 as again, this is more of an introduction to a bunch of concepts, and you get the point at this point hopefully.
-Point. 
+Point.
 
 Anyways, the ```Tensor2DGPU``` currently allocates a staging buffer, even for the ones that don't need it.
 If this was made optional, immediate mode computation would do an allocation less, so would all of the other
@@ -115,11 +115,11 @@ makes our code so much more complex, but it allows us a great amount of flexibil
 found out we were running on a GPU with a much bigger L1 cache, we might change how we
 handled shared memory programming. If we were doing a render graph with a number of image-based
 single pixel operations such as tone mapping, changing hues or saturation, we might use op codes
-to merge these several different calls, keeping the data as close to the registers as possible. 
+to merge these several different calls, keeping the data as close to the registers as possible.
 
 ## 5️⃣ Further reading
-[Fun and hackable tensors in Rust](https://getcode.substack.com/p/fun-and-hackable-tensors-in-rust)    
-[Massively Parallel Fun with GPUs: Accelerating Tensors in Rust](https://getcode.substack.com/p/massively-parallel-fun-with-gpus)  
+[Fun and hackable tensors in Rust](https://getcode.substack.com/p/fun-and-hackable-tensors-in-rust)  
+[Massively Parallel Fun with GPUs](https://getcode.substack.com/p/massively-parallel-fun-with-gpus)  
 [Compute Shader Glossary](https://github.com/googlefonts/compute-shader-101/blob/main/docs/glossary.md)  
 [Torch.fx](https://pytorch.org/docs/stable/fx.html)  
 [torch.compile](https://pytorch.org/docs/stable/generated/torch.compile.html)  
