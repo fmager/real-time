@@ -4,7 +4,7 @@ Go into the file corresponding to each function being called in the ```main``` f
 and read all of the comments in order.
 The code can also be found
 <!-- markdownlint-disable -->
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m0_introduction/code/less_basic_concepts).
+[online](https://github.com/absorensen/the-guide/tree/main/m0_introduction/code/less_basic_concepts).
 <!-- markdownlint-restore -->
 
 # Supplementary Comments

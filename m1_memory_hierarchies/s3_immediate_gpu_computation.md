@@ -27,10 +27,10 @@ a bit like what is described in the level 3 section of m1::s2.
 There are three central files for this. ```src::shared::tensor2d_gpu.rs```,
 ```src::shared::shaders::linear_layer.wgsl``` and ```src::immediate::nodes.rs```.
 If you don't have them locally you can them
-[here](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/tensor2d_gpu.rs),
-[here](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/shaders/linear_layer.wgsl)
+[here](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/tensor2d_gpu.rs),
+[here](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/shaders/linear_layer.wgsl)
 and
-[here](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/immediate/nodes.rs)
+[here](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/computational_graphs/src/immediate/nodes.rs)
 respectively.
 
 First of all, let's go directly to the shader (GPU) code in ```linear_layer.wgsl```.
@@ -101,9 +101,9 @@ of the real use case. Just know that immediate mode is highly suboptimal.
 ## Building ReLU
 We then implement ReLU, Softmax and the fused operators in the same way.
 ReLU you can just check out yourself in ```shaders::relu.wgsl``` or
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/shaders/relu.wgsl)
+[online](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/shaders/relu.wgsl)
 along with an inline implementation in ```shaders::relu_inline.wgsl``` or
-[here](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/shaders/relu_inline.wgsl)
+[here](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/shaders/relu_inline.wgsl)
 .
 
 <figure markdown>
@@ -121,7 +121,7 @@ version.
 ## Building Softmax
 Next up, we have the softmax operator. You will find the three shaders
 needed for the softmax operator in ```shaders::softmax.wgsl``` or
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/shaders/softmax.wgsl)
+[online](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/shaders/softmax.wgsl)
 .
 In this case, finding and communicating the maximum value and
 the sum is a lot more complicated on a GPU. The implementation

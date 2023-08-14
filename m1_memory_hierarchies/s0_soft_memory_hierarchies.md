@@ -309,7 +309,7 @@ run through an array of values.
 
 Now that we have learned a bit about cache lines, we are equipped to talk actually talk about access patterns.
 I have made some Rust code for you which is located at ```m1_memory_hierarchies/code/access_patterns/``` or
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m1_memory_hierarchies/code/access_patterns).
+[online](https://github.com/absorensen/the-guide/tree/main/m1_memory_hierarchies/code/access_patterns).
 
 First off is sequential access. It is the one we usually strive for. We start at one end and go through every
 element until the end, from index 0 to the end.
@@ -644,7 +644,7 @@ for you to simply access it like it was a multi-dimensional array.
 To wrap it up I have made a performance test of these approaches. The code
 doesn't match completely as we need bigger dimensions to get a good test.
 The code is at ```m1_memory_hierarchies/code/the_vector/``` or
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m1_memory_hierarchies/code/the_vector).
+[online](https://github.com/absorensen/the-guide/tree/main/m1_memory_hierarchies/code/the_vector).
 
 Implementing all of the methods described above in both row-major and column-major form,
 as well as an element-wise version, where we flatten the multidimensionality to save
@@ -866,7 +866,7 @@ Until we hit the end of the scope, and ```x``` and ```y``` disappear, there
 are two live references to the the list created at line 1. While a fine enough
 solution at first glance, sometimes, answering the question "what is alive"
 can be quite difficult. More on that in the
-[garbage collectors section](https://absorensen.github.io/the-real-timers-guide-to-the-computational-galaxy/m1_memory_hierarchies/s0_soft_memory_hierarchies/#garbage-collectors).
+[garbage collectors section](https://absorensen.github.io/the-guide/m1_memory_hierarchies/s0_soft_memory_hierarchies/#garbage-collectors).
 
 When dealing with raw pointers, like we saw earlier, once a system grows
 beyond absolute simplicity, sharing multiple pointers to the same object
@@ -937,7 +937,7 @@ fn main() {
 
 ```Arc<T>``` is here to solve exactly that issue.
 It uses atomic reference counting. Atomics will be introduced in the
-[Concepts in Parallelism](https://absorensen.github.io/the-real-timers-guide-to-the-computational-galaxy/m2_concepts_in_parallelism/)
+[Concepts in Parallelism](https://absorensen.github.io/the-guide/m2_concepts_in_parallelism/)
 module. But in this context, it means that the reference counting is thread-safe, but a bit slower.
 
 ```rust
@@ -1050,7 +1050,7 @@ Matrix-matrix multiplication with the second matrix transposed.
 
 Now, lets try out a simple example! Checkout the code at
 ```m1_memory_hierarchies/code/strided_access_and_transposition``` or check it out
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/strided_access_and_transposition/src/main.rs)
+[online](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/strided_access_and_transposition/src/main.rs)
 .
 
 Interestingly, when running the code there doesn't seem to be much of a difference until
@@ -1118,7 +1118,7 @@ Offset some of the cost of permutations, by just permuting rows.
 
 Now, lets try out a simple example! Checkout the code at
 ```m1_memory_hierarchies/code/permuted_arrays``` or check it out
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/permuted_arrays/src/main.rs)
+[online](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/permuted_arrays/src/main.rs)
 
 <figure markdown>
 ![Image](../figures/permuted_arrays_benchmark_0.png){ width="500" }
@@ -1217,7 +1217,7 @@ As we compacted the data, we can keep track of the starting index of each row in
 
 Now for a simple performance benchmark. Checkout the code at
 ```m1_memory_hierarchies/code/jagged_arrays``` or check it out
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/jagged_arrays/src/main.rs)
+[online](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/jagged_arrays/src/main.rs)
 
 <figure markdown>
 ![Image](../figures/jagged_arrays_benchmark_0.png){ width="500" }
@@ -1323,7 +1323,7 @@ your key. Such as an integer.
 
 Now for a simple performance benchmark. Checkout the code at
 ```m1_memory_hierarchies/code/hash_maps``` or check it out
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/hash_maps/src/main.rs)
+[online](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/hash_maps/src/main.rs)
 
 As you can see the hash map using integers clearly outperforms Strings. To be fair, every insertion in the
 string based map, requires a clone of the original string, the read and update only requires a reference.

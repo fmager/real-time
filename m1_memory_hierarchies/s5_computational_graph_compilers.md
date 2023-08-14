@@ -97,7 +97,7 @@ Programs are just strings!
 We can decimate all of our neatly written shaders into something called op codes. You start by defining
 all of the data that goes in, you have a few lines of the thread figuring out its own ID and so one.
 Peruse the directory ```src::op_code_compiler::runner.rs``` or
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/blob/main/m1_memory_hierarchies/code/computational_graphs/src/op_code_compiler/runner.rs)
+[online](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/computational_graphs/src/op_code_compiler/runner.rs)
 . This is just a toy example, it didn't make
 sense to make the whole thing and I won't be benchmarking it since the results will be the exact same
 as the operator version. Each op code is just a string. Each operator is just a list of op codes.

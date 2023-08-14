@@ -1,7 +1,7 @@
 site_name: The Real-Timers Guide to the Computational Galaxy
 docs_dir: .
 site_dir: ../site
-repo_url: https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy
+repo_url: https://github.com/absorensen/the-guide
 
 theme:
   language: en

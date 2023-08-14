@@ -184,7 +184,7 @@ for you to be able to read the following sections and understand what is going o
 as it doesn't go into the finer details of GPU programming, but is centered around a GPU-centric paradigm.
 
 The rest of this section will be make use of the code location at ```m1_memory_hierarchies/code/gpu_add/``` or
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m1_memory_hierarchies/code/gpu_add).
+[online](https://github.com/absorensen/the-guide/tree/main/m1_memory_hierarchies/code/gpu_add).
 Make sure to go and actually read the code. It is full of comments! And they're made just for you!
 If you want to learn more about wgpu you can visit [Learn Wgpu](https://sotrh.github.io/learn-wgpu/).
 

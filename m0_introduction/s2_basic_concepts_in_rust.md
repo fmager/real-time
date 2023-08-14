@@ -7,4 +7,4 @@ The real contents of this section is the project in ```m0_introduction/code/basi
 Go into the file corresponding to each function being called in the ```main``` function in ```main.rs```
 and read all of the comments in order.
 The code can also be found
-[online](https://github.com/absorensen/the-real-timers-guide-to-the-computational-galaxy/tree/main/m0_introduction/code/basic_concepts).
+[online](https://github.com/absorensen/the-guide/tree/main/m0_introduction/code/basic_concepts).
