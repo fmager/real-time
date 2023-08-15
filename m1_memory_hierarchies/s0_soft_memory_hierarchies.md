@@ -200,7 +200,7 @@ The operating system just wants an address. This allows the operating system to 
 denoted by the start of the section, and probably by its own record of the length.
 Note also that the address (42) held by ```base_integer_array``` is still in play.
 It is what is known as a 'dangling pointer'.
-We could try to dereference it after giving it to ```free```, which is the notorious *use after free*.
+We could try to dereference it after giving it to ```free```, which is the notorious ```use after free```.
 This is also undefined behavior as we try to access memory that is no longer accessible by our program.
 What we could do is to set ```base_integer_array``` and ```integer_array``` to new values to denote
 that they were invalid.
@@ -304,7 +304,7 @@ Better cache alignment.
 </figcaption>
 </figure>
 And we now only involve a single cache line. Which to remind you, is quite a bit smaller than the
-more standard 64 byte cache line. 
+more standard 64 byte cache line.
 
 Now that we have learned a bit about cache lines, we are equipped to actually talk about access patterns.
 I have made some Rust code for you which is located at ```m1_memory_hierarchies/code/access_patterns/``` or
