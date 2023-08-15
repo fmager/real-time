@@ -3,12 +3,10 @@ The real contents of this section is the project in ```m0_introduction/code/less
 Go into the file corresponding to each function being called in the ```main``` function in ```main.rs```
 and read all of the comments in order.
 The code can also be found
-<!-- markdownlint-disable -->
 [online](https://github.com/absorensen/the-guide/tree/main/m0_introduction/code/less_basic_concepts).
-<!-- markdownlint-restore -->
 
 # Supplementary Comments
-In this section, we'll take you through a few addendums, which aren't as much about a
+In this section, I'll take you through a few addendums, which aren't as much about a
 specific language construct, but some concepts it might help to know.
 
 ## Aliasing
@@ -50,11 +48,11 @@ in different places of the memory hieararchy, such as some threads registers, or
 function, everything becomes invalidated. This is one of the reasons for the borrow checker
 adamantly enforcing that there can be multiple shared (read-only) references to a value,
 but only one mutable reference (read/write), and if there is a mutable reference, there cannot
-be any shared references to that value. If there were multiple shared references and a multiple reference
+be any shared references to that value. If there were multiple shared references and a mutable reference
 it would be impossible to guarantee correctness as just when a value is retrieved from RAM by a shared reference
 a write to that value may have ocurred, which in order to make the sequence of operations correct might
-necessitate another ready, but what if it happens again? Another read! This is not what happens, you
-just get a program behaving "weird". In another case it would also mean you could not read from a value
+necessitate another read, but what if it happens again? Another read! This is not what happens, you
+just get a program behaving "weird". In another case, it would also mean you could not read from a value
 and save that value in a local variable to do a bunch of operations before writing it somewhere. It already
 sounds very headscratching and like you should only ever do single threaded programs. But thankfully,
 the borrow checker is there to keep things in check for you. One recommendation, you should try
@@ -72,12 +70,13 @@ void function(int argument_a, int argument_b, float argument_c) {}
 ```
 
 Rust seems to be designed in a way as to minimize the amount of ambiguity faced by the compiler (and you too).
-Sometimes in Rust code you will see several different constructor functions, such as build, build_from_ints,
-new and default. In one way, that is a pain in the ass. In another way, it's quite nice.
-It forces the programmer to be explicit about how the functions are different, instead of being unwritten,
-implicit, or 'well, you can just read the code, it's not that complicated'. If you ever think or say
-that. Remember this... *ahem* RED FLAG! Fix your stuff so people don't have to guess, it will
-probably make the next person to read your code hate you slightly less. Which is a good thing!
+Sometimes in Rust code you will see several different constructor functions, such as ```build```,
+```build_from_ints```, ```new``` and ```default```. In one way, that is a pain in the ass.
+In another way, it's quite nice.
+It forces the programmer to be explicit about how the functions behaviours are different,
+instead of being unwritten, implicit, or 'well, you can just read the code, it's not that complicated'.
+If you ever think or say that. Remember this... *ahem* RED FLAG! Fix your stuff so people don't have to guess,
+it will probably make the next person to read your code hate you slightly less. Which is a good thing!
 
 ## Index Checking
 Whenever you access an element in an indexed collection such as a Vec:
@@ -102,7 +101,8 @@ for index in 0..data.len() {
 ```
 
 It requires an unsafe region, which is a region in your code where you tell the compiler
-to allow you to do some things it would otherwise not allow you to, and call the function get_unchecked(index).
+to allow you to do some things it would otherwise not allow you to, and call the function
+```.get_unchecked(index)```.
 An unsafe region does not turn off all checking, but in general, if you are at the level of reading the guide,
 you don't need it and we won't be talking about it more. If you really want to read more about unsafe,
 the [Rustonomicon](https://doc.rust-lang.org/nomicon/intro.html) is the defacto standard

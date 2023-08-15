@@ -1,11 +1,11 @@
 # 2️⃣ Introducing Rust
 Why use [Rust](https://www.rust-lang.org/) for the guide? Say you've decided you want to eat 35 burgers.
-Python is the friend that helps you order them delivered.
+Python is the friend that helps you order them to be delivered at your door.
 C++ is the friend who says 'do whatever you want'. Rust on the other hand,
 is the friend who stops you and then recommends you a salad. That may be annoying at times,
 especially if you were just craving 35 entire burgers, but it is what is best for you.
-Since the guide is not a beginners introduction to programming, and we will be introducing,
-at times fairly advanced, concepts, having a language that keeps you on the straight and
+Since the guide is not a beginners introduction to programming, and I will be introducing
+at times fairly advanced concepts, having a language that keeps you on the straight and
 narrow, even if it seems pedantic and like it is getting in your way, is a genuine advantage.
 If the Rust compiler accepts your code without any unsafe sections, it is probably going to work.
 Another point in Rust's favor was the easy setup and use on Windows, Linux and macOS.
@@ -16,11 +16,11 @@ use of an external package manager and the use of header files and build systems
 Rust takes care of all that with [cargo](https://doc.rust-lang.org/cargo/index.html).
 cargo can help you run and test your code, as well as helping downloading and building all of the
 dependencies in the ```Cargo.toml``` file, which you will find in the root of each code project.
-The guide was not supposed to be a guide for learning either of those languages.  
+This guide was not supposed to be a guide for learning either any these languages.  
 Rust's very helpful compiler is likely to be a boon for guiding users towards sensible code.  
 The process of having to program in such a memory focused, modern, compiled language
 will turn what is otherwise an implicit, unspoken process inside out,
-forcing the user to think about what good code is, where is my memory,
+forcing you to think about what good code is, where is the data located in memory,
 which thread has access to which data, and so on.
 
 # Setup
@@ -57,7 +57,6 @@ through the code and getting better error messages. It will also result in signi
 time, but slower run time. If you add ```cargo run --release``` it will compile in release mode.
 Compilation will take longer, the code will run faster, but debugging will be harder.
 
-## Frequent commands
 To save on space, especially for some of the smaller projects where you just need to run a command or two,
 write ```cargo clean``` once you are done to remove all of the relevant dependencies.
 
@@ -92,7 +91,7 @@ _________________
 # 3️⃣ Clippy
 [Clippy](https://doc.rust-lang.org/stable/clippy/index.html) is cargo's tool for giving suggestions for improving
 your code and making it more akin to idiomatic Rust. The guide has most code conformant to Clippy's suggestions,
-however the guide chooses to diverge where making the code simpler and easier to understand for people who have
+however I choose to diverge where making the code simpler and easier to understand for people who have
 never programmed Rust before is a priority. Clippy's messages are very informative and a good learning experience.
 It is recommended that you use Clippy in your own code. It is as simple as calling ```cargo clippy```.
 
