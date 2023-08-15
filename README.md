@@ -33,4 +33,4 @@ frameworks for the different fields and project proposals
 
 So let's get started!
 
-And also queue Eric Idle singing while wearing a white wig.
+🌌 Queue Eric Idle singing while wearing a white wig 🌌

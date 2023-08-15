@@ -17,10 +17,10 @@ First off we will start bridging hardware and software.
 ## Getting to the Point(er)
 One of the core mechanisms in using memory is the pointer! All it does is point to pieces of memory.
 Why? Because a pointer is basically just an address. Anti-climactic, I know, but as one of the core building
-blocks of computing, we need to take a bit of time to look at what it is.
+blocks of computing, we need to really examine these concepts from the bottom and up.
 If you have ever tried programming in C, you will invariably have been introduced to the pointer.
 The examples in this heading will be in C, but don't worry, we won't even define an entire function.
-It is rife with opportunities for making trouble, to a degree where in Rust, which is made to be a
+Pointers are rife with opportunities for getting into trouble, to a degree where in Rust, which is made to be a
 reasonably safe language, you can't directly interact with a pointer unless you have an unsafe region
 around the pointer interaction. Yikes! On the other hand, you can get some of the most extreme performance
 by using raw pointers. So let's take a look!
@@ -110,7 +110,7 @@ This is one of the myriad reasons why we needed to have an ```int*```. If the ad
 42, to get the next integer element, we don't go to the address 43, which would just be the second byte of the
 first element. No, we want to go to the address 46, where the second element in the array begins. Since
 ```integer_array``` has the type ```int*```, we have defined that each element is 4 bytes and we now have a
-STRIDE of 4 bytes.
+*stride* of 4 bytes.
 We also need to keep track of the size of our allocation close to the pointer itself,
 as trying to access an element outside of our allocation will be catastrophic, and likely result in a
 [segmentation fault](https://en.wikipedia.org/wiki/Segmentation_fault). So, no ```integer_array[42]```.
@@ -200,7 +200,7 @@ The operating system just wants an address. This allows the operating system to 
 denoted by the start of the section, and probably by its own record of the length.
 Note also that the address (42) held by ```base_integer_array``` is still in play.
 It is what is known as a 'dangling pointer'.
-We could try to dereference it after giving it to ```free```, which is the notorious use after free.
+We could try to dereference it after giving it to ```free```, which is the notorious *use after free*.
 This is also undefined behavior as we try to access memory that is no longer accessible by our program.
 What we could do is to set ```base_integer_array``` and ```integer_array``` to new values to denote
 that they were invalid.
@@ -237,7 +237,7 @@ rockstars at everything, it's a dangerous system and you should be on guard.
 
 ## Access Patterns
 While it is import that you increase your understanding of what it takes to get valid,
-predictable, boring code. Which is the best kind. What the guide is most interested in
+predictable, boring code. Which is the best kind. What you are most likely interested in
 is for you to write more performant code. An absolutely
 essential part of getting performant code is how we access the underlying memory. Yes, we can address
 memory a single byte at a time with [byte addressing](https://en.wikipedia.org/wiki/Byte_addressing).
@@ -266,7 +266,7 @@ structs[1].first = 0;
 structs[1].second = 0;
 ```
 
-if you had an alignment of say, 8 bytes, the last two lines would result in 2 cache lines being retrieved.
+If you had an alignment of say, 8 bytes, the last two lines would result in 2 cache lines being retrieved.
 
 <figure markdown>
 ![Image](../figures/cache_alignment.png){ width="600" }
@@ -290,7 +290,7 @@ struct my_struct
 }
 
 int element_count = 4;
-my_struct* structs = malloc(element_count * sizeof(my_struct)); // 4 * 6
+my_struct* structs = malloc(element_count * sizeof(my_struct)); // 4 * 8
 structs[1].first = 0;
 structs[1].second = 0;
 ```
@@ -304,10 +304,9 @@ Better cache alignment.
 </figcaption>
 </figure>
 And we now only involve a single cache line. Which to remind you, is quite a bit smaller than the
-more standard 64 byte cache line. Now that we have that in place, let's take a look at some of the ways we can
-run through an array of values.
+more standard 64 byte cache line. 
 
-Now that we have learned a bit about cache lines, we are equipped to talk actually talk about access patterns.
+Now that we have learned a bit about cache lines, we are equipped to actually talk about access patterns.
 I have made some Rust code for you which is located at ```m1_memory_hierarchies/code/access_patterns/``` or
 [online](https://github.com/absorensen/the-guide/tree/main/m1_memory_hierarchies/code/access_patterns).
 
@@ -390,7 +389,7 @@ Image credit </a>
 Thus if either one becomes too big they begin encroaching on the other.
 Everytime you ask for dynamically sized memory, it is allocated on the heap.
 This is a slow process and you have to remember to deallocate the memory to not
-get a memory leak. But the memory survives across functions now.
+get a memory leak. But the memory survives across functions.
 If you remember the pointer examples from earlier - the memory segment we asked for
 lived on the heap, whereas the pointer (address) itself lived on the stack.
 We are allowed to keep the pointer on the stack because a pointer is a known size
@@ -402,7 +401,7 @@ ownership changes hands.
 ## The Dynamic Array
 The dynamic array is ubiquitous in C++ and Rust. It is quite often what we think
 about, when we think of arrays in those languages. C++ has
-[```std::vector<T>```](https://en.cppreference.com/w/cpp/container/vector)
+[```vector<T>```](https://en.cppreference.com/w/cpp/container/vector)
 and Rust has [```Vec<T>```](https://doc.rust-lang.org/std/vec/struct.Vec.html).
 I highly recommend reading the first parts of the Rust Vec page.
 They are basically the same though and I will refer to them as vector from here on out.
@@ -512,7 +511,7 @@ There are more idiomatic ways to do this in Rust, which might also be faster, bu
 
 ## The Vector
 But, we aren't just interested in single lists of numbers, sometimes, we would even like a matrix.
-In Rust we can have fixed size, arrays defined like so:
+In Rust we can have fixed size arrays defined like so:
 
 ```rust
 let data: [i32; 2] = [0, 1];
@@ -524,7 +523,11 @@ From what we have learned previously, the elements will be stored in memory in t
 But what if we create a two-dimensional array?
 
 ```rust
-let data: [[i32; 2]; 2] = [[0, 1], [2, 3]];
+let data: [[i32; 2]; 2] = 
+                        [
+                            [0, 1], 
+                            [2, 3]
+                        ];
 ```
 
 In Rust the elements will be ordered in memory 0, 1, 2, 3. But that is not a universal truth.
@@ -532,7 +535,7 @@ This is called row-major ordering and is the standard layout in C, C++, Rust, Py
 most modern languages.
 The alternative is column-major which is seen in Fortran and Matlab.
 In column-major ordering the elements would be ordered in memory as 0, 2, 1, 3.
-Basically, the memory will be most tightly packed in the innermost dimension.
+With row-major ordering the memory will be most tightly packed in the last dimension from the left.
 To iterate through a 3 dimensional vector, this triple for-loop would access the memory
 in order.
 
@@ -556,7 +559,7 @@ for x_index in 0..x_dimension {
 }
 ```
 
-Where as if Rust was favored column-major ordering the in-memory-order traversal would be
+Where as if Rust favored column-major ordering the in-memory-order traversal would be
 
 ```rust
 let data: [[[i32; 2]; 2]; 2] = 
@@ -638,7 +641,7 @@ x_index * y_size + y_index
 ```
 
 I really hope this makes sense. Once it clicks it is a very simple formula, if a bit wordy.
-Usually libraries will work like this under the surface but wrap it in an interface
+Some libraries will work like this under the hood but wrap it in an interface
 for you to simply access it like it was a multi-dimensional array.
 
 To wrap it up I have made a performance test of these approaches. The code
@@ -675,7 +678,7 @@ correctness and performance.
 
 In Python, variables are all references to an underlying object, which is freed
 when there are no longer any references to said object. Don't worry about it too
-much, it is a level 3 concept I will introduce further down the page.
+much, it is a 3️⃣ concept I will introduce further down the page.
 But, it does have consequences when this happens
 
 ```python
@@ -758,7 +761,7 @@ C++ does have these [move operations](https://en.cppreference.com/w/cpp/utility/
 as well, it is even highly recommended a lot of the time. It is however,
 not the default behavior of the language.
 
-Rust does however have something called traits (don't worry about it).
+Rust has something called traits (don't worry about it).
 One of these traits is the ```Copy``` trait. If a type implements
 the ```Copy``` trait, it will be
 [copied rather than moved](https://blog.logrocket.com/disambiguating-rust-traits-copy-clone-dynamic/)
@@ -774,8 +777,8 @@ doesn't implement ```Copy``` and this has all been a ruse, for your edification.
 
 ## Stacks
 Now let's start looking at a couple of fundamental data structures. Next up is the stack. It isn't an array, but
-most implementations are just an array used in a restricted fashion. A stack is what is called
-Last In, First Out (LIFO). The usual example is, imagine a stack of cantina trays.
+most implementations are just an array used in a restricted fashion. A stack is what is called a
+Last In, First Out (LIFO) data structure. The usual example is, imagine a stack of cantina trays.
 If you put a tray into the stack,
 in order to get a tray, you have to take the top tray, you can't remove a tray that is below the top tray.
 
@@ -806,13 +809,14 @@ the result of the previous push.
 </figcaption>
 </figure>
 
-Stacks scale well and all operations are constant time, except for when enough values have been pushed to
-necessitate a resize, which is amortized constant time.
+Stacks scale well and all operations would be constant time, except when enough values have been pushed to
+necessitate a resize. However, the cost of this is low enough that across all of the operations it averages out
+and becomes amortized constant time.
 
 ## Queues
-Queues, just like stacks, are a fundamental data type centered around constant time operations mostly impemented
+Queues, just like stacks, are a fundamental data type centered around constant time operations mostly implemented
 on top of dynamic arrays. Queues maintain a First In, First Out (FIFO) principle, just like queues of people.
-The first person to enter af queue, should be the first person to leave it. Now we no longer har ```pop```
+The first person to enter a queue, should be the first person to leave it. Now we no longer have ```pop```
 and ```push```, but ```enqueue``` and ```dequeue```. Enqueueing is basically the same as ```push``` on a stack.
 An element is added to the index at ```size```, except, the queue needs two new variables, ```front``` and
 ```back```. Once the ```back``` index extends beyond the ```size``` or ```capacity```, it can just wrap
@@ -831,7 +835,7 @@ overwhelmable. If data comes in too fast to process, and it keeps coming in fast
 instead say that the ```front``` will move with the ```back``` if they become equal, thus letting the older data
 be overwritten. Other options could be to have whatever is trying to submit an element, wait until a spot opens up
 in the queue or the element could be "added", but not actually added to the queue. You'd of course like to be
-certain of how your queue type would handle being full. It's a central property and should make sure if you
+certain of how your queue type would handle being full. It's a central property and you should make sure if you
 are constructing systems with lots of data that you use a queue with the right behavior for your system.
 
 <figure markdown>
@@ -860,7 +864,8 @@ We start by making a list and assigning a reference to ```x```. In this case
 ownership of the list, and ```x``` is a live reference to that list.
 The system keeps track of how many live references there are to the list.
 Once ```x``` goes out of scope, the live reference count for the list
-decreases by one. Once the live reference count reaches 0, it is deallocated.
+decreases by one. Once the live reference count reaches 0, it is deallocated or marked available for future
+deallocation.
 
 Until we hit the end of the scope, and ```x``` and ```y``` disappear, there
 are two live references to the the list created at line 1. While a fine enough
@@ -885,7 +890,7 @@ With two notable exceptions. It cannot be copied. As in, you cannot have multipl
 instances of ```Box``` pointing to the same underlying object. Thus ```Box``` in Rust,
 as well as in C++, requires that ownership is moved, and not copied.
 The other notable difference from a raw pointer is that once the ´´´Box´´´ goes out of scope,
-the object on the heap that it is pointing to is deallocated.  
+the object on the heap that it is pointing to is deallocated automatically.  
 
 ```rust
 let box_variable: Box<i32> = Box::new(42);
@@ -898,7 +903,7 @@ println!("{}", *other_box); // prints 43
 
 Next up are the shared pointers. They are essentially what Python is using in the example
 from earlier. In C++ it is called [shared_ptr<T>](https://en.cppreference.com/w/cpp/memory/shared_ptr),
-in Rust it actually comes in two versions;
+in Rust it comes in two versions;
 [Rc<T>](https://doc.rust-lang.org/std/rc/index.html) and
 [Arc<T>](https://doc.rust-lang.org/std/sync/struct.Arc.html).
 ```Rc``` stands for reference counted. It is only made for single threaded usage as the
@@ -988,7 +993,7 @@ It can reference the same underlying object as the shared pointer it comes from,
 but does not contribute to the live reference count. As such, it can allow you
 to have cyclical references, without causing a memory leak.
 If object A points to object B with an ```Rc``` reference, but object B
-holds a ```Weak``` reference to object A, once object A goes out of scope,
+points to object A with a ```Weak```, once object A goes out of scope,
 both object A and object B can safely be deallocated.
 
 ```rust
@@ -1013,12 +1018,12 @@ which is what we needed weak pointers for.
 ## 3️⃣ The Vector Reloaded
 This isn't meant to be a one-to-one representation of how tensors work in ```numpy``` or
 ```PyTorch```, but combined with creating different views on the same underlying
-1-dimensional memory as we learned about earlier, we can look at a few other fun
+one dimensional memory as we learned about earlier, we can look at a few other fun
 concepts in different ways to arrange tensors.
 
 ### Strided Access and Transposition
 One of the most used operations is the matrix matrix multiplication.
-If we assume 2 2D matrices as input and output into another 2D matrix,
+If we assume two 2D matrices as input and output into another 2D matrix,
 one of those input matrices will be accessed with a stride access in
 a column major form.
 
@@ -1067,9 +1072,10 @@ One guess would be a combination of the compiler aggresively optimizing the code
 pipeline (don't worry about it) being really good at guessing these very uniform workloads, but most importantly,
 the caches doing a lot of the heavy lifting for us. Once the caches run out of space we begin to see a gap
 between the two ways of doing it. This might be more pronounced on the GPU. In most cases you should probably
-start with making the simplest and easy comprehendible code and try out (AND MEASURE!!!!) potential
+start with making the simplest and easy comprehendable code and try out (AND MEASURE!!!!) potential
 optimizations before spending your time going down rabbit holes. This is will be a bit of a theme
-in the next few sections. Not much of a difference in anything until the caches begin running out of space.
+in the next few sections. There won't be much of a difference between techniques until the caches
+begin running out of space.
 At least if you aren't coding something really terrible, like randomized access.
 
 ### Permuted Arrays
@@ -1092,7 +1098,7 @@ Create permutations of an array by creating a list of indices and permuting that
 </figcaption>
 </figure>
 
-If we only view the data through the lens of the permutation array anyway and we
+If we only view the data through the lens of a single permutation array anyway and we
 read from this vector alot, we might as well execute the permutation. If we
 wanted to be able to undo the permutation, we could just keep track of the
 permutation we executed and undo it later. But we should now be able to get back
@@ -1143,7 +1149,7 @@ Permuting just the rows can also give quite a performance boost.
 A weird form of array is the jagged array. A 2D matrix can't simply be
 expressed as having dimensions NxM, but Nx? or ?xM dimensions. As in N rows, each with their
 own individual lengths, or M columns, each with individual lengths. It's a highly
-flexible scheme, but unless you are absolutely sure you need it, you should probably avoid it.
+flexible scheme, but unless you are absolutely sure you need it, you should absolutely avoid it.
 
 In the example below, we attain this complete flexibility by using a vector of vectors,
 which as you may recall is really bad for performance.
@@ -1169,7 +1175,7 @@ Slightly better now with the data in a single vector.
 
 If we really wanted to compact the jagged array above, we could remove all of the
 non-active segments (denoted -1) and use the auxiliary array to indicate where each
-new row starts. Just like the first permutation scheme, we are derefercing two pointers
+new row starts. Just like the first permutation scheme, we are dereferencing two pointers
 for access.
 
 Finally, we could do all of this, still under the constraint that we have a reasonable
@@ -1200,10 +1206,10 @@ nearest whole number.
 Instead we have to go from row length to row length and find out how many indices we have to move forward to
 get to the next indicator. As such, to get to the lower right corner element (42), we would first have to read
 index 0, jump 4 spots forward to index 4, read the 4, jump 5 spots forward to index 9, and then jump forward
-2 elements to get to what in a dense array would be inded [2, 1].
+2 elements to get to what in a dense array would be index [2, 1].
 
-This sort of makes me miss the auxiliary array. We can sum up the jumps to denote where each row starts,
-this would allow for compaction of the data while keeping us to just 2 jumps. Note that we now keep track of
+This sort of makes me miss the auxiliary array. We can sum up the jumps to denote where each row starts.
+This would allow for compaction of the data while keeping us to just 2 jumps. Note that we now keep track of
 the length of each row by taking the difference between the starting index of the row we are looking to find
 and the beginning of the next row. Which is also why I have inserted an extra starting index, which points
 to the end of the array. Otherwise, we can't get the length of the last row.
@@ -1291,7 +1297,7 @@ post-hash key used for indexing into storage.
 One way of resolving the collision is to keep searching our storage until we find an empty spot.
 But then if we query our hash map and the first index we look at in storage, we iterate the
 array until we find a key that matches the one we queried with. Much like vectors, the
-hash map can dynamically expand to accomodate inserted data. Once we are done with insertions,
+hash map could dynamically expand to accomodate inserted data. Once we are done with insertions,
 we might have a fragmented performance. If we know we are done and have a significant amount of
 elements which need to be queried a lot, we can usually ask the data structure to
 ```.shrink_to_fit()``` or ```.rehash()```. Rehashing will reconstruct the structure to be
@@ -1310,10 +1316,10 @@ I will reiterate a theme here -
 *if it can be done with a basic array, it should probably be done with a basic array*.
 Of course there are different, more optimized methods for implementing hash maps, you can usually find a few
 different ones based on the specific needs for your usage, i.e. if you need better insertion
-performance or better read performance., but this is basically what you need to know.
-In Rust it is ```HashMap<K, V>```, in C++ it is ```std::unordered_map<K, V>```, in
-python and C# it is called a dictionary. You can use anything for the key in Rust,
-as long as the type implements the ```Hashable``` trait. You can even using strings.
+performance or better read performance, but this is basically what you need to know.
+In Rust it is ```HashMap<K, V>```, in C++ it is ```unordered_map<K, V>```, in
+Python and C# it is called a dictionary. You can use anything for the key in Rust,
+as long as the type implements the ```Hashable``` trait. You can even use strings.
 This can be very useful for keeping an assortment of random data which you need to
 distinguish between. For example, if you needed to keep track of different layers of a
 neural network with random access, you can just create a new string "Linear0" and use
@@ -1336,19 +1342,19 @@ bits reserved for the layer type and the last 44, or perhaps just 12, bits reser
 does however incur a significant amount of extra code and the code will become more complex and implicit,
 so it's probably only worth it if you are doing A LOT of accesses for each layer.
 
-In general hash maps have an alright performance. C#'s dictionary lookup performance will usually go down
+Generally, hash maps have an alright performance. C#'s dictionary lookup performance will usually go down
 hill at around 30k entries though. This doesn't happen for arrays. You can read more about different hash table
 implementations [here](https://www.cs.princeton.edu/courses/archive/fall06/cos226/lectures/hash.pdf).
 
 ## 3️⃣ Graphs and Trees
-Now that we have dicked around with variations on a theme (that theme was arrays if you are in doubt),
+Now that we have dicked around with variations on a theme (that theme was arrays if you were in doubt),
 let's look at a different fundamental data structure. Graphs! Not the kind with the lines...
 wait these have lines too, uuuh, not the kind that has an x and a y axis, but the kind that has some circles with
 some arrows between them. "But wait!" you say, "The heading says 'Graphs and Trees'" you say, well,
 trees can be seen as a subset of graphs, while all graphs are not necessarily trees.
 
 Graphs and trees are some of the absolutely fundamental data structures which you need to be acquainted with.
-Along with arrays, queues, stacks and hash tables (don't worry, it's the next heading), they are the fundamental
+Along with arrays, queues, stacks and hash tables, they are the fundamental
 building blocks with which you can make pretty much anything. Graphs and trees are a bit special, however, in them
 being potentially easy to implement, but also very easy to mess up. Languages like C and C++ let you implement
 them with relative ease, but implementing graphs and trees without cyclical references
@@ -1357,7 +1363,7 @@ actually quite hard. Sometimes even fundamentally unsafe.
 
 I have used Rust as one of the primary languages for demonstrating and benchmarking things for you.
 The examples under this header will be more along the lines of toy examples as Rust code for graphs
-and trees can get quite involved if you don't wanna just sprinkle ```Arc``` everywhere. And even then you
+and trees can get quite hairy if you don't want to just sprinkle ```Arc``` everywhere. And even then you
 might end up having to battle cyclical references.
 It's really nice that the compiler puts on guard rails for you and herds you towards safe behavior.
 Implementing graphs and trees in Rust is notoriously difficult for this exact reason.
@@ -1373,15 +1379,15 @@ optimize where the data should be located, when the data should be moved to/from
 can be fused and so on.
 
 Additionally, I will take a look at one of the simpler trees, the binary tree, and if you are interested in
-graphics or computer vision, the octree is recommended for that specialization.
+graphics or computer vision, the octree is recommended reading.
 
 ### Graphs
 Ok, so let's get this show on the road. Graphs are primarily made up of two things, nodes and edges.
-Edges are references from one node to another. In a diagram they are usually represented by a line with one more
-arrows on the ends. Edges can be represented by indices, pointers, smart pointers or something else
-that I can't think of right now. The node on the other hand, can be whatever you want SPARKLES. It can even
-be just a number or an index to the corresponding data paylod if you have seperated the graph structure
-from the data payloads.
+Edges are references from one node to another. In a diagram they are usually represented by a line, some
+times with one more arrows on the ends. Edges can be represented by indices, pointers, smart pointers or
+something else that I can't think of right now. The node on the other hand, can be ✨ whatever you want ✨.
+It can even be just a number or an index to the corresponding data payload if you have seperated
+the graph structure from the data payloads.
 
 <figure markdown>
 ![Image](../figures/bidirectional_graph.png){ width="500" }
@@ -1407,8 +1413,8 @@ Finally, the DAG, which stands for directional acyclical graph, is a
 unidirectional graph which does not contain cycles. A cycle is not just node A pointing to node B, which points
 to node A, it can also be node A pointing to node B pointing to node C pointing to node A, and so on an so forth
 until we have an infinite number of nodes to traverse until we get back to node A again, like going all the
-way to Mordor just to go back to the friggin shire. No eagles will save you. You will just have to walk home.
-As you can imagine can be a costly property to assert unless we devise mechanisms to prevent this
+way to Mordor just to go back to the friggin Shire. No eagles will save you. You will just have to walk home.
+As you can imagine this can be a costly property to assert, unless we devise mechanisms to prevent this
 from happening in the first place.
 
 <figure markdown>
@@ -1421,7 +1427,7 @@ The unidirectional graph is verified as being a DAG through a topological sortin
 In the diagram, I have sorted the previous graph topologically. As long as none of the edges go backwards, we have
 a DAG. In general, if you are reading this, you should try to avoid graphs with cycles.
 It's a headache and you'll end up down a headscratching rabbit hole. It's also a good source
-of memory leaks if you haven't implemented your graph or tree in a certain fashion.
+of memory leaks if you haven't implemented your graph or tree in a certain way.
 
 <figure markdown>
 ![Image](../figures/computational_graph.png){ width="500" }
@@ -1509,9 +1515,9 @@ pointers. Especially if it is sorted as we need less array elements marked as em
 ### Implementing Graphs (and Trees)
 Implementing graphs is generally considered hard in Rust specifically, which makes sense,
 because of the many caveats and potential issues in graphs. Dynamic graphs especially are problematic and
-you should consider very carefully whether all the logic is correct.To make things more difficult,
+you should consider very carefully whether all the logic is correct. To make things more difficult,
 constructing a graph, even if it has to spend the vast majority of its time as a read-only artifact,
-has to have construction phase were pointers can be used, not used, you can end up creating cyclical references.
+has to have a construction phase where pointers can be used and you can end up creating cyclical references.
 Uni-directional DAGs are easier, as long as you don't have to verify their correctness, but if implementing trees
 where you would like a pointer from the child to the parent, you can use a strong pointer from parent to child,
 and a weak pointer from child to parent. With graphs in general you cannot easily make a constraint that enforces
@@ -1537,16 +1543,16 @@ always be the right child. To access any node's (index N) children, we merely ha
 ```N*2+1``` for the left child and ```N*2+2``` for the right. We can handle a node not being
 present in this otherwise dense structure, by having a
 means of representing an empty value, but the greater the sparseness, the more inefficient this *linearized*
-tree structure works quite well and makes the structure easily serializeable
-(write it to a file on disk) or transferable to and useable on GPU's.
+tree structure becomes. The implicit/predictable structure makes the linearized treeqv easily serializeable
+(writing it to a file on disk) or transferable to and useable on GPU's.
 
-Better explanation of [graphs in Rust](https://github.com/nrc/r4cppp/blob/master/graphs/README.md)  
-graphs in Rust using
+A better explanation of [graphs in Rust](https://github.com/nrc/r4cppp/blob/master/graphs/README.md)  
+and graphs in Rust using
 [indices](http://smallcultfollowing.com/babysteps/blog/2015/04/06/modeling-graphs-in-rust-using-vector-indices/)  
 
 ### 🧬 Octrees
 Octrees are elevant for all of the specializations that aren't deep learning, especially *computer graphics*.
-But it might be relevant for deep learning too if you do stuff related to geometry or spatial data, though.
+But it might be relevant for deep learning too if you do stuff related to geometry or spatial data.
 
 Octrees are mostly concerned with sorting space. For every node, there are 8 children. If it is sparse, there are
 *up to* 8 children. What cannot change however, is the regular structure. Every node covers a certain space.
@@ -1554,16 +1560,16 @@ The space covered by the child nodes are strictly within this space and are halv
 center point of the parent node. Child 0 would be the eighth of space with ```x```, ```y``` and ```z``` starting
 from the minimum value of the parent space up to the center point of the parent space. Child 1 could be the eighth
 of space the same as child 0, except with the x range starting from the midpoint's ```x``` value, going to the
-maximum ```x``` value of the parent space. So on and so forth, all child nodes get's an eight of space. But again,
+maximum ```x``` value of the parent space. So on and so forth, all child nodes gets an eighth of space. But again,
 there doesn't need to be exactly 8 active children, they do all need to go into predictable slots. If the
-definition child 0 is what I wrote earlier, that range ALWAYS needs to reside in child 0. It cannot be moved to
+definition of child 0 is what I wrote earlier, that range ALWAYS needs to reside in child 0. It cannot be moved to
 other children or other slots. One nice property of the octree is that we can describe any path from root to leaf
-by a string numbers from 0 to 7.
+by a sequence numbers from 0 to 7.
 
 Now let's talk about payloads. A typical use case within graphics is to use an octree to reason about which scene
 geometry to render or to use for nearest neighbor queries. Let's start with the simpler payload,
 [point clouds](https://en.wikipedia.org/wiki/Point_cloud).
-We have a list of three dimensional points. We want to find the nearest one relative to our current point.
+We have a list of three dimensional points. We want to find the nearest one relative to our query point.
 This is quite useful for algorithms like [ICP](https://en.wikipedia.org/wiki/Iterative_closest_point).
 We start with the whole array of points and then continually go through our points sending them to one of the 8
 children until a child receives only a single point, at which point that child node becomes a leaf node.
@@ -1586,9 +1592,9 @@ neighbors.
 </figure>
 
 For nearest neighbor queries having a single point per leaf node is wildly inefficient though, and you should
-consider fattening up the leaf nodes to contain more points and have some amount of points in the interior nodes as
+consider fattening up the leaf nodes to contain more points, and in some cases points in the interior nodes as
 well. These could be efficiently searched by sorting them into linearized octrees. More on those in a future
-module. Quite often a node is not much more than 4x32-bits, in which case it is wildly inefficent to have more
+module. Quite often a point is not much more than 4x32-bits, in which case it is wildly inefficent to have more
 than 1 pointer per node. You might also end up with a stack overflow if you try to build the octree recursively.
 Last time I tried that in C++ I got a stack overflow at a depth of 1000. If you absolutely need a pointer based
 tree, try to add nodes of interest to a queue instead and just process that queue. E.g. you arrive at node X, it
@@ -1596,7 +1602,7 @@ has 8 children. You deem 4 of them to be of interest, add all 4 to a processing 
 for you to process. This might take you all over the tree though. Another option could be using a stack.
 For spatially larger payloads, like meshes, you might also need to keep a reference to that geometry
 across more than one node, ending up with some geometry being evaluated more than once.
-You win some, you lose some. But it's all the same to me. It's the eight of space.
+You win some, you lose some. But it's all the same to me. It's the eighth of space.
 
 Another use case where the octree is very useful is when deciding what to render and at what level-of-detail.
 It also makes for a useful abstraction over virtualized geometry. More on that in a later module.
@@ -1669,7 +1675,7 @@ however, what if we don't have all of our data in main memory?
 ### Virtualized Memory and Operating Systems
 The operating system itself can, and will, [virtualize your memory](https://en.wikipedia.org/wiki/Virtual_memory).
 It may at some point decide to spare the main memory, probably because it doesn't have any more, and instead
-allocate temporary space on the disk to swap in and out of main memory. This is painfully slow, but happens
+allocates temporary space on the disk to swap in and out of main memory. This is painfully slow, but happens
 seamlessly behind the scenes to be able to continue to allocate more memory for your program. The programmer
 does not have to do anything as the virtualization is hidden. Usually, there will be hardware support for the
 virtualization with components such as a dedicated memory management unit.
@@ -1679,9 +1685,11 @@ program might see its addresses start in very low numbers despite a number of ot
 on your computer. In face, while the address space given to your process might look continuous it is probably
 fragmented, scattered across diffent physical locations, but the virtualization makes it appear continuous.
 In general, it is a major security risk for programs to read memory outside of the memory
-allocated for it. This is also known as a *segmentation fault*. The operating dislikes this concept so much that it
-is likely to just kill your program entirely. If you have every programmed C or C++, you have probably tried this.
-The virtual memory space allocated for your process, for stuff like heap and stack will typically look like below.
+allocated for it. This is also known as a *segmentation fault*. The operating system dislikes this concept
+so much that it is likely to just kill your program entirely. If you have ever programmed C or C++,
+you have probably tried this making this mistake and your error has been met with swift and uncompromising
+consequences. The virtual memory space allocated for your process, for stuff like heap and stack will
+typically look as below.
 
 <figure markdown>
 ![Image](../figures/virtual_heap_and_stack.png){ width="300" }
@@ -1693,7 +1701,7 @@ Image credit</a>.
 </figure>
 
 ### Virtualizing Your Own Application
-As I just described in the presceding virtualized memory section, the operating system will store temporary data
+As I just described in the preceding virtualized memory section, the operating system will store temporary data
 on the disk if it runs out of space in main memory, keep track of what is not in memory and in disk instead and,
 when needed, invisibly load requested data into memory while swapping some other piece of data unto the disk.
 But we can make our own virtualized memory too! We could for example have a dataset for training a neural network
@@ -1714,7 +1722,7 @@ process.
 ### 🧬 Virtualized Rendering
 Another use of this is the rendering of data sets too large to fit in a users computer. You preprocess
 all of the data you need to visualize into a tree structure and then just keep the tree in memory at all times.
-If you then render with progressive rendering, which is where as soon as the camera stands still you render across
+You can then render render progressively, which is where as soon as the camera stands still you render across
 multiple frames into the same uncleared buffers, letting the user see progress while the system downloads, unpacks
 and renders the entire scene. This also allows for rendering of scenes which are too big to fit in GPU memory or
 even main memory.

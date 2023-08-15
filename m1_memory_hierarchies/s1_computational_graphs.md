@@ -60,12 +60,11 @@ You don't need to worry about the specifics, but just know that it creates a com
 from the Python code above and then optimizes that code to run faster and/or use less memory.
 
 So why does it need the graph? That is something the rest of this module will try to answer,
-along with a really basic introduction something called fusion, where layers can be combined
-to be more efficient.
+along with a really basic introduction to fusion, where layers are combined to be more efficient.
 
 ## What is a Graph?
 A graph is [a type of structure](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)),
-for our needs, a data structure. In s0 there is a more elaborate examination of the concept for level 3.
+for our needs, a data structure. In s0 there is a more elaborate examination of the concept for 3️⃣.
 So for right now, just give the link to graph's wiki page a quick look. You should get the gist just by
 looking at a few of the images.
 
@@ -80,7 +79,7 @@ a lot of operators. We need transfers to and from the GPU (eventually), a linear
 (matrix-matrix multiplication followed by an addition), a ReLU operator (single call to a max function with 0)
 and a softmax operator. The softmax operator is the most complex part, don't worry I will show you some
 CPU code that is fairly easy to understand. The GPU version gets a bit complicated and is only constructed
-on a fairly simplistic version.
+in a fairly simplistic version.
 
 <figure markdown>
 ![Image](../figures/basic_graph_operations.png){ width="300" }
@@ -107,7 +106,7 @@ The code for the rest of the module can be found at ```m1_memory_hierarchies/cod
 ## What's in a Tensor2D?
 First of all we are going to start on the CPU.
 We are going to create a data type which will hold the data our operators consume on the CPU.
-Let's call it ```Tensor2D```. Our 2D tensor will actually be a simple piece of 1 dimensional memory under the
+Let's call it ```Tensor2D```. Our 2D tensor will actually be a simple piece of one dimensional memory under the
 hood and we will keep track of the number of rows and columns to find out how to access each piece of data.
 If you are in the root directory for ```computational_graphs``` go to ```src/shared/tensor_2d.rs``` or
 [online](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/computational_graphs/src/shared/tensor2d.rs).
@@ -144,7 +143,7 @@ even without profiling or microoptimizations.
 ### Linear
 There's some dimension checking functions, you can just ignore those. They use ```debug_assert``` statements
 to raise an error if the dimensions of the tensors given to a linear layer function don't match. ```debug_assert```
-is the same as an ```assert``` statement, except it is only run in debug mode. I did it this way incur only a small
+is the same as an ```assert``` statement, except it is only run in debug mode. I did it this way to incur only a small
 hit to performance. You probably passed the ```linear_layer``` function on the way down, it just acts as a wrapper
 around the ```linear_layer_preallocated``` function. If you haven't already allocated a tensor to use as output,
 it will make one for you. If you do this a lot however, such as in a loop, you should be using the preallocated
@@ -153,7 +152,7 @@ version to not have memory allocations in your loops.
 Finally, let's go down to the ```linear_layer_preallocated``` function. There are three main sections. One is
 the call to the ```debug_assert``` function from earlier, to check for valid input and output dimensions, the
 second is the matrix-matrix multiplication which needs three whole for-loops and finally the bias section. Note
-the use of linearized accesses, if you need a reminder what that is all about, go back to m1::s0::The Vector.
+the use of linearized accesses, if you need a reminder what that is all about, go back to ```m1::s0::The Vector```.
 
 It's not too bad, but we could do better, although we won't do more efficient implementations of matrix-matrix
 multiplication, note that the read accesses of the weights tensor is strided. We could have implemented that some
