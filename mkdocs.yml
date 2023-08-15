@@ -6,8 +6,8 @@ repo_url: https://github.com/absorensen/the-guide
 theme:
   language: en
   name: material
-  favicon: figures/favicon.png
-  logo: 🌌
+  favicon: figures/nebula.png
+  logo: figures/nebula.png
   icon:
     repo: fontawesome/brands/github
   palette:
@@ -68,7 +68,6 @@ extra:
 
 nav:
   - Home: README.md
-  - Overview: overview.md
   - Acknowledgements: acknowledgements.md
   - M0 - Introduction:
     - m0_introduction/README.md
@@ -105,5 +104,5 @@ nav:
     - m3_types/README.md
   - M4 - Profilers and Case Studies:
     - m4_profilers/README.md
-  - M5 - 🧬3️⃣ Projects:
+  - M5 - 3️⃣ Projects:
     - m5_projects/README.md

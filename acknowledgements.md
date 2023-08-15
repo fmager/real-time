@@ -7,3 +7,4 @@
 * Mathias Gammelmark
 * Anders Jess Pedersen
 * Jens Egholm Pedersen
+* <a href="https://www.flaticon.com/free-icons/nebula" title="nebula icons">Nebula icons created by Eucalyp - Flaticon</a>

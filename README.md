@@ -1,71 +1,36 @@
-# Don't Panic!
-A guide designed for both deep learners and systems programmers. Meant to be followed several times at
-deepening levels.
-The material is comprised of 6 modules.
+# Don't Panic
+Hello There!
+
+You've found a guide for learning about all the stuff needed to either program or reason about data oriented
+and real time systems. It will help you with things like what memory allocations are, why computational graphs
+used to program neural networks are a good idea, different concepts in parallelization of code, what types are,
+how to profile and optimize code and how to create real-time systems. All running on your laptop!
+
+The guide is meant to be followed several times, with every increase in level the curriculum expands and it is
+assumed that you have learned and understood the previously introduced concepts. It's done this way, because
+computer science is a bit hard. To learn more stuff, you have to know some stuff, about some stuff, but to learn
+more, you have to know a lot of stuff about a lot of stuff.
+Which section is part of which level is indicated by an emoji, like so 2️⃣.
+
+To make things more complicated, because everyone loves complicated, there are some sections which are meant to
+tailor to you, the reader! These specialization sections could for example have one set of tasks for people
+interested in compute graphics and a different set of tasks for people interested in deep learning.
+These sections are indicated by this DNA emoji - 🧬.
+
+Course material for a course based on this material can be found
+[here](https://absorensen.github.io/real-time-visual-and-machine-learning-systems/).
+
+The material comprising the guide is divided into 6 modules.
 
 * Intro to the course, the different ways to use the material, intro to Rust and wgpu.
 * Memory hierarchies and computational graphs
-* Parallelization, interactivity, events and GUIs
+* Parallelization
 * Types, energy usage and inference, quantization, sparsity and pruning of neural networks
 * Introduction to profiling, optimization use cases on topics such as model
 training and quantization, graphics, computer vision
-* How to create real time systems, frameworks for the different fields and project proposals
+* How to create real time systems, a random grab bag of tips and tricks,
+frameworks for the different fields and project proposals
 
-## TODO
+So let's get started!
 
-* Try rust-nexttest to solve the testing issue
-* Find the right benchmarking and performance tools (blessed.rs)
-* Look into friendlier error handling? Perhaps logging instead of panicing to
-get students used to logging. Introduce anyhow for better error handling?
-* [Loom](https://docs.rs/loom/latest/loom/)
-* Come up with a different name for levels 1/2/3/4, also should the levels be described in a matrix?
-* Should there be an introduction to basic computer architecture somewhere?
-
-## Emojis for later
-🌌  
-🔜  
-1️⃣  
-2️⃣  
-3️⃣  
-4️⃣  
-5️⃣  
-👨🏼‍💻  
-🧬  
-👽  
-🪐  
-🚀  
-🛰️  
-🦀  
-🔥  
-
-## References and additional reading
-
-[High Performance Machine Learning](https://engineering.nyu.edu/sites/default/files/2022-01/ECE_GY_9143_S22.pdf)  
-[High Performance Machine Learning](https://www.cs.columbia.edu/wp-content/uploads/2022/08/HPML-Fall2022-columbia.pdf)  
-[Flash Attention](https://github.com/HazyResearch/flash-attention)  
-[Branchless Programming](https://www.youtube.com/watch?v=g-WPhYREFjk)  
-[The Rust Programming Language](https://doc.rust-lang.org/book/title-page.html)  
-[Learn wgpu](https://sotrh.github.io/learn-wgpu/)  
-[Install Rust](https://www.rust-lang.org/tools/install)  
-[wgpu](https://wgpu.rs/)  
-[ShaderToy](https://www.shadertoy.com/)  
-[Inigo Quilez](https://iquilezles.org/articles/)  
-[ORB-SLAM](https://arxiv.org/abs/1502.00956)  
-[ORB-SLAM2](https://arxiv.org/abs/1610.06475)  
-[Z-order curves](https://www.nocentino.com/Nocentino10.pdf)  
-[Linearised Trees on the GPU](https://developer.nvidia.com/blog/thinking-parallel-part-iii-tree-construction-gpu/)  
-[Vivienne Sze - Energy Efficient AI](https://www.youtube.com/watch?v=WbLQqPw_n88)  
-[Rust Profiling](https://nnethercote.github.io/perf-book/profiling.html)  
-[RenderDoc](https://renderdoc.org/)  
-[Book of Shaders](https://thebookofshaders.com/)  
-[Scratchapixel](https://www.scratchapixel.com/)  
-[Ray Tracing in One Weekend](https://raytracing.github.io/)  
-[Physically Based Rendering](https://www.pbrt.org/)  
-[Crafting Interpreters](https://craftinginterpreters.com/)  
-[Programming Rust](https://www.oreilly.com/library/view/programming-rust-2nd/9781492052586/)  
-[Godbolt](https://godbolt.org/)  
-[Advent of Code](https://adventofcode.com/)  
-
-# I'm done, but I want more!
-[Visual Computing Systems - Stanford](https://gfxcourses.stanford.edu/cs348k/spring23)  
-[Parallel Computing - Stanford](https://gfxcourses.stanford.edu/cs149/fall22)
+And also queue Eric Idle singing while wearing a white wig.
