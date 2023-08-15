@@ -2,7 +2,7 @@
 
 ## Asynchronous Memory Transfers
 
-## SPIR-V & GLSL/HLSL 
+## SPIR-V & GLSL/HLSL
 
 ## Warp Shuffling
 
