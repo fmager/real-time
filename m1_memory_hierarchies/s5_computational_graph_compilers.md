@@ -16,7 +16,7 @@ N - 2 operators that are randomly either a linear or ReLU operator.
 Finally, there is the graph loop variant. This variant is not just creating a computational graph, but
 moves the loop from the measuring function closer into the graph runner itself. One thing to note though
 is that while we do cut down on some transfers, the implementation is still suboptimal. I will elaborate
-about why at level 3️⃣. So just take this as an indicator of why you should use computational graphs
+about why in 3️⃣. So just take this as an indicator of why you should use computational graphs
 and computational graph compilers when you can.
 
 <figure markdown>
@@ -44,7 +44,7 @@ graph, and why you should use optimization on that graph if it is available. The
 for. Either with your time or your budget. So if you use something like PyTorch, do be sure to optimize, and be
 sure to check whether the ```torch.compile()``` function works for your setup. Next up is the parallelism module
 where you will be introduced, very superficially, to a couple of different concepts in parallelism. Hopefully,
-this will allow you to understand stuff like model distributed parallelism and data distributed parallelism.
+this will help you to understand stuff like model distributed parallelism and data distributed parallelism.
 
 _________________
 
@@ -56,14 +56,15 @@ transferring to and from the GPU for every operation. It also meant that instead
 queue and then waiting for it to complete, we could just add all of the operations of our graph and then wait.
 So far so good. But what did the fused versions do?
 
-When calculating the linear operation, it kept the output in the threads register and applied it directly there
-before storing it in the GPU's RAM and dispatching a new compute shader. One of the suggested exercises is to
-optimize the linear shader. In any case that should involve tiling and shared memory. That would mean that
-the matrix-matrix multiplication would need the work group to act in coordination and load in tiles of the
-matrices into shared memory (L1 cache) and synchronize, in order for them to get more out of memory they might
-otherwise have overlapping accesses of. Finally, when we use the graph loop, we don't actually tell the GPU
-to run this same queue for N iterations, but add to the queue, submit and wait N times. If we found the correct
-tools to tell the GPU to run some program for 100 times, it might completely set the GPU free for a while.
+When calculating the linear operation, it kept the output in the threads register and applied the ReLU function
+once the data in register before storing it in the GPU's RAM and dispatching a new compute shader.
+One of the suggested exercises is to optimize the linear shader. In any case that should involve tiling and
+shared memory. That would mean that the matrix-matrix multiplication would need the work group to act in
+coordination and load in tiles of the matrices into shared memory (L1 cache) and synchronize, in order for
+them to get more out of memory they might otherwise have overlapping accesses of. Finally, when we use
+the graph loop, we don't actually tell the GPU to run this same queue for N iterations, but add to the
+queue, submit and wait N times. If we found the correct tools to tell the GPU to run some program for
+100 times, it might completely set the GPU free for a while.
 
 ## 3️⃣ The Results and the Caveats
 Ok, so we just saw some results previously. I am mostly concerned with showing you the relative timings, otherwise
@@ -87,15 +88,15 @@ sum are neglible due to only being called once per graph, but optimizing the lin
 all of the GPU based implementations run significantly faster.
 
 ## 3️⃣ Metaprogramming
-Finnally, I am going to introduce you to another way of representing these operators. Instead of having an
+Finally, I am going to introduce you to another way of representing these operators. Instead of having an
 operator with a full implementation of each operator and a lot of hardwired rules like, if a
-linear operator is followed by a ReLU operator, fuse them! You can attain a bit more flexibility by
+linear operator is followed by a ReLU operator, fuse them, you can attain a bit more flexibility by
 realizing one thing...
 
 Programs are just strings!
 
 We can decimate all of our neatly written shaders into something called op codes. You start by defining
-all of the data that goes in, you have a few lines of the thread figuring out its own ID and so one.
+all of the data that goes in, you have a few lines of the thread figuring out its own ID and so on.
 Peruse the directory ```src::op_code_compiler::runner.rs``` or
 [online](https://github.com/absorensen/the-guide/blob/main/m1_memory_hierarchies/code/computational_graphs/src/op_code_compiler/runner.rs)
 . This is just a toy example, it didn't make
@@ -103,12 +104,12 @@ sense to make the whole thing and I won't be benchmarking it since the results w
 as the operator version. Each op code is just a string. Each operator is just a list of op codes.
 In this op code example we do operator fusion by adding our ReLU op-code to the list.
 
-This is sort of like ordering a standard cheeseburger at a restaurant that ONLY SERVES BURGERS.
+This is sort of like ordering a standard cheese burger at a restaurant that ONLY SERVES BURGERS.
 You realize that you want pickles. So you can either order an entirely new cheese burger, the
 kitchen has to make a new one from scratch for this one, or you can order pickles between
 two buns, which technically qualifies as a burger. This will be delivered quite fast. But its
 frowned upon in a restaurant to play with your food so you have to eat the pickles as they come.
-But you do technically get your pickles. The final option is to realize that a burger is just a
+But you do technically get your pickles. Another option is to realize that a burger is just a
 stack of ingredients, or a list of op codes, and it would be much easier to send the burger
 back to the kitchen (compilation) for them to just slide in a few pickles. Using op codes
 makes our code so much more complex, but it allows us a great amount of flexibility. If we
@@ -116,6 +117,24 @@ found out we were running on a GPU with a much bigger L1 cache, we might change 
 handled shared memory programming. If we were doing a render graph with a number of image-based
 single pixel operations such as tone mapping, changing hues or saturation, we might use op codes
 to merge these several different calls, keeping the data as close to the registers as possible.
+
+Another thing, often done in graphics is to have various defines in your shader code like
+
+```rust
+#ifdef USE_SHARED_MEMORY
+// something with shared memory
+#endif
+```
+
+Then if at runtime you find out it would be optimal to use shared memory you can merely append
+a
+
+```rust
+#define USE_SHARED_MEMORY
+```
+
+at the top of the shader file and then compile. This makes your code less readable, but not as unreadable
+as fully using op codes.
 
 ## 5️⃣ Further reading
 [Fun and hackable tensors in Rust](https://getcode.substack.com/p/fun-and-hackable-tensors-in-rust)  

@@ -10,19 +10,19 @@ of a single operation, and all data has to be ready for a new and completely dif
 operation to be executed afterwards. The result of this being that if the system
 is told to execute a linear operator on some data, it will compile the code needed
 to run on the GPU, allocate all necessary buffers on the GPU, transfer the needed data,
-execute the operation, synchronize with CPU and then transfer back all of the necessary
+execute the operation, synchronize with the CPU and then transfer back all of the necessary
 data to the CPU. If that linear operator is then followed by a ReLU operator, it will
 have to do the whole thing over again. Compile the ReLU code for the GPU,
 allocate buffers, transfer, execute, transfer back. Then possibly deallocate.
 
 This is not a good way to accomplish this. But it is highly flexible and
-we're gonna do it anyways! Don't worry about the 'how' too much, level 3
+we're gonna do it anyways! Don't worry about the 'how' too much, 3️⃣
 goes into greater detail.
 
 ## Building the Linear Node
 Okay, so let's try building the linear operator again, but this time on
 the GPU! Don't worry too much about the particulars. The setup is quite
-a bit like what is described in the level 3 section of m1::s2.
+a bit like what is described in the 3️⃣ section of m1::s2.
 
 There are three central files for this. ```src::shared::tensor2d_gpu.rs```,
 ```src::shared::shaders::linear_layer.wgsl``` and ```src::immediate::nodes.rs```.
@@ -37,9 +37,9 @@ First of all, let's go directly to the shader (GPU) code in ```linear_layer.wgsl
 The version of the two functions we are interested in is ```main```.
 At the top there is a struct called ```TensorDimensions```, it is
 bound as something called a ```uniform```. The ```uniform``` is a struct,
-it can also just be a single value, which is readonly for the duration of our shader.
+it can also just be a single value, which is read only for the duration of our shader.
 As such all threads can safely keep it entirely in their registers or in whichever
-cache they have room without fear of the data becoming outdated. It also
+cache they have room, without fear of the data getting stale. It also
 means that each thread will be accessing the same data, and not just overlapping
 data. But let's stay with the definition. We now have the ```group```, which is 0.
 A binding group is a set of bindings. There are a limited amount of binding slots
@@ -47,7 +47,7 @@ available so you could have one set of buffers bound for group 0 and another set
 of buffers bound for group 1. In the ```var``` declaration, you declare how the
 bound data is used. Uniform is what I just wrote, you don't need to specify whether
 it is ```read``` or ```read_write```, it is always just ```read```. For the more
-general ```storage```, which is your normal more flexible buffer, you can specify
+general ```storage```, which is your normal buffer, you can specify
 whether it is ```read``` or ```read_write```. Whether there is a performance impact
 for one or the other might depend on your system, but the ```wgsl``` compiler is
 likely to complain if you declare ```var<storage, read_write>``` without actually
@@ -67,7 +67,7 @@ we define that our work group will have a size of 8 on the x-axis and
 computed. Don't worry about it!
 
 Then we define a number of built-in variables we would like to have
-access too, there are more available than we declare here.
+access too. There are more available than we declare here.
 These are various ID's such as, what is this threads number inside
 this work group, which work group is this thread in, out of all threads
 which number thread is this thread, that sort of thing.
@@ -82,17 +82,16 @@ Next, the thread will calculate the correspondence between its global
 ID and the element of the output matrix this specific thread will calculate.
 Then we check whether these specific indices are outside the valid range
 of indices, remember that we often launch more threads than we need.
-Then we calculate the linearized index in our one dimensional output array.
+Then we calculate the linearized index (multiple dimensions collapsed into one) in our one dimensional output array.
 We declare and initialize a local variable to hold our running result,
 which will hopefully ensure that we keep it in a register.
 Then we just loop through the input row and weight column, multiplying
-and adding, until we accumulate our result, add our bias and then
-store the result in the output tensor. Then we are done,
-and we collect our result.
+and adding, until we have accumulated our result, add our bias and then
+store the result in the output tensor.
 
 Given the immediate mode usage, we will always be paying for a full transfer
 to and from the GPU. This implementation of the linear operator is quite suboptimal, it has been
-left as an optional level 4 exercise to implement a more optimal version using tiling and shared memory.
+left as an optional 4️⃣ exercise to implement a more optimal version using tiling and shared memory.
 
 If I get the time, at some point I might put up a performance benchmark comparing it to the CPU, but I have
 one later on for the more complex case of handling arbitrary graphs, which is a bit more representative
@@ -128,11 +127,11 @@ the sum is a lot more complicated on a GPU. The implementation
 provided is not even using all the possible threads, but just a
 single work group to make the code more readable. Implementing
 a tree reduction with iterative calls to max and sum shaders
-is left as an exercise at level 4. So you don't need to know
+is left as a 4️⃣ exercise. So you don't need to know
 what that is right now, just know that it is not just
 implemented suboptimally, but even without more than 32 threads.
-I did however cheat a little bit and use something called shared memory, to make it a bit faster.
-Don't worry about shared memory, I will introduce it at level 3.
+I did however cheat a little bit and use shared memory, to make it a bit faster.
+Don't worry about shared memory, I will introduce it in 3️⃣.
 
 ## Building Fused Operators
 Finally, the fused operators are basically implemented through doing
@@ -171,7 +170,7 @@ One other thing that is fundamentally suboptimal about this, is that we compile 
 for every operator, every time we use the operator. If you do lots of small matrix calls,
 this will incur a significant overhead. Shader compilation is expensive. What you could do
 instead is to cache your compiled shaders for reuse later on. This is done with the graph
-implementations, but it has been left as an optional level 4 exercise for you to implement
+implementations, but it has been left as an optional 4️⃣ exercise for you to implement
 this for immediate mode operations. This works just fine when you have 4-10 shaders to
 compile and keep track of, but what if you had in the 1000's of combinations? In that
 case you might need some form of cache eviction mechanism, such as LRU.

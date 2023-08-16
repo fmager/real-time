@@ -266,7 +266,7 @@ structs[1].first = 0;
 structs[1].second = 0;
 ```
 
-If you had an alignment of say, 8 bytes, the last two lines would result in 2 cache lines being retrieved.
+If you had an alignment of say, 8 bytes, the last two lines would result in two cache lines being retrieved.
 
 <figure markdown>
 ![Image](../figures/cache_alignment.png){ width="600" }
@@ -322,8 +322,7 @@ and the size of the elements, it might result in each cache line only being used
 In the implementations in the code there is both a non-wrapping and a wrapping stride implementation,
 meaning once we step over the end we wrap back around using a modulo operator.
 This is to ensure that it accesses the same amount of elements as the sequential access.
-With the non-wrapping stride we only access every N elements, but we also end up doing
-much less work.
+With the non-wrapping stride we only access every N elements, but we also end up doing much less work.
 
 Finally, we have random access. This is basically the worst case scenario. We randomly select an element
 to access the same amount of times as the number of elements in the array.
@@ -942,7 +941,7 @@ fn main() {
 
 ```Arc<T>``` is here to solve exactly that issue.
 It uses atomic reference counting. Atomics will be introduced in the
-[Concepts in Parallelism](https://absorensen.github.io/the-guide/m2_concepts_in_parallelism/)
+[concepts in parallelism](https://absorensen.github.io/the-guide/m2_concepts_in_parallelism/)
 module. But in this context, it means that the reference counting is thread-safe, but a bit slower.
 
 ```rust
@@ -1022,7 +1021,7 @@ one dimensional memory as we learned about earlier, we can look at a few other f
 concepts in different ways to arrange tensors.
 
 ### Strided Access and Transposition
-One of the most used operations is the matrix matrix multiplication.
+One of the most used operations is the matrix-matrix multiplication.
 If we assume two 2D matrices as input and output into another 2D matrix,
 one of those input matrices will be accessed with a stride access in
 a column major form.
@@ -1072,7 +1071,7 @@ One guess would be a combination of the compiler aggresively optimizing the code
 pipeline (don't worry about it) being really good at guessing these very uniform workloads, but most importantly,
 the caches doing a lot of the heavy lifting for us. Once the caches run out of space we begin to see a gap
 between the two ways of doing it. This might be more pronounced on the GPU. In most cases you should probably
-start with making the simplest and easy comprehendable code and try out (AND MEASURE!!!!) potential
+start with making the simplest and easy comprehendable code and try out, and measure, potential
 optimizations before spending your time going down rabbit holes. This is will be a bit of a theme
 in the next few sections. There won't be much of a difference between techniques until the caches
 begin running out of space.
@@ -1209,7 +1208,7 @@ index 0, jump 4 spots forward to index 4, read the 4, jump 5 spots forward to in
 2 elements to get to what in a dense array would be index [2, 1].
 
 This sort of makes me miss the auxiliary array. We can sum up the jumps to denote where each row starts.
-This would allow for compaction of the data while keeping us to just 2 jumps. Note that we now keep track of
+This would allow for compaction of the data while keeping us to just two jumps. Note that we now keep track of
 the length of each row by taking the difference between the starting index of the row we are looking to find
 and the beginning of the next row. Which is also why I have inserted an extra starting index, which points
 to the end of the array. Otherwise, we can't get the length of the last row.
@@ -1520,7 +1519,7 @@ constructing a graph, even if it has to spend the vast majority of its time as a
 has to have a construction phase where pointers can be used and you can end up creating cyclical references.
 Uni-directional DAGs are easier, as long as you don't have to verify their correctness, but if implementing trees
 where you would like a pointer from the child to the parent, you can use a strong pointer from parent to child,
-and a weak pointer from child to parent. With graphs in general you cannot easily make a constraint that enforces
+and a weak pointer from child to parent. With graphs, in general, you cannot easily make a constraint that enforces
 that each node in your graph is only ever pointed to by a single strong pointer. What you can do however, is to
 contain all of the nodes in a graph object which has a strong reference to every single node, and the connectivity
 between the nodes being dictated by weak pointers. This will tie the lifetime (when the object is alive and not
@@ -1688,7 +1687,7 @@ In general, it is a major security risk for programs to read memory outside of t
 allocated for it. This is also known as a *segmentation fault*. The operating system dislikes this concept
 so much that it is likely to just kill your program entirely. If you have ever programmed C or C++,
 you have probably tried this making this mistake and your error has been met with swift and uncompromising
-consequences. The virtual memory space allocated for your process, for stuff like heap and stack will
+reprisals. The virtual memory space allocated for your process, for stuff like heap and stack will
 typically look as below.
 
 <figure markdown>

@@ -1,7 +1,7 @@
 # 2️⃣ Building a Computational Graph
 Ok, so now we have the basic building blocks ready. We also have a very simplifying set of constraints. This
-allows us to just represent this graph as a straight line. Thus we can just represent our graph as a
-series of nodes in a list. This list needs to be runnable both on the CPU and the GPU, so we'll look
+allows us to just represent this graph as a straight line. So we can just represent our graph as a
+series of nodes in a list. This list needs to be runnable on both the CPU and the GPU, so we'll look
 at how we can make a CPU graph runner and a GPU graph runner which can interpret the same list of
 commands and still work just fine. First we are going to do this on the CPU, then the GPU. Then
 we are going to run the GPU graph in a loop instead of reconstructing it with every iteration.
@@ -24,7 +24,7 @@ which is the GPU in this case. Each graph runner (that's just a term I came up w
 what the standard term is) has to interpret that list and translate it to its own set of instructions.
 
 In general, it is a way to sequester state by changing the type from layer to layer in your pipeline.
-Imagine a physics engine. Sure, could just represent everything as a float of a high enough precision and
+Imagine a physics engine. Sure, you could just represent everything as a float of a high enough precision and
 "just name our variables correctly", which is once again a red flag as our systems should never rely on
 the absence of human errors, or we could create new types which makes sure that we don't mix up
 Newtons per second and meters per second. We can even ensure that only certain operations are available
@@ -127,8 +127,8 @@ a benchmark so you can see the differences in our assortment of implementations.
 _________________
 
 ## 3️⃣ Borrow Checking a Graph?
-Ok, so what if we actually wanted a more complex, and applicaple in real-world circumstances, graph
-we ironically need to deal with the issues that Rust enforces through the borrow checker.
+Ok, so what if we actually wanted a more complex, and applicaple in real-world circumstances?
+We ironically need to deal with the issues that Rust enforces through the borrow checker.
 If we have one node writing to multiple other nodes, that is fine.
 
 <figure markdown>
@@ -165,7 +165,7 @@ to those elements sequential.
 
 Unfortunately, ```wgpu``` and ```wgsl``` don't have a borrow checker, and we have to do that
 analysis ourselves. Sometimes it can make sense to actually do this contentious writing
-to a shared buffer amyway, as the synchronized version can be substantially more expensive
-and correctness might not be worth the cost. But if you feel you need to introduce this
+to a shared buffer anyway, as the synchronized version can be expensive enough that
+absolute correctness might not be worth the cost. But if you feel you need to introduce this
 sort of incorrectness to your system, my recommendation is that you make absolutely sure that
 the incorrectness is confined to as small a pocket of your system as possible.

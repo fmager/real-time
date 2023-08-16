@@ -99,7 +99,7 @@ nav:
     - S9 - 3️⃣ Sparsity: m2_concepts_in_parallelism/s9_sparsity.md
     - S10 - 3️⃣ Sorting and Random Access: m2_concepts_in_parallelism/s10_sorting_and_random_access.md
     - S11 - 3️⃣ Parallel Graphs: m2_concepts_in_parallelism/s11_parallel_graphs.md
-    - SX - 4️⃣ Exercises: m2_concepts_in_parallelism/sX_exercises.md
+    - S12 - 4️⃣ Exercises: m2_concepts_in_parallelism/sX_exercises.md
   - M3 - Types:
     - m3_types/README.md
   - M4 - Profilers and Case Studies:

@@ -182,7 +182,7 @@ the output and bias tensors match, and there are no transformations to be made. 
 through all elements. I also elected to not accumulate the result of each output element directly in the output
 tensor. Instead I accumulate in a local variable, which will hopefully be kept in a register.
 
-Think back! Where is the register located? And why can it be problematic to accumulate in the output tensor?
+Think back! Where is the register located? And why can it be problematic to accumulate the sum in the output tensor?
 
 The bias is the same. But that does mean we are writing to the same output element twice. Let's move the bias
 calculation into the matrix-matrix multiplication loop. ```linear_layer_optimized``` moves the bias to just
@@ -209,8 +209,8 @@ Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 </figure>
 
 Huh, it seems our loop fission didn't really matter in the grand scheme of things!
-The graph is quite high resolution to allow you to zoom in. The X-axis is the size of the tensors. Only NxN matrices
-are used. The Y-axis is time in nanoseconds averaged over 1000 runs. Note how the
+The graph is quite high resolution to allow you to zoom in. The x-axis is the size of the tensors. Only NxN matrices
+are used. The y-axis is time in nanoseconds averaged over 1000 runs. Note how the
 lines are piecewise linear. There are two points where all of the lines get quite a bit slower and scale worse
 with the size of the tensors. Why do you think that is?
 
@@ -218,7 +218,8 @@ You guessed it! You are seeing the size of the tensor becoming too big for the d
 last bend happens at 4096 elements. This corresponds to a 64x64 matrix. 4096 elements of 32-bits, or 4 bytes, each
 corresponds to 16384 bytes, or 16 KB. We have 4 of these tensor structs, so we should have total allocations of
 64 KB just for that data and then add in all of the other memory used by the application and everything else
-running on the laptop at the time.
+running on the laptop at the time. But then again, the sampling is quite sparse. You can try and add more data
+points and see if you can narrow down the sizes of your caches.
 
 This might be a good time to experiment with changing the values in ```lib.rs``` for
 
@@ -229,7 +230,7 @@ let loop_range: Vec<usize> = (2u32..8u32).map(|x| 2usize.pow(x)).collect();
 
 ```loop_count``` is how many measurements are made per data point. ```loop_range``` is a vector of matrix sizes.
 In this case, the first element is 4, so the first measurement will be done with matrices sized 4x4.
-Currently, it takes a range between 2 and 8 (not including 8) and yields a vector of sizes of 2^n.
+Currently, it takes a range between 2 and 8 (not including 8) and yields a vector of sizes of 2^N.
 So 4, 8, 16, 32, 64, 128. If you wanted all values in the range of 0 to 100 you could write
 
 ```rust
@@ -286,7 +287,7 @@ single work group (a group of threads).
 
 Anyways, head down to ```softmax``` and ```softmax_preallocated```. In ```softmax_preallocated``` we
 have 3 distinct sections. The first section is finding the global maximum value. Once that is found
-a modified sum reduction is performed using the max value. Finally the sum and max are used to calculate
+a modified sum reduction is performed using the max value. Finally, the sum and max are used to calculate
 an offset value which is used to modify all of the values in place. The sum of all the values should
 now be 1. Note that we only use one for-loop for all of the elements as softmax doesn't care
 about dimensions. This allows us once again to cut down on control flow overhead. Once again,
@@ -337,12 +338,12 @@ Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 
 As can be seen the naive version, which is just successive function calls to linear, ReLU and softmax operators
 is massively outperformed by the fused linear-relu-softmax operators, with the fissioned version with bias
-outside of the matrix-matrix loop winning out. Of course the linear-relu version are the fastest,
+outside of the matrix-matrix loop winning out. Of course the linear-relu versions are the fastest,
 as they don't do softmax, but between the two of them it is again the version without the bias calculation
 at the end of the matrix-matrix loop which wins ever so slightly.
 
 It's hard to make a general conclusion based on that, without going a lot deeper, but in any case,
-you should always test and measure! Now, you can either continue on reading the level 3 material
+you should always test and measure! Now, you can either continue on reading the 3️⃣ material
 or go to the next section to get a general introduction to GPUs. We will be using the GPU on
 your laptop, with no CUDA involved, to see if we can make this even faster.
 
