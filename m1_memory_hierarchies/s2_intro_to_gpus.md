@@ -109,7 +109,7 @@ As such, we can only synchronize between threads inside the warp.
 
 ### GPU Memory Hierarchy
 The memory hierarchy on a GPU looks a lot like the memory hierarchy on the CPU. Here it is exemplified by the
-Nvidia H100, which is a very expensive data center GPU and most definitely not the one residing in your laptop. 
+Nvidia H100, which is a very expensive data center GPU and most definitely not the one residing in your laptop.
 But the bandwidth (how much data per second can be transferred) internally on the card is a lot higher than on the CPU.
 All of the streaming multiprocessors share the L2 cache and each streaming multiprocessor shares an L1 cache. On
 Nvidia GPU's the streaming multiprocessor is a number of, in this case 4, units which can each execute a
@@ -460,7 +460,7 @@ One statement I tried to sweep under the rug in the last section was - "each thr
 It is highly desirable for a work group to have each thread executing in lock step. That is each thread is executing the
 same line in your program. If you have branches, like if-statements, some threads might execute path A and some threads
 might execute path B. This will lead to divergence. Divergence will result in the group of threads A executing
-while group of threads B will wait until A is finished, and then executed. Finally, they might join again. 
+while group of threads B will wait until A is finished, and then executed. Finally, they might join again.
 
 <figure markdown>
 ![Image](../figures/work_group_divergence.png){ width="700" }
