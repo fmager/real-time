@@ -18,7 +18,7 @@ item of at least 10 times the number of points lines.
 * 1 - PyTorch - Model-Distributed-Parallelism
 * 1 - PyTorch - [Optimizing inference](https://pytorch.org/blog/optimizing-libtorch/?hss_channel=lcp-78618366)
 * 2 - Shadertoy
-* 1 - Gyro Dropout - MLSys 2022
+* 2 - Gyro Dropout - MLSys 2022
 * 1 - Hierarchical Frustum Culling
 * 1 - [SIMD optimization](https://ipthomas.com/blog/2023/07/n-times-faster-than-c-where-n-128/)
 * 2 - Flash Attention

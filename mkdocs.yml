@@ -60,7 +60,7 @@ plugins:
 extra:
   social:
     - icon: material/email
-      link: mailto:anders-soerensen@hotmail.com
+      link: mailto:aboso@dtu.com
     - icon: fontawesome/brands/github
       link: https://github.com/absorensen
     - icon: fontawesome/brands/linkedin
@@ -99,7 +99,7 @@ nav:
     - S9 - 3️⃣ Sparsity: m2_parallelism/s9_sparsity.md
     - S10 - 3️⃣ Sorting and Random Access: m2_parallelism/s10_sorting_and_random_access.md
     - S11 - 3️⃣ Parallel Graphs: m2_parallelism/s11_parallel_graphs.md
-    - S12 - 4️⃣ Exercises: m2_parallelism/sX_exercises.md
+    - S12 - 4️⃣ Exercises: m2_parallelism/s12_exercises.md
   - M3 - Types:
     - m3_types/README.md
   - M4 - Profilers and Case Studies:

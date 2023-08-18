@@ -82,17 +82,28 @@ asking yourself, where is this going to run and how is the memory
 accessed in order to accomplish what I want to do?
 
 ## Here Be Dragons
-Harder to debug
-Hazards
-Data races
-Race conditions
+Some of the things you have to get used to when parallel programming is
+the sudden lack of serialized interactions. Thread 1 won't necessarily
+execute before thread 8, and the way you debug and verify your code
+will have to take that into account.
+
+Along the way, you will encounter a number of hazards. Especially race hazards are prevalent.
+The race condition happens when at least one thread is writing while one or
+more are writing or reading. Typically, these types of bugs can be very
+hard to find due to some part of your code being serialized once you
+try to find the bug or due to the multithreading, the execution might
+be non-deterministic.
+
+Take a few minutes to familiarize yourself with race conditions in
+software and data races [here](https://en.wikipedia.org/wiki/Race_condition).
 
 ## Platforms
-CPUs, efficiency and performance cores
-GPUs, integrated and separate, accelerators within accelerators
-Data Center GPUs
-Multiple GPUs
-FPGAs
-Edge
-Cloud
-Neuromorphic - Not necromorphic
+When you decide you want to parallelize your application, you almost
+always have to consider the platform you will be running on. Do you
+expect to run it on users' laptops, will you have GPUs available,
+will it be running in a data center with powerful, very expensive
+GPUs, will you be using an integrated GPU on a laptop, will
+it run on the edge or in the cloud? I will assume you are running
+on your own laptop or desktop for following along, but running on
+multiple data center GPUs seems to be all the rage these days, so I will keep
+that in mind.
