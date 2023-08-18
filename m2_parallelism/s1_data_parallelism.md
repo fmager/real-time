@@ -2,8 +2,7 @@
 Map on an array
 
 ## Non-Work Stealing
-https://github.com/ProgrammingRust/mandelbrot/
-
+[Mandelbrot](https://github.com/ProgrammingRust/mandelbrot/)
 
 ## Work Stealing
 Rayon
