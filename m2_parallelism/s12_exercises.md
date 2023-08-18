@@ -7,6 +7,7 @@ using some of the primitives introduced in the module
 Pick items worth a total of 3 points or more, write am interpretation of each
 item of at least 10 times the number of points lines.
 
+* 2 - A Mandelbrot program served 5 different ways https://github.com/ProgrammingRust/mandelbrot/
 * 1 - Data-oriented design - Entity component systems
 * 1 - Array of Structs, Structs of Arrays, Auto-Vectorization
 * 1 - Linearized octrees
