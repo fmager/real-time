@@ -14,15 +14,21 @@ way of doing parallelism in Rust, both because it is such a small change from id
 and the cognitive load, if there is no communication between threads, is so very small.
 
 ## A Parallel Iterator Benchmark
+You can find the code for this section in ```src/m2_concurrency/code/data_parallelism``` or
+[online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/data_parallelism).
+
 First we define our data, how many elements we want, and how many iterations we will iterate through
 the data to do our benchmarks.
+
 ```rust
     let element_count: usize = 10_000_000;
     let iteration_count: usize = 100;
 
     let mut data: Vec<f32> = (0..element_count).into_iter().map(|x| x as f32).collect();
 ```
+
 Now let's see what a non-iterator mapping of all the elements would look like.
+
 ```rust
     for _ in 0..iteration_count {
         for element in &mut data {
@@ -30,15 +36,19 @@ Now let's see what a non-iterator mapping of all the elements would look like.
         }
     }
 ```
+
 A key difference with this approach compared to the other two is that we are ensured this mapping happens in-place.
 The iterator version is here -
+
 ```rust
     for _ in 0..iteration_count {
         data = data.iter().map(|x| *x * 3.14).collect();
     }
 ```
 
-Once we have done this reformulation, Rayon is made to be a drop in replacement. We just import the needed Rayon prelude and replace ```.iter()``` with ```.par_iter()``` or ```.into_iter()``` with ```.into_par_iter()```.
+Once we have done this reformulation, Rayon is made to be a drop in replacement. We just
+import the needed Rayon prelude and replace ```.iter()``` with ```.par_iter()``` or
+```.into_iter()``` with ```.into_par_iter()```.
 
 ```rust
     for _ in 0..iteration_count {
@@ -92,6 +102,9 @@ So, now that we can conclude that Rayon can be really good and easy to use for s
 to more explicitly define our own parallel system with, perhaps, longer running threads.
 
 ## 3️⃣ Examples with Rayon
+You can find the code for this section in ```src/m2_concurrency/code/data_parallelism``` or
+[online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/data_parallelism).
+
 Ok, so I made two additional examples. There's lots of different adaptors for iterators and I'll just show two.
 ```.filter()``` and ```.window()```. If you go back to the file from earlier and change the bool in the
 main function to ```true```, it should now run these two 3️⃣ benchmarks. First off let's look at the filter
@@ -105,7 +118,7 @@ using the following lines -
 
 If the random number generator used to generate the floats in ```data``` is completely uniform, every time we use
 this filter, the filter should emit half the elements. Then we just count the amount of elements emitted.
-The parallel version is very similar - 
+The parallel version is very similar -
 
 ```rust
     sums += data.par_iter().filter(|x| if 0.5 < **x { true } else { false }).count();
