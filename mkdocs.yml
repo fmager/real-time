@@ -85,21 +85,21 @@ nav:
     - S4 - Building a Computational Graph: m1_memory_hierarchies/s4_building_a_computational_graph.md
     - S5 - Computational Graph Compilers: m1_memory_hierarchies/s5_computational_graph_compilers.md
     - S6 - 4️⃣ Exercises: m1_memory_hierarchies/s6_exercises.md    
-  - M2 - Parallelism:
-    - m2_parallelism/README.md
-    - S0 - Threads: m2_parallelism/s0_threads.md
-    - S1 - Data Parallelism: m2_parallelism/s1_data_parallelism.md
-    - S2 - Mutex: m2_parallelism/s2_mutex.md
-    - S3 - Atomic: m2_parallelism/s3_atomic.md
-    - S4 - Message Passing: m2_parallelism/s4_message_passing.md
-    - S5 - Async: m2_parallelism/s5_async.md
-    - S6 - Events: m2_parallelism/s6_events.md
-    - S7 - 3️⃣ More GPU: m2_parallelism/s7_more_gpu.md
-    - S8 - 3️⃣ Branchless Programming: m2_parallelism/s8_branchless_programming.md
-    - S9 - 3️⃣ Sparsity: m2_parallelism/s9_sparsity.md
-    - S10 - 3️⃣ Sorting and Random Access: m2_parallelism/s10_sorting_and_random_access.md
-    - S11 - 3️⃣ Parallel Graphs: m2_parallelism/s11_parallel_graphs.md
-    - S12 - 4️⃣ Exercises: m2_parallelism/s12_exercises.md
+  - M2 - Concurrency:
+    - m2_concurrency/README.md
+    - S0 - Data Parallelism: m2_concurrency/s0_data_parallelism.md
+    - S1 - Threads: m2_concurrency/s1_threads.md
+    - S2 - Mutex: m2_concurrency/s2_mutex.md
+    - S3 - Atomic: m2_concurrency/s3_atomic.md
+    - S4 - Message Passing: m2_concurrency/s4_message_passing.md
+    - S5 - Async: m2_concurrency/s5_async.md
+    - S6 - Events: m2_concurrency/s6_events.md
+    - S7 - 3️⃣ More GPU: m2_concurrency/s7_more_gpu.md
+    - S8 - 3️⃣ Branchless Programming: m2_concurrency/s8_branchless_programming.md
+    - S9 - 3️⃣ Sparsity: m2_concurrency/s9_sparsity.md
+    - S10 - 3️⃣ Sorting and Random Access: m2_concurrency/s10_sorting_and_random_access.md
+    - S11 - 3️⃣ Parallel Graphs: m2_concurrency/s11_parallel_graphs.md
+    - S12 - 4️⃣ Exercises: m2_concurrency/s12_exercises.md
   - M3 - Types:
     - m3_types/README.md
   - M4 - Profilers and Case Studies:

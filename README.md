@@ -24,7 +24,7 @@ The material comprising the guide is divided into 6 modules.
 
 * Intro to the course, the different ways to use the material, intro to Rust and wgpu.
 * Memory hierarchies and computational graphs
-* Parallelization
+* Concurrency
 * Types, energy usage and inference, quantization, sparsity and pruning of neural networks
 * Introduction to profiling, optimization use cases on topics such as model
 training and quantization, graphics, computer vision

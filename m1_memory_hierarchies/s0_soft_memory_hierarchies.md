@@ -941,7 +941,7 @@ fn main() {
 
 ```Arc<T>``` is here to solve exactly that issue.
 It uses atomic reference counting. Atomics will be introduced in the
-[concepts in parallelism](https://absorensen.github.io/the-guide/m2_concepts_in_parallelism/)
+[parallelism](https://absorensen.github.io/the-guide/m2_concurrency/)
 module. But in this context, it means that the reference counting is thread-safe, but a bit slower.
 
 ```rust

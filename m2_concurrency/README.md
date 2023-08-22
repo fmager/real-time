@@ -1,12 +1,20 @@
-# 1️⃣ Parallelism
+# 1️⃣ Concurrency
 Ok, so in the past module we looked at parallelism in the form of GPU-parallelism. In many ways, I find it
-to be an easier introduction to the concept of parallelism. We introduce parallelism in small pockets inside
-a function which cannot do anything too complicated. The programs aren't long running and we choose a
-specific subset of problems to use the GPU for. In this module, I'll mainly introduce you to CPU based
-parallelism with different mechanisms. In creating longer running CPU-based parallel programs you will
-likely need to combine a bunch of these mechanisms along with your accrued knowledge of data races,
-as enforced by the borrow checker in Rust. Additionally, I will introduce a few more concepts in GPU
-programming in 3️⃣.
+to be an easier introduction to the concept of parallelism. Parallelism and concurrency are often used
+interchangably, but they aren't necessarily the same. Concurrency is when we run several calls at once,
+but they aren't necessarily running on two different processors. This could for example be the downloading
+of several files at once. Things are happening in the background, the process doesn't necessarily need to sit and
+wait for the first file to download and then request the second file for download and so on. Instead it can ask to
+download all of the files and then wait for all of them to be done, or for the first one to be done so it can begin
+processing the files. 
+
+Parallelism on the other hand implies that we are actually running different cores and threads.
+So far I have introduced parallelism in small pockets inside a function which cannot do anything
+too complicated. The programs aren't long running and we choose a specific subset of problems to
+use the GPU for. In this module, I'll mainly introduce you to CPU based parallelism with different
+mechanisms. In creating longer running CPU-based parallel programs you will likely need to combine
+a bunch of these mechanisms along with your accrued knowledge of data races, as enforced by the
+borrow checker in Rust. Additionally, I will introduce a few more concepts in GPU programming in 3️⃣.
 
 Anyways, why do we need parallelism in CPU's? Eventually, the clock frequencies, as in how many times
 per second a processor can do something, more or less flattened out. We get increased performance by
