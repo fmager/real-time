@@ -3,7 +3,7 @@ The next sections will be heavily inspired by the book "Programming Rust"'s mult
 [Mandelbrot](https://github.com/ProgrammingRust/mandelbrot/) image generation.
 If you don't know about the Mandelbrot image, you can see what that's all about
 [here](https://www.co-pylit.org/courses/cosc1337/lectures/17-Complex-Numbers/02-mandelbrot-math.html)!
-Ok, so I will start off talking about the parallel part of things. First off, lets look at 
+Ok, so I will start off talking about the parallel part of things. First off, lets look at
 [Rayon](https://github.com/rayon-rs/rayon), which is the easiest way of doing parallelism in Rust.
 
 To use Rayon, we just have to formulate our computations as iterators. Under the hood Rayon divvies up the work
