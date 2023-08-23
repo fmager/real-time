@@ -80,7 +80,7 @@ into trouble, say, an infinite while-loop, we will be waiting on that thread ind
 it with a very simple task, so we know we won't be waiting for too long. This is in a way, a manual barrier,
 except where with a barrier we could have multiple barriers in a threads program, we strictly wait for that
 thread to execute the given code in its entirety. Once it is finished it either rejoins the thread pool
-or its execution path joins the main threads execution path. 
+or its execution path joins the main threads execution path.
 
 Now, try and answer the following - why do we do the ```.join()``` calls in that order, and why is the program
 correct despite the threads being done with their small programs in random order?
@@ -102,7 +102,7 @@ Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 </figure>
 
 Note the scope ends before the main thread starts printing. Using a scope is a more automatic way of keeping
-track of the lifetimes of our threads. 
+track of the lifetimes of our threads.
 
 Ok, so now we know a few ways we can launch some threads and wait until they are done executing, in later
 sections I will get into ways you can share data between threads and synchronize.
@@ -125,7 +125,7 @@ The data is split into chunks, that is a vector of reference slices of size ```e
 The last chunk will not have the same size as the others.
 The first section is the double function and the second section is the slightly more complex functions.
 Once again, the workloads are completely homogenous. It should take the same amount of time to execute any
-randomly chosen segment of size N. 
+randomly chosen segment of size N.
 The first benchmark is completely vanilla single threaded execution.
 The second benchmark is using Rayon to parallelize the execution of these 8 chunks.
 The third benchmark is using Rayon to parallelize execution of the original dataset, with no chunks.
