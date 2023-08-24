@@ -14,7 +14,7 @@ be used for all sorts of things, but this is just one example.
 [Locks](https://en.wikipedia.org/wiki/Lock_(computer_science)) come in different shapes and sizes,
 an often seen variant is the Mutex, short for mutual exclusion. A lock is used to ensure that only
 one thread can access a given region of code or data at a time. One potential implementation of this
-could be a lock using a binary 
+could be a lock using a binary
 [semaphore](https://en.wikipedia.org/wiki/Semaphore_(programming)) protecting a piece of data.
 Any thread that wants to modify or read that piece of data will need to try to acquire the lock.
 If it is a spin lock, the thread will actively wait until it can acquire the lock. Once a thread
@@ -37,7 +37,7 @@ the basic conclusion is, you should understand what they do, you should be able 
 libraries that use them, but if you find yourself thinking you should use a lock for something...
 reconsider. Be absolutely sure that that is what you need, and if you do, you need to spend some more time
 thinking about how to implement it and you need to minimize your exposure by minimizing the regions where locks
-are used. 
+are used.
 
 ## Locks in Rust
 Rust does have various locks as part of the standard library and I'll very briefly go through a few examples.
