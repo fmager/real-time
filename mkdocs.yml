@@ -89,8 +89,8 @@ nav:
     - m2_concurrency/README.md
     - S0 - Data Parallelism: m2_concurrency/s0_data_parallelism.md
     - S1 - Threads: m2_concurrency/s1_threads.md
-    - S2 - Mutex: m2_concurrency/s2_mutex.md
-    - S3 - Atomic: m2_concurrency/s3_atomic.md
+    - S2 - Locks: m2_concurrency/s2_locks.md
+    - S3 - Atomics: m2_concurrency/s3_atomics.md
     - S4 - Message Passing: m2_concurrency/s4_message_passing.md
     - S5 - Async: m2_concurrency/s5_async.md
     - S6 - Events: m2_concurrency/s6_events.md

@@ -144,10 +144,14 @@ Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 </figure>
 
 As you can see, once we chunk our data, leaving Rayon with less administration and scheduling work for its
-work stealing paradigm, it actually gets quite good performance compared to crossbeam. In the next sections
-I will look at other means of executing these workloads with crossbeam. They just require an introduction
-to mutexes and atomics.
+work stealing paradigm, it actually gets quite good performance compared to crossbeam.
+
+I did not see that coming!
+
+In the next sections I will look at other ways of executing these workloads with crossbeam.
+They just require an introduction to mutexes and atomics first.
 
 Finally, try playing around with the amount of chunks, the amount of test iterations and the size of the
 dataset. I have a firm suspicion that Rayon does better with more iterations as it probably has a thread
-pool running in the back.
+pool running in the back which will be kept alive across iterations or that Rayon, where we do not specify
+a number of threads is more free to optimize however it wants.
