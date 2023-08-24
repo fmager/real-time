@@ -96,13 +96,13 @@ nav:
     - S6 - Events: m2_concurrency/s6_events.md
     - S7 - 3️⃣ More GPU: m2_concurrency/s7_more_gpu.md
     - S8 - 3️⃣ Branchless Programming: m2_concurrency/s8_branchless_programming.md
-    - S9 - 3️⃣ Sparsity: m2_concurrency/s9_sparsity.md
-    - S10 - 3️⃣ Sorting and Random Access: m2_concurrency/s10_sorting_and_random_access.md
-    - S11 - 3️⃣ Parallel Graphs: m2_concurrency/s11_parallel_graphs.md
-    - S12 - 4️⃣ Exercises: m2_concurrency/s12_exercises.md
+    - S9 - 3️⃣ Parallel Graphs: m2_concurrency/s9_parallel_graphs.md
+    - S10 - 4️⃣ Exercises: m2_concurrency/s10_exercises.md
   - M3 - Types:
     - m3_types/README.md
   - M4 - Profilers and Case Studies:
     - m4_profilers/README.md
-  - M5 - 3️⃣ Projects:
-    - m5_projects/README.md
+  - M5 - 3️⃣ Tips and Tricks:
+    - m5_tips_and_tricks/README.md
+  - M6 - 🧬4️⃣ Projects:
+    - m6_projects/README.md

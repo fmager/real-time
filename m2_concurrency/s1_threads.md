@@ -134,7 +134,7 @@ Finally, the fourth benchmark uses ```crossbeam::scope()``` to launch 8 jobs wit
 overhead. Let's look at the results -
 
 <figure markdown>
-![Image](../figures/threads_crossbeam.png){ width="200" }
+![Image](../figures/threads_crossbeam.png){ width="600" }
 <figcaption>
 Launching 8 threads to process 8 chunks using ```crossbeam::scope``` to enclose
 the lifetime of the threads.
