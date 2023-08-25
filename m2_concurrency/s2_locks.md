@@ -98,13 +98,15 @@ showcase the effect of this I also added a timing specifically without the extra
 queue every iteration, which the other solutions aren't burdened with. Next up, we create a scope, which
 you should be familiar with by now. Inside the scope we give each launched thread a reference to the
 queue. Once the thread has spawned, each thread will continuously try to get another piece of data to
-work on, by acquiring the lock. If the iterator is empty the thread will jump out of the loop.
+work on, by acquiring the lock. Note that once the thread has acquired the lock and returned the next element
+from the iterator, the lock is released by the scope ending.
+If the iterator is empty the thread will jump out of the loop.
 Note that I added another parameter to launch the benchmark, thus decoupling chunk size from thread count.
 
 Now let's look at a benchmark.
 
 <figure markdown>
-![Image](../figures/locks_task_queue.png){ width="600" }
+![Image](../figures/locks_task_queue.png){ width="800" }
 <figcaption>
 Crossbeam with a mutex around a task queue. Element count was 10.000.000, iteration count was 10, thread count was 8
 and chunk size was element count / (thread count * 32).
