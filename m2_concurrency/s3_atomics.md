@@ -12,7 +12,7 @@ your language supports atomics, but your hardware doesn't. In that case the atom
 be emulated in software which will make your code inexplicably slower.
 
 First off, let's look at the concept of memory ordering. Afterwards I'll describe a few different
-atomic functions you can use, and then finally look at what atomics are like in WGSL. 
+atomic functions you can use, and then finally look at what atomics are like in WGSL.
 
 Anyways, memory ordering.
 
