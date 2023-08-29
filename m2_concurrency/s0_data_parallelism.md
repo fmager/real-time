@@ -136,12 +136,14 @@ Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 </figure>
 
 As you can see, once again, with a limited amount of work, parallelism isn't necessarily the answer to everything.
+Emitting a new list of elements also requires allocation of more data, which rarely helps multithreaded performance.
 
 Next up, I will run a small program to perform convolution. We generate a data vector of random floats. Then we have
 a number of filters of different sizes, to show the effect of a greater sized filter. To convolve, with a filter
 of size N, for this example let's say N = 3, for the first output element, we take data element 0, multiply it
 by filter element 0 and add it to a sum. Then data element 1 times filter element 1, add it to the sum. Data
-element 2 multiplied by filter element 2. Add it to the sum and then emit/store the output element. In Rust,
+element 2 multiplied by filter element 2. Add it to the sum and then emit/store the output element. Then we move on
+and do the same for data element 1 times filter element 0 plus data element 2 times filter element 1 and so on. In Rust,
 it can look like this -
 
 ```rust
@@ -203,4 +205,5 @@ Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
 </figcaption>
 </figure>
 
-In this case, with the greater computational complexity, Rayon easily takes the lead.
+In this case, with the greater computational complexity, Rayon easily takes the lead. We do however, still allocate
+space for a result. If we preallocated an output vector, we might get an even greater performance difference.

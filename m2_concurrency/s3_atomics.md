@@ -1,5 +1,5 @@
 # 2️⃣ Atomics
-Ok, so if a mutex is a horse, an atomic is a pony. It is a lot smaller. This is usually a good thing!
+If a mutex is a horse, an atomic is a pony. It is a lot smaller. This is usually a good thing!
 The smaller a region serialized through synchronization, the more potential concurrency we can have
 and the less likely things will go wrong. So what is an atomic?
 
@@ -12,8 +12,11 @@ your language supports atomics, but your hardware doesn't. In that case the atom
 be emulated in software which will make your code inexplicably slower.
 
 First off, let's look at the concept of memory ordering. Afterwards I'll describe a few different
-atomic functions you can use, and then finally look at what atomics are like in WGSL. Anyways,
-memory ordering. Various hardware platforms have different types of support for atomics. If we for
+atomic functions you can use, and then finally look at what atomics are like in WGSL. 
+
+Anyways, memory ordering.
+
+Various hardware platforms have different types of support for atomics. If we for
 example had a counter variable, it could for example be used to sum an array, we could make sure that
 the sum was correct while still being manipulated and accessed in a multithreaded setting by placing
 the counter inside an atomic. The nature of how the counter is incremented is then dictated by the
@@ -23,7 +26,7 @@ The function that we use for incrementing this summation counter can be called w
 different orderings. We'll look at three different types, sequentially consistent, acquire-release
 and relaxed. With sequentially consistent ordering, we can have certain guarantees in terms of which
 thread is getting to read and write to the atomic variable in which order. This is likely to be
-the most expensive ordering, but also likely to be the most correct.
+the most expensive ordering, but also likely to be the most consistent.
 
 Acquire-release is a paired ordering. It is especially good for implementing locks with atomics.
 If you used a bool or an integer (you could store which number thread currently holds the lock),
@@ -47,8 +50,8 @@ by wrapping it with an ```Arc<Atomic...>``` and cloning the ```Arc```.
 
 WGSL, the language used to make GPU programs in this guide, only supports ```atomic<T>``` where ```T```
 is either ```i32``` or ```u32```. All atomic functions have ```relaxed``` memory ordering. It's really
-good for things like reduction operations. Once each warp has a local result computed, they can
-compare results, or add, across warps through a global atomic variable. You can check out which
+good for things like reduction operations. Once each work group has a local result computed, they can
+compare results, or add, across work groups through a global atomic variable. You can check out which
 functions are available, which is a bit more limited compared to what was available in Rust,
 [here](https://www.w3.org/TR/WGSL/#atomic-builtin-functions).
 
@@ -63,8 +66,35 @@ from an array is made possible with all these functions which don't just swap, c
 do one more thing. We can increment and fetch to get our new data chunk!
 
 ## 3️⃣ Crossbeam and Atomics
-Back to the storyline! Hmm, can't do what I thought I could in Rust with this, so I might get back
-to continuing the crossbeam stuff once I figure out how to solve it with atomics.
+Back to the storyline! Once again, go back to ```m2_concurrency::code::parallelism``` or
+[online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/parallelism).
+Set the ```crossbeam_atomic_chunks``` flag to true.
+
+So, I pulled in the ```atomic_chunks_mut``` crate from the mandelbrot example you will see later.
+It is a chunks iterator which uses atomics to increment an index. This allows each thread, whenever
+asking for a new chunk to increment the current index and get the last index value. This is now
+that threads data chunk. Thus we do almost the same as the one with mutex, but with an atomic
+and an index.
+
+<figure markdown>
+![Image](../figures/atomics_benchmark.png){ width="800" }
+<figcaption>
+Crossbeam with an atomic chunk queue.
+This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
+Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
+</figcaption>
+</figure>
+
+As you can see, the ```crossbeam scope``` section still performs terribly since we are launching 257 threads with
+a chunk of data each. And while we can get good performance from the atomic chunks, the lower synchronization cost
+doesn't make much of a difference with the bigger chunk size. For my money, I would say that the best return on
+investment for your time, is probably experimenting with running either a fine-grained or a coarse-grained
+Rayon accelerated iterator. The performance is closer to self-tuning and you have less of a headache worrying
+about synchronization and ownership. You should of course always benchmark and use your own reasoning as to when
+you need to optimize this.
+
+Regardless, you should still try to benchmark different scenarios by changing the
+values in ```main()```. Try to reason about the performance differences!
 
 ## 5️⃣ Further Reading
 If you would like to learn more about atomics I can recommend you read about atomics and reordering in the
