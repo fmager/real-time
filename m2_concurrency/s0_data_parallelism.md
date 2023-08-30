@@ -1,4 +1,16 @@
 # 2️⃣ Data Parallelism
+Now let's get into working with parallelism, I won't start from basic to advanced, but from
+easiest to most difficult to use. The absolute easiest to use, in Rust at least, is data parallelism.
+[Data parallelism](https://en.wikipedia.org/wiki/Data_parallelism) partitions the data into segments
+for each thread. The way we are going to look at it in Rust is very simple as it is a trivial extension
+of the idiomatic way of writing Rust, as in so trivial you need to import a library and prefix your iterator
+with ```par_```. The library will take care of the rest for you.  However, as we'll see later, this isn't
+necessarily the fastest, but if we think about the amount of parallelism available in our system and
+the nature of our data, we can do something very very simple and easy to make data parallelism the fastest
+of the easy methods of parallelism. Using data parallelism requires that either there is no overlap between
+your data elements, or that you make your input read-only and each thread can output to its own segment
+of an output collection.
+
 The next sections will be heavily inspired by the book "Programming Rust"'s multiple implementations of
 [Mandelbrot](https://github.com/ProgrammingRust/mandelbrot/) image generation.
 If you don't know about the Mandelbrot image, you can see what that's all about

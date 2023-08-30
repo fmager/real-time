@@ -1,5 +1,5 @@
 # 2️⃣ Atomics
-If a mutex is a horse, an atomic is a pony. It is a lot smaller. This is usually a good thing!
+If a mutex is a horse, an atomic is a pony. Except, like a pony that's much faster than a horse.
 The smaller a region serialized through synchronization, the more potential concurrency we can have
 and the less likely things will go wrong. So what is an atomic?
 

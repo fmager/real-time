@@ -3,7 +3,8 @@ We just took a look at how to launch and distribute some work to multiple thread
 But we did some extra work to separate the data into neat chunks, with no overlap
 between which thread read and wrote to which data. So, how would we ensure
 correctness and performance (in that order!) if we had data which more than
-a single thread had access to?
+a single thread had access to? This requires working with the
+[shared memory model](https://en.wikipedia.org/wiki/Shared_memory).
 
 As we saw earlier we can easily share read-only data between threads with the
 atomically reference counted construct in Rust, ```Arc<T>```. But ```Arc```
