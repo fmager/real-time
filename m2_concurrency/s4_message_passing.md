@@ -28,7 +28,8 @@ space opens up in the channel? If you are designing an efficient system using me
 something you should think about.
 
 Two potential solutions are the synchronous and the asynchronous channels. With the asynchronous channel the
-transmitting thread will send the message to the channel and then move on, as in not block, remember blocking behavior? The asynchronous channel then has two methods of handling message overflow. It can either resize the
+transmitting thread will send the message to the channel and then move on, as in not block, remember blocking
+behavior? The asynchronous channel then has two methods of handling message overflow. It can either resize the
 queue (think back to dynamically sized arrays) or begin dropping messages. The synchronous channel on the other
 hand requires the transmitter to wait until either the message has been successfully transmitted or received,
 depending on the interpretation.
@@ -58,7 +59,8 @@ is an asynchronous channel. It is what is known as *unbounded* and if given too 
 accommodate. A transmitting thread will not block.
 
 The [mpsc::sync_channel](https://doc.rust-lang.org/std/sync/mpsc/fn.sync_channel.html) on the other hand
-is *bounded* and won't change its size. A transmitting thread will have to block until the message as been sent successfully. This might be best if you are running at high speeds and can't drop packages. You could very quickly
+is *bounded* and won't change its size. A transmitting thread will have to block until the message as been sent
+successfully. This might be best if you are running at high speeds and can't drop packages. You could very quickly
 accummulate a massive amount of memory.
 
 ## 3️⃣ Real-Time Message Passing
@@ -82,7 +84,8 @@ There are three values at the top.
 
 Max work is the most amount of work messages will be processed, otherwise the program would run forever.
 ```master_wait_time``` is the amount of miliseconds the master thread will wait after sending a new
-work message. The ```worker_wait_time``` is the amount of time the processing thread will wait before attempting to receive another message.
+work message. The ```worker_wait_time``` is the amount of time the processing thread will wait before
+attempting to receive another message.
 
 Try and run the code, see what happens!
 
