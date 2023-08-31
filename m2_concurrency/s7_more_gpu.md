@@ -1,9 +1,15 @@
-# 3️⃣ More GPU
+# 3️⃣🔜 More GPU
 More on this later.
 
-## Asynchronous Memory Transfers
+## The Graphics Pipeline
+Rasterization
+Vertex Shader
+Fragment Shader
+Compute Shader
 
 ## SPIR-V & GLSL/HLSL
+
+## Asynchronous Memory Transfers
 
 ## Warp Shuffling
 

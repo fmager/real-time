@@ -1,28 +1,8 @@
-# Profilers and Case Studies
-## Introduction to profiling, Optimization case studies
-
-* Profilers (PyTorch, web, GPU, general)
-* Memory bound
-* Compute bound
-* Timing
-* Variance
-* Multiple samples
-* Where to measure
-
-## Specializations
-
-* Training a neural network
-* Optimizing a neural network for inference
-* Running Yolo
-* Optimizing a point cloud renderer
-* Optimizing a path tracer
-
-## 4️⃣ Exercise
-
+# 4️⃣ Exercises
 Try out the profilers relevant to your own system with some sample programs.  
 Now try it with some of your own code from before you started on the guide!
 
-## 🧬4️⃣ Group discussion and presentation
+## 🧬 Group discussion and presentation
 Pick one of the following topics.  
 Read and understand it, then present and discuss the topic with one or more other people.  
 Preferably classmates.
@@ -35,3 +15,11 @@ Preferably classmates.
 * DLSS
 * Real-Time Texture Decompression and Upsampling
 * 2:4 sparsity with Tensor Cores
+
+## Optimizing Inference
+Find a suitable model and inference library.  
+Perform inference.  
+Optimize the model and inference process.  
+Can you do inferencing on one thread,  
+training on another and swap in the new model?  
+ADD SUGGESTED MODELS  
