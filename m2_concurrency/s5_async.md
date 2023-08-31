@@ -44,11 +44,10 @@ You launch a bunch of jobs, store their handles, then when you are done launchin
 other work to do in the mean time, you await all of your handles until you are ready to move on. But, allow
 me to quote Rust's [async book](https://rust-lang.github.io/async-book/) -
 
-```
-The most common way to run a Future is to .await it. When .await is called on a Future, it will attempt to run it
-to completion. If the Future is blocked, it will yield control of the current thread. When more progress can be
-made, the Future will be picked up by the executor and will resume running, allowing the .await to resolve.
-```
+> The most common way to run a Future is to .await it. When .await is called on a Future, it will attempt to run it
+> to completion. If the Future is blocked, it will yield control of the current thread. When more progress can be
+> made, the Future will be picked up by the executor and will resume running, allowing the .await to resolve.
+
 
 if a future, for example representing download of a file, in which case there maybe be multiple other factors than
 just the system we are in control of, calling ```.await``` may result in the current thread yielding. Another thing
