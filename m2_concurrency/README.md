@@ -56,7 +56,7 @@ speed, flamethrowers and excess!
 <figure markdown>
 ![Image](../figures/doof-warrior-from-mad-max.png){ width="600" }
 <figcaption>
-Witness Parallelism!
+Witness Concurrency!
 <a href="https://www.classicfm.com/discover-music/musicians-battle/doof-warrior-mad-max/">
 Image credit</a>.
 </figcaption>
