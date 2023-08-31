@@ -48,7 +48,6 @@ me to quote Rust's [async book](https://rust-lang.github.io/async-book/) -
 > to completion. If the Future is blocked, it will yield control of the current thread. When more progress can be
 > made, the Future will be picked up by the executor and will resume running, allowing the .await to resolve.
 
-
 if a future, for example representing download of a file, in which case there maybe be multiple other factors than
 just the system we are in control of, calling ```.await``` may result in the current thread yielding. Another thing
 we could do is the ```join!()``` macro. This is sort of like calling ```.await``` on a bunch of futures at the same
