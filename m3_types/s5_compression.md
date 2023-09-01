@@ -1,6 +1,12 @@
 # 3️⃣ Compression
-
-## Quantization
+Quantization - From float, to integer and back again.
+Sorting
+Delta encoding
+Run through zip
+Writing in bulk
+Decompression with delta encoding?
 
 ## 🧬 Point Cloud Compression
-This for people interested in graphics!
+This is for people interested in graphics!
+Bit nulling!
+Sorting for better rendering

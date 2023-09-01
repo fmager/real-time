@@ -2,4 +2,3 @@
 Range
 Signed
 Unsigned
-Bitwise operations
