@@ -9,7 +9,7 @@ Preferably classmates.
 
 * Packing bits for atomic operators
 * Inverse depth buffers
-* Bittricks, packing normals and colors
+* Bit tricks, packing normals and colors
 * Morton codes / Z-order curves, tiling and GPU textures
 * Calculating compression precision in a lossy point cloud compression scheme
 * DLSS

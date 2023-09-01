@@ -20,16 +20,16 @@ These sections are indicated by this DNA emoji - 🧬.
 Course material for a course based on this material can be found
 [here](https://absorensen.github.io/real-time-visual-and-machine-learning-systems/).
 
-The material comprising the guide is divided into 6 modules.
+The material comprising the guide is divided into 7 modules.
 
 * Intro to the course, the different ways to use the material, intro to Rust and wgpu.
 * Memory hierarchies and computational graphs
 * Concurrency
-* Types, energy usage and inference, quantization, sparsity and pruning of neural networks
-* Introduction to profiling, optimization use cases on topics such as model
+* Types, energy usage, bit tricks and compression
+* Optimization with an introduction to profiling and use cases covering topics such as model
 training and quantization, graphics, computer vision
-* How to create real time systems, a random grab bag of tips and tricks,
-frameworks for the different fields and project proposals
+* A random grab bag of tips and tricks
+* How to create real time systems and and project proposals
 
 So let's get started!
 

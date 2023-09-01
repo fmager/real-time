@@ -1,1 +1,3 @@
-# 🧬3️⃣🔜 Neural Network Inference
+# 🧬3️⃣ Neural Network Inference
+Pruning
+Quantization

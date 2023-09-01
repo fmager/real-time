@@ -14,3 +14,5 @@ Compute Shader
 ## Warp Shuffling
 
 ## Distributed Shared Memory
+
+## 🧬 Shader Execution Reordering
