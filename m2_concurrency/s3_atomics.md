@@ -66,7 +66,7 @@ from an array is made possible with all these functions which don't just swap, c
 do one more thing. We can increment and fetch to get our new data chunk!
 
 ## 3️⃣ Crossbeam and Atomics
-Back to the storyline! Once again, go back to ```m2_concurrency::code::parallelism``` or
+Back to the storyline! Once again, go to ```m2_concurrency::code::parallelism``` or
 [online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/parallelism).
 Set the ```crossbeam_atomic_chunks``` flag to true.
 
@@ -93,8 +93,30 @@ Rayon accelerated iterator. The performance is closer to self-tuning and you hav
 about synchronization and ownership. You should of course always benchmark and use your own reasoning as to when
 you need to optimize this.
 
-Regardless, you should still try to benchmark different scenarios by changing the
-values in ```main()```. Try to reason about the performance differences!
+But hold on a minute - I added some values. I separated the element counts into two different values to get the
+run time up for the simpler double function. When benchmarking, the rule of thumb is you should be running your
+benchmark for around 2 seconds. This allowed me to up the amount of elements for the double function, but decrease
+the number of elements for the more complex map function. I also added two more variables. ```complexity``` which
+dictates how many times the loop in the map function will run and ```escape_probability``` which is a new feature.
+Now, whenever ```escape_probability``` is greater than 0.0, for every iteration of the loop, a random number will
+be generated. If that number is less than ```escape_probability``` the loop will be broken out of. This to allow
+you to make the work load less uniform and more like generating a mandelbrot image or rendering an image with
+path tracing. If we weren't chunking the data and exclusively running fine-grained parallelism this should
+give a larger advantage to the work stealing techniques (Rayon).
+
+<figure markdown>
+![Image](../figures/atomics_with_escape_benchmark.png){ width="800" }
+<figcaption>
+Adding more loop iterations while also adding an escape probability.
+This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
+Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively.
+</figcaption>
+</figure>
+
+Now try and spend some time playing around with the variables in ```main()```.
+Especially stuff like chunk size, escape probability and complexity. In which cases does which techniques get
+better or worse? Try and think about the types of workloads that are the most relevant to you and to reason
+about the differences in performance.
 
 ## 5️⃣ Further Reading
 If you would like to learn more about atomics I can recommend you read about atomics and reordering in the
