@@ -136,7 +136,7 @@ a
 at the top of the shader file and then compile. This makes your code less readable, but not as unreadable
 as fully using op codes.
 
-## 5️⃣ Further reading
+## 5️⃣ Additional Reading
 [Fun and hackable tensors in Rust](https://getcode.substack.com/p/fun-and-hackable-tensors-in-rust)  
 [Massively Parallel Fun with GPUs](https://getcode.substack.com/p/massively-parallel-fun-with-gpus)  
 [Compute Shader Glossary](https://github.com/googlefonts/compute-shader-101/blob/main/docs/glossary.md)  

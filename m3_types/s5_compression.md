@@ -10,3 +10,10 @@ Decompression with delta encoding?
 This is for people interested in graphics!
 Bit nulling!
 Sorting for better rendering
+
+## 5️⃣ Additional Reading
+Lempel-Ziv 77
+Lempel-Ziv 78
+Huffman Coding
+Zip
+Gzip
