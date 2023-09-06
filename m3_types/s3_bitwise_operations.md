@@ -2,4 +2,4 @@
 >> << & | ^
 
 ## 5️⃣ Additional Reading
-https://en.wikipedia.org/wiki/Bitwise_operation
+[Bitwise Operations](https://en.wikipedia.org/wiki/Bitwise_operation)

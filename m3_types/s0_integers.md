@@ -10,7 +10,7 @@ You probably know numbers in base 10. But what about base 2 and base 16?
 
 ## Binary - Base 2
 Base 2 is what you'll know as binary. Binary is at the absolute core of how computers represent
-numbers, as each digit can be represented as either being on or off. 1 or 0. 
+numbers, as each digit can be represented as either being on or off. 1 or 0.
 We have 2 possible values for each digit in binary numbers.
 In base 10 the number 18 can be represented as the following -
 
@@ -64,7 +64,7 @@ both bits were 1. It would output a 0 in all other cases. So if we gave it
 the two binary numbers, the mask 0b00000000000000001111111100000000 and some input number
 like 0b01010010001001101011010110010110, we would get an output value of
 0b00000000000000000011010100000000. This allows us to just isolate the active bits
-in the second byte from the right. 
+in the second byte from the right.
 
 This is really hard to read. If we had instead encoded our mask in hexadecimal,
 we would write 0xFF00 for our mask. We rarely have to write out our inputs, but
