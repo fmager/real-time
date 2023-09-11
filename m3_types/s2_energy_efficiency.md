@@ -54,6 +54,7 @@ cache line. Elements which could be reused and kept in cache.
 [Efficient Processing of Deep Neural Networks](https://arxiv.org/pdf/1703.09039.pdf) is a highly
 recommended tour through various concerns and techniques in reducing the energy footprint of
 neural networks.  
+[A recorded lecture of Vivienne Sze about energy efficiency in AI](https://www.youtube.com/watch?v=WbLQqPw_n88).  
 [Characterizing energy consumption of CPUs](https://ieeexplore.ieee.org/document/5598316).  
 [Green Computing](https://en.wikipedia.org/wiki/Green_computing).  
 [What is green coding?](https://geekflare.com/green-coding/).  
