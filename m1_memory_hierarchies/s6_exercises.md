@@ -6,6 +6,7 @@ If the garbage collector implements cycle detection to depth X adding which poin
 Weak pointers.
 Write out the memory of THIS sequence of vector operations.
 N dimensional indexing in 1D array
+The life of a naive data loader - can you come up with a better way?
 
 ## Programming
 Extend the computational graph with an inplace operation for the ReLU operator (only for the non-fused ReLU)
