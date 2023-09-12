@@ -1,7 +1,8 @@
 # 3️⃣🔜 Branchless Programming
-SIMD and branchless later!
-AOS SOA AOSOA
 Short circuiting, think back to bitwise operators
+Branch prediction and pipelines
+Data oriented programming
+AOS SOA AOSOA
 
 ## SIMD
 

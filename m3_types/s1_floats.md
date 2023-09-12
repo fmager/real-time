@@ -39,7 +39,7 @@ for element in &mut data {
 But if ```some_constant``` was 4.0, 2.0 or 256.0 or something like that, they would be. Finally, NaN's propagate.
 Any operation involving a NaN value returns a NaN value, including ```NaN == NaN```.
 
-## 5️⃣ Additional Reading
+## 5️⃣ Additional Reading - Highly Recommended
 Every floating point operation incurs some form of error. But if you used specialized floating point operations
 such as the [fused multiply-add](https://en.wikipedia.org/wiki/Multiply%E2%80%93accumulate_operation), which
 can be found [in Rust as well](https://doc.rust-lang.org/std/primitive.f32.html#method.mul_add), you can get a
