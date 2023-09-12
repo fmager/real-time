@@ -49,7 +49,34 @@ isolate the first 8 bits and not be bothered by the rest. In that case we might 
 
 ```rust
 let initial_value: u16 = 0b10101010_11110101;
-let mask: u16 = 0b11111111;
+let mask: u16 =                   0b11111111;
+let masked_value: u16 = initial_value & mask; // masked value should now be 0b11110101
+```
+
+Masks is also where hexadecimal numbers can really clean up. I used u16 in the example, but if we used
+64-bit numbers things could get very out of hand -
+
+```rust
+// Damn you 64-bits!
+let initial_value: u64 = 0b10101010_10101010_10101010_10101010_10101010_10101010_10101010_11110101;
+let mask: u64 =          0b11111111_00000000_00000000_00000000_00000000_00000000_00000000_00000000;
+let masked_value: u64 = initial_value & mask; // masked value should now be 0b11110101
+```
+
+... let's use hexadecimal numbers instead -
+
+```rust
+// Damn you 64-bits!
+let initial_value: u64 = 3_074_457_345_618_258_677; // or 0x2AAA_AAAA_AAAA_AAF5
+let mask: u64 = 0xFF00 0000 0000 0000; // FF is the same as turning 8 bits completely on. So 0xF == 0xb1111.
+let masked_value: u64 = initial_value & mask; // masked value should now be 0b11110101
+```
+
+Or with a slightly more sane example.
+
+```rust
+let initial_value: u16 = 43_765;
+let mask: u16 = 0xFF;
 let masked_value: u16 = initial_value & mask; // masked value should now be 0b11110101
 ```
 
@@ -75,8 +102,14 @@ from 0 to 1 or from 1 to 0.
 Rust does not have a bit vector implementation in the standard library, but what it does instead is implement
 quite a number of bitwise or bitwise-adjacent operations directly on
 [integers](https://doc.rust-lang.org/std/primitive.u32.html#method.rotate_left).
-Rust does have the bitwise NOT, usually denoted ~, but it is ! like on boolean types.
+Rust does have the bitwise NOT, usually denoted ~, but it is ! like on boolean types. Like so -
+
+```rust
+let initial_value: u8 = 0b01010101;
+let flipped_value: u8 = !initial_value; // 0b10101010;
+```
+
 
 ## 5️⃣ Additional Reading
-[Bitwise Operations wiki](https://en.wikipedia.org/wiki/Bitwise_operation).
+[Bitwise Operations wiki](https://en.wikipedia.org/wiki/Bitwise_operation).  
 The Rust language reference for [operators](https://doc.rust-lang.org/reference/expressions/operator-expr.html).
