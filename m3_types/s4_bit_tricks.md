@@ -180,8 +180,9 @@ for index in 0..bits_of_precision {
 
 Some mad lads looked at
 [optimization](https://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/)
-of Morton codes. The above code snippet was just a Rust version of what was written in the aforementioned blog post under the
-"For-loop based method"-heading. The blog post also has a nice visualization of what Morton codes look like, as opposed to the grid.
+of Morton codes. The above code snippet was just a Rust version of what was written in the aforementioned
+blog post under the "For-loop based method"-heading. The blog post also has a nice visualization of what
+Morton codes look like, as opposed to the grid.
 
 <figure markdown>
 ![Image](../figures/small_morton_code.png){ width="800" }
