@@ -171,14 +171,16 @@ let bits_of_precision: u32 = 10;
 let mut encoded: u32 = 0;
 let mut mask: u32 = 1;
 for index in 0..bits_of_precision {
-    encoded |= ((x & (1 << index)) << 2*index) | ((y & (1 << index)) << (2*index + 1)) | ((z & (1 << index)) << (2*index + 2));
+    encoded |= ((x & (1 << index)) << 2*index);
+    encoded |= ((y & (1 << index)) << (2*index + 1));
+    encoded |= ((z & (1 << index)) << (2*index + 2));
 }
 
 ```
 
 Some mad lads looked at
-[optimization of Morton codes](https://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/)
-. The above code snippet was just a Rust version of what was written in the aforementioned blog post under the
+[optimization](https://www.forceflow.be/2013/10/07/morton-encodingdecoding-through-bit-interleaving-implementations/)
+of Morton codes. The above code snippet was just a Rust version of what was written in the aforementioned blog post under the
 "For-loop based method"-heading. The blog post also has a nice visualization of what Morton codes look like, as opposed to the grid.
 
 <figure markdown>
@@ -191,8 +193,9 @@ Image credit </a>
 </figure>
 
 In the blog post there is even a lookup table (LUT) version mentioned which removes all of the loops.
-Using LUTs yields an advantage which increases with the size of the numbers as the number of iterations in the for-loops increases.
-It does however require you to copy paste or generate a LUT which you can reuse. You tradeoff a lot of for-loops for doing a few
+Using LUTs yields an advantage which increases with the size of the numbers as the number of iterations
+in the for-loops increases. It does however require you to copy paste or generate a LUT which you can reuse.
+You tradeoff a lot of for-loops for doing a few
 memory look-ups instead. It seems to be the favoured way of doing it when you search for Mortorn encoding libraries.
 
 <figure markdown>
@@ -204,12 +207,13 @@ Image credit </a>
 </figcaption>
 </figure>
 
-We can use Morton codes to do stuff like creating spatial data structures and interestingly, this is how textures are stored on GPU's.
-This allows for better cache coherence when working with textures. Imagine you want to draw some point between 4 different pixels of
-an image. You can either just go to the nearest pixel in the texture, or you can do some filtering function between the 4 nearest pixels,
-like bilinear interpolation. Then we need good locality to get the 4 pixels as quickly as possible. If you go back and look at the
-spatial ordering of the Morton layout, you'll see that if you get lucky, the four pixels can be either very close to each other in
-memory, or pretty close. They aren't an entire row apart.
+We can use Morton codes to do stuff like creating spatial data structures and interestingly, this is how
+textures are stored on GPU's. This allows for better cache coherence when working with textures. Imagine
+you want to draw some point between 4 different pixels of an image. You can either just go to the nearest
+pixel in the texture, or you can do some filtering function between the 4 nearest pixels, like bilinear
+interpolation. Then we need good locality to get the 4 pixels as quickly as possible. If you go back and look at the
+spatial ordering of the Morton layout, you'll see that if you get lucky, the four pixels can be either
+very close to each other in memory, or pretty close. They aren't an entire row apart.
 
 <figure markdown>
 ![Image](../figures/nearest_linear_texture_filtering.png){ width="800" }

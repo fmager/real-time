@@ -109,7 +109,6 @@ let initial_value: u8 = 0b01010101;
 let flipped_value: u8 = !initial_value; // 0b10101010;
 ```
 
-
 ## 5️⃣ Additional Reading
 [Bitwise Operations wiki](https://en.wikipedia.org/wiki/Bitwise_operation).  
 The Rust language reference for [operators](https://doc.rust-lang.org/reference/expressions/operator-expr.html).
