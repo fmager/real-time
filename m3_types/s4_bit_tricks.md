@@ -226,10 +226,52 @@ Image credit </a>
 </figure>
 
 ## Fast Inverse Square Root
-The black magic method.
-[Fast Inverse Square Root](https://www.youtube.com/watch?v=p8u_k2LIZyo) is a classic bit trick.
+Previously, I wrote that you should never do bitwise operations on floating point numbers. Well, now we're
+gonna look at a, if not the most, famous black magic methods directly manipulating the bits of a floating
+point number. This method comes from computer graphics where the normalization of vectors (changing their
+magnitudes to 1), is constantly used to ensure that the directions are correct. To do this you divide each
+element of the vector by the length. To find this length we need the square root of the sum of each element squared.
+The square root is quite expensive to compute and as you may recall, multiplication is much faster than
+division. In most graphics, the loss of precision in multiplying by the inverse value instead of division
+by the value, is acceptable. And thus if we could find the inverse square root of the sum of squared elements,
+it would be faster.
 
-24-bits
-inverseSqrt(data) in WGSL  
+This is where this gem known from the development of Quake 3 enters the scene -
+
+```c++
+float Q_rsqrt( float number )
+{
+ long i;
+ float x2, y;
+ const float threehalfs = 1.5F;
+
+ x2 = number * 0.5F;
+ y  = number;
+ i  = * ( long * ) &y;                       // evil floating point bit level hacking
+ i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+ y  = * ( float * ) &i;
+ y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+// y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+
+ return y;
+}
+```
+
+It even has its [own wikipedia page](https://en.wikipedia.org/wiki/Fast_inverse_square_root). To be honest,
+I watched [this video](https://www.youtube.com/watch?v=p8u_k2LIZyo) about it some years ago, and can't quite
+remember how it works. It casts the float to an integer (long), and then manipulates the underlying bits through
+knowledge of the mantissa. It casts it back to a float, and then uses a single iteration of Newton's method for
+reducing the error. If you read the rest of the wiki, you will see there have been subsequent improvements to
+the accuracy, elimination of undefined behavior. The algorithm resulted in a four times faster execution
+than just getting the square root directly. Short after, hardware implementations started cropping up which
+outperformed it both in performance and in accuracy. You can even find it in WGSL through calling 
+```inverseSqrt(data)```.
+
+Often you can find hardware implementations of often needed mathematical functions. Especially for GPU programming
+this can yield a performance boost. These are called intrinsic functions. Usually, they will have a lower precision.
+The instrinsic cosine might be computed in 24-bits for example, but will probably outperform the software version
+by a large margin, if the hardware support is available.
 
 ## 5️⃣ Additional Reading
+If you've read all of this, you should now be ready to look at quantization and quantization aware training
+[in PyTorch](https://pytorch.org/blog/introduction-to-quantization-on-pytorch/).
