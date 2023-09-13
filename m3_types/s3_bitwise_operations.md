@@ -69,7 +69,7 @@ let masked_value: u64 = initial_value & mask; // masked value should now be 0b11
 // Damn you 64-bits!
 let initial_value: u64 = 3_074_457_345_618_258_677; // or 0x2AAA_AAAA_AAAA_AAF5
 let mask: u64 = 0xFF00 0000 0000 0000; // FF is the same as turning 8 bits completely on. So 0xF == 0xb1111.
-let masked_value: u64 = initial_value & mask; // masked value should now be 0b11110101
+let masked_value: u64 = initial_value & mask; // Masked value should be 0x2A00 0000 0000 0000
 ```
 
 Or with a slightly more sane example.
