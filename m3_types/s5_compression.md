@@ -46,7 +46,7 @@ given value being similar to its neighbor.
 We could take things even further and delta encode all of the values. We do this by having the starting value
 be the initial value, and every subsequent value being the difference of that value relative to the preceeding
 value. In that case we now have even more numbers that are similar. This does however make the decompression
-take longer. You now have to de-delta encode all of the values to use them. 
+take longer. You now have to de-delta encode all of the values to use them.
 
 For a brief introduction to both the classic Lempel-Ziv schemes look under
 week 10 on this [page](http://www2.compute.dtu.dk/courses/02282/2023/) for the
