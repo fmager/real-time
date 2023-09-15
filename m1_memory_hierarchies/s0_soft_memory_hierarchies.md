@@ -1716,7 +1716,10 @@ than the total data set for this to work, and using heuristics on this list of s
 optimize our virtualized data set. We could give a priority to each of the samples based on how long ago they were
 sampled last and in which block they were located, on which physical memory they were located (the cloud is just
 someone else's computer). Optimizing these types of systems can be quite a fun algorithms and systems optimization
-process.
+process. For more on working with data outside of your computers memory, like on disk, see the first
+three weeks of
+[Algorithmic Techniques for Modern Data Models](https://www2.compute.dtu.dk/courses/02289/2022/) by Inge Li Gørtz,
+Eva Rotenberg and Philip Bille.
 
 ### 🧬 Virtualized Rendering
 Another use of this is the rendering of data sets too large to fit in a users computer. You preprocess

@@ -118,11 +118,11 @@ on your own laptop or desktop for following along, but running on
 multiple data center GPUs seems to be all the rage these days, so I will keep
 that in mind.
 
-## Rust and Concurrency
+## 2️⃣ Rust and Concurrency
 Each language has its own implementations of concepts in concurrency, but I will focus on showing you the ones
-in Rust and wgsl. All of them exist in other languages, but some may for example be more ergonomic to work with
+in Rust and WGSL. All of them exist in other languages, but some may for example be more ergonomic to work with
 for concepts like ```async``` or ```channels```. What the other languages do not have is the borrow checker to
-ensure the validity of your code. Often this results in parallelized Rust code looking or feeling slightl
+ensure the validity of your code. Often this results in parallelized Rust code looking or feeling slightly
 different, as the borrow checker forces you down a certain path. Also Rust has traits, such as ```Send```
 and ```Sync```, but these are specific to Rust and I have tried to avoid getting too far into traits,
 so I won't be explaining them. If interested you are most welcome to read about them

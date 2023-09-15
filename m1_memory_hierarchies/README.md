@@ -15,6 +15,10 @@ Image credit</a>
 </figcaption>
 </figure>
 
+For an introduction to how a computer works,
+see [this explanation](https://people.compute.dtu.dk/janba/what_is_a_computer.html)
+by Andreas Bærentzen. I will continue assuming you have read it.  
+
 ## Perspective
 The further you move from simple, albeit heavy, problems such as a matrix-matrix problem to more heterogenous
 problems, such as training a neural network, the harder it can be to get good performance. How do you know or
