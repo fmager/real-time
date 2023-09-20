@@ -1,5 +1,12 @@
 # 🧬3️⃣ Tensor Cores
-Mostly for people interested in deep learning or programming GPUs to the fullest.
+This is mostly for people interested in deep learning or programming GPUs to the fullest. This should also include
+people interested in graphics due to DLSS, denoisers and upscaling becoming so prevalent.
+
+Supported in Tensor Cores
+FP64, TF32, bfloat16, FP16, FP8, and INT8
+
+Supported in CUDA Cores
+FP64, FP32, FP16, bfloat16, INT8
 
 ## 5️⃣ Additional Reading
 [Tensor Cores](https://www.nvidia.com/en-us/data-center/tensor-cores/)  
