@@ -77,13 +77,14 @@ points and converge on the "true" image.
 
 We will build this level-of-detail octree by using spatial hashing. Instead of starting with a tree representation,
 think back to nodes and pointers, we will start with a list of hash maps. In Rust the pseudo tree representation
-would look something like ```let mut pseudo_tree : Vec<HashMap<u64, Vec<Point>> = ...```. So for each 
-level-of-detail we will keep a hash map. Each level-of-detail will have the same offset vector, but a diminishing
-scale. We can pick any factor, but if we choose 2.0 we get some nice side effects later on.
-So if we set the scale of the root node to 100.0 meters for each axis, level-of-detail 1 would have a scale of
-50.0 meters per node for each axis. This will continue on until level-of-detail 10 where we have a scale of
-0.09765625 meters, or 9.7 cm per node. Clearly, we now have a very small area, being covered by quite a
-lot of bits, 20! And how we will turn that to an advantage I will get back to.
+would look something like ```let mut pseudo_tree : Vec<HashMap<u64, Vec<Point>> = ...```. Alternatively, given
+that we know how much each list maxes out at we could just use a fixed size array and an index to which points
+are active. So for each level-of-detail we will keep a hash map. Each level-of-detail will have the same offset
+vector, but a diminishing scale. We can pick any factor, but if we choose 2.0 we get some nice side effects
+later on. So if we set the scale of the root node to 100.0 meters for each axis, level-of-detail 1 would
+have a scale of 50.0 meters per node for each axis. This will continue on until level-of-detail 10 where
+we have a scale of 0.09765625 meters, or 9.7 cm per node. Clearly, we now have a very small area,
+being covered by quite a lot of bits, 20! And how we will turn that to an advantage I will get back to.
 
 We just have to clear up one thing, subsampling. It is not that important in terms of compression, but this
 data structure will reuse the spatial hashing concept quite a bit, and we will do so too when choosing which
@@ -171,6 +172,9 @@ Another option to make the numbers more similar would be to deinterleave the lis
 values next to each other, followed by all of the Y values, all of the Z values and all of the colors. This again,
 requires the users' system to touch every single point before uploading to the GPU, or to use 4 bindings per list
 of points in the shader.
+
+And here we are. This was a small example of how domain knowledge can help you compress your data, even if you
+aren't writing the compressor yourself.
 
 ## 5️⃣ Additional Reading
 [Information Theory](https://en.wikipedia.org/wiki/Information_theory)  
