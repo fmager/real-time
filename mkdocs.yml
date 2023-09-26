@@ -111,10 +111,8 @@ nav:
     - m4_optimization/README.md
     - S0 - Measuring Performance: m4_optimization/s0_measuring_performance.md
     - S1 - Profilers: m4_optimization/s1_profilers.md
-    - S2 - 🧬3️⃣🔜 Neural Network Training: m4_optimization/s2_neural_network_training.md
-    - S3 - 🧬3️⃣ Neural Network Inference: m4_optimization/s3_neural_network_inference.md
-    - S4 - 🧬3️⃣🔜 Path Tracer: m4_optimization/s4_path_tracer.md
-    - S5 - 🧬3️⃣🔜 Point Cloud Renderer: m4_optimization/s5_point_cloud_renderer.md
+    - S2 - 🧬3️⃣ Super Resolution Windows: m4_optimization/s2_super_resolution_windows.md
+    - S2 - 🧬3️⃣ Training PyTorch: m4_optimization/s2_training_pytorch.md
     - S6 - 🧬4️⃣ Exercises: m4_optimization/s6_exercises.md
   - M5 - 3️⃣ Tips and Tricks:
     - m5_tips_and_tricks/README.md

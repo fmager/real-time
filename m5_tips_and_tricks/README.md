@@ -11,7 +11,7 @@
 * Object Pools
 * System calls - hoist out of the hot loop
 * Logging and printing
-* Bindings - PyO3 and cxx
+* Bindings - PyO3 and cxx, [maturin](https://www.maturin.rs/)
 * Walk, don't run, testing for correctness before optimization
 * Don't use abbreviations
 * Don't talk moon man language to me, ya Blargon!
@@ -22,7 +22,6 @@
 * Cognitive load, and delaying errors to after the first draft - deliberate development vs. debugging
 * Prefer stateless programming, minimize stateful programming (functional inspiration)
 * Implicit casting
-* Compression
 * Know your system - mobile, laptop, desktop, integrated memory, which GPU
 * Use version control even for solo development
 * Am I copying/cloning things that don't need to be copied?

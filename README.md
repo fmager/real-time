@@ -17,7 +17,7 @@ tailor to you, the reader! These specialization sections could for example have 
 interested in compute graphics and a different set of tasks for people interested in deep learning.
 These sections are indicated by this DNA emoji - 🧬.
 
-Course material for a course based on this material can be found
+A course based on this material can be found
 [here](https://absorensen.github.io/real-time-visual-and-machine-learning-systems/).
 
 The material comprising the guide is divided into 7 modules.
