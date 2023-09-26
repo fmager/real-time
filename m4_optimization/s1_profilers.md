@@ -14,9 +14,9 @@ Hard to install
 Profiling on Windows is a bad experience if you are outside Visual Studio
 
 ## Different Points of View
-Benchmark table
-Trace viewer https://github.com/abhirag/tracy_rust_demo
-Flamegraph
+Benchmark table  
+[Trace viewer](https://github.com/abhirag/tracy_rust_demo)  
+Flamegraph  
 
 ## How to work with Profilers
 Make sure you measured enough
