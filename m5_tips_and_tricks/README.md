@@ -6,6 +6,7 @@
 * GUIs & egui
 * memcpy
 * Check/validate everything before the hot loop
+* Unitialized memory
 * Hot loops, event loops
 * Allocations in a hot loop
 * Object Pools
@@ -22,6 +23,7 @@
 * Cognitive load, and delaying errors to after the first draft - deliberate development vs. debugging
 * Prefer stateless programming, minimize stateful programming (functional inspiration)
 * Implicit casting
+* Templating
 * Know your system - mobile, laptop, desktop, integrated memory, which GPU
 * Use version control even for solo development
 * Am I copying/cloning things that don't need to be copied?
@@ -29,7 +31,7 @@
 * Testing and Seeding RNG's
 * [Faster RNG](https://youtu.be/5_RAHZQCPjE)
 * Timing real-time systems and how to escape or offload compute
-* Multi-resolution computing for making your real-time target
+* Multi-resolution computing for making your real-time target, video streaming and image loading
 * Pressure testing and worst cases
 * Static/Dynamic Dispatch - dyn, enum, trait
 * The Markov Chain

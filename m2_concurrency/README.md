@@ -72,10 +72,13 @@ thread just handle the whole thing.
 
 Some elements in your system you might be able to parallelize lock free, wherein
 you find a solution without needing synchronization primitives like scopes,
-barriers, atomics, locks or mutexes. Some parts of your system might be amenable
-to fine-grained parallelism, such as a matrix-matrix multiplication, whereas
-other parts might only be amenable to coarse grained parallelism, such as
-a SLAM system pipelined into 4 stages, thus only being able to utilize 4 threads.
+barriers, locks or mutexes. You might get away with having no synchronization, as the
+shared data might be read-only or you might have to use a simple synchronization
+mechanism with hardware support like atomics.
+Some parts of your system might be amenable to fine-grained parallelism,
+such as a matrix-matrix multiplication, whereas other parts might only be
+amenable to coarse grained parallelism, such as a SLAM system pipelined into
+4 stages, thus only being able to utilize 4 threads.
 
 All of these put one thing into the center of everything. Can you guess it?
 

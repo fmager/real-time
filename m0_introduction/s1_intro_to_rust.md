@@ -99,7 +99,7 @@ Running it on the ```how_to_test``` project, Clippy returns the following messag
 <figure markdown>
 ![Image](../figures/clippy.png){ width="500" }
 <figcaption>
-The guide elects not to fix this, because the return statement was put there to make a point.
+I elected not to fix this, because the return statement was put there to make a point.
 </figcaption>
 </figure>
 

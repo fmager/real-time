@@ -552,7 +552,7 @@ let z_dimension: usize = 2;
 for x_index in 0..x_dimension {
     for y_index in 0..y_dimension {
         for z_index in 0..z_dimension {
-            println("{}", data[x_index][y_index][z_index]);
+            println!("{}", data[x_index][y_index][z_index]);
         }
     }
 }
@@ -574,7 +574,7 @@ let z_dimension: usize = 2;
 for z_index in 0..z_dimension {
     for y_index in 0..y_dimension {
         for x_index in 0..x_dimension {
-            println("{}", data[x_index][y_index][z_index]);
+            println!("{}", data[x_index][y_index][z_index]);
         }
     }
 }
