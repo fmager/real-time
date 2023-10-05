@@ -55,7 +55,7 @@ epochs, M batches will consist of K randomly selected images from the entire dat
 
 The images will be retrieved for a batch, assuming K calls to ```__getitem__``` with random values of ```i```.
 
-```python 
+```python
 def __getitem__(self, i):
     """
     This method is required to be defined for use in the PyTorch DataLoader.
