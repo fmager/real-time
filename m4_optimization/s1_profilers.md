@@ -11,7 +11,8 @@ Hard to install
 * [Nsight Systems](https://developer.nvidia.com/nsight-systems)
 * [PyTorch profiler](https://pytorch.org/tutorials/recipes/recipes/profiler_recipe.html)
 * [A list of Rust profilers from the Rust Performance Book](https://nnethercote.github.io/perf-book/profiling.html)
-Profiling on Windows is a bad experience if you are outside Visual Studio
+Profiling on Windows is a bad experience if you are outside Visual Studio. You can try using Linux tools
+through WSL2 on Windows.
 
 ## Different Points of View
 Benchmark table  

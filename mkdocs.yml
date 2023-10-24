@@ -112,8 +112,7 @@ nav:
     - S0 - Measuring Performance: m4_optimization/s0_measuring_performance.md
     - S1 - Profilers: m4_optimization/s1_profilers.md
     - S2 - 🧬3️⃣ Super Resolution Windows: m4_optimization/s2_super_resolution_windows.md
-    - S2 - 🧬3️⃣ Training PyTorch: m4_optimization/s2_training_pytorch.md
-    - S6 - 🧬4️⃣ Exercises: m4_optimization/s6_exercises.md
+    - S3 - 🧬4️⃣ Exercises: m4_optimization/s3_exercises.md
   - M5 - 3️⃣ Tips and Tricks:
     - m5_tips_and_tricks/README.md
   - M6 - 🧬4️⃣ Projects:
