@@ -38,3 +38,4 @@
 * If using recursion and risking stack overflow, use a loop and a queue
 * If you can, always prefer an array over more complicated structures
 * Sorting and random access - GyroDropout, Sorting Functions benchmark
+* Is there contention around synchronization primtives such as mutexes?
