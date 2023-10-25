@@ -105,7 +105,7 @@ fn version_2() {
 
 Which gives us this output -
 
-```
+```rust
 version_2_a ran for 0 milliseconds
 version_2_b ran for 0 milliseconds
 version_2_c ran for 1 milliseconds
@@ -161,7 +161,7 @@ fn version_3() {
 
 Getting the output -
 
-```
+```rust
 version_3_a ran for 22 milliseconds
 version_3_b ran for 23 milliseconds
 version_3_c ran for 2101 milliseconds
@@ -214,7 +214,7 @@ fn version_4() {
 
 Now we get the executions per second -
 
-```
+```rust
 version_4_a executed 188668 times in 2000 milliseconds
 version_4_b executed 187431 times in 2000 milliseconds
 version_4_c executed 1888 times in 2000 milliseconds
@@ -300,7 +300,7 @@ fn version_5() {
 
 And we get the following output -
 
-```
+```rust
 version_5_a ran with mean 10.116 microseconds and variance 1.1695418 microseconds squared
 version_5_b ran with mean 10.315 microseconds and variance 0.94678104 microseconds squared
 version_5_c ran with mean 1046.928 microseconds and variance 1914.6855 microseconds squared
@@ -311,17 +311,18 @@ If we simulate an uneven workload across executions by making a more erratic fun
 is generated for each call to the ```a_erratic()```, 1 out of 60 calls will result in an execution time which should
 be approximately be 100 times slower. We get the following results -
 
-```
+```rust
 version_6_a ran with mean 23.2655 microseconds and variance 13236.803 microseconds squared
 version_6_b ran with mean 10.359 microseconds and variance 0.77912927 microseconds squared
 version_6_c ran with mean 1066.4165 microseconds and variance 2758.1538 microseconds squared
 version_6_d ran with mean 1.0035 microseconds and variance 0.0034878778 microseconds squared
 ```
 
-Clearly, we should be getting the hint that something is irregular about the execution of our function ```a_erratic()```.
-Another thing we could do, if these functions took input data, would be to benchmark the execution times across various input data sizes
-and graph it. I won't do it in this function, it is a bit more involved. But it is how the graphs were generated in the framework
-for computational graphs. You can find the code for making the graph based on vectors of performance measurements in
+Clearly, we should be getting the hint that something is irregular about the execution of our function
+```a_erratic()```. Another thing we could do, if these functions took input data, would be to benchmark
+the execution times across various input data sizes and graph it. I won't do it in this function, it is a
+bit more involved. But it is how the graphs were generated in the framework for computational graphs.
+You can find the code for making the graph based on vectors of performance measurements in
 ```m1_memory_hierarchies::code::computational_graphs::src::shared::benchmark_plot.rs```.
 
 <figure markdown>
@@ -332,11 +333,13 @@ An example of a timing plot, comparing different implementations across differen
 </figure>
 
 ### Bottlenecks
+
 * Disk bound
 * Transfer bound
 * Memory bound
 * Compute bound
 
 ### Hardware
+
 * Cache hits and misses
 * CPU/GPU interactions
