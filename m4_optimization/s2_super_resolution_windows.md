@@ -1,4 +1,5 @@
 # 🧬3️⃣ Super Resolution Windows
+A small case study  
 Tutorial  
 Task manager  
 What about that data loader  

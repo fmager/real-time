@@ -1,11 +1,8 @@
-# 3️⃣ Measuring Performance
+# 3️⃣ Timing and Printing
 
 As mentioned in the previous section there's a plethora of options in how to measure performance.
 But in this section, let's look at what to measure.
 
-## What to measure
-
-### Timing and Printing
 Let's assume we have a basic program like the following -
 
 ```rust
@@ -332,14 +329,7 @@ An example of a timing plot, comparing different implementations across differen
 </figcaption>
 </figure>
 
-### Bottlenecks
-
-* Disk bound
-* Transfer bound
-* Memory bound
-* Compute bound
-
-### Hardware
-
-* Cache hits and misses
-* CPU/GPU interactions
+This way of benchmarking different implementations won't help us find bottlenecks in our specific system.
+To do that we can either keep timing and printing, going deeper and deeper. Or get a profiler to measure
+which functions in our code are the biggest hot spots. These profilers are system and hardware dependent, so I will
+suggest ones you can try out in the next section.
