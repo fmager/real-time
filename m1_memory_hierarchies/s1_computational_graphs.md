@@ -6,7 +6,7 @@ So now let's get to business.
 Computational graphs are more or less a way to communicate the flow of your program.
 It can allow a library or a framework to keep data at various levels of the memory hierarchy.
 It can allow it to check that all of the dimensions fit for the data,
-it can make assumptions about fusing nodes (combining them), remove redundancies and removed unused elements.  
+it can make assumptions about fusing nodes (combining them), remove redundancies and unused elements.  
 
 Let's take a look at this defined network from PyTorch's own
 [documentation](https://pytorch.org/tutorials/recipes/recipes/defining_a_neural_network.html).

@@ -17,7 +17,7 @@ increased the hype and demand for AI to exasperating levels.
 You can think of the GPU as an expansion of the memory hierarchies we have been examining earlier.
 It is not running in lock step, and you have to program more things explicitly, while also changing
 your mindset about how programming works. Memory transfers to and from the CPU and GPU will be
-relatively explicit, you have explicit control of a part of the L1 cache, you have start programming
+relatively explicit, you have explicit control of a part of the L1 cache, you have to start programming
 in a warp oriented fashion and if-statements become quite dangerous.
 
 If the CPU, with its numerous cores is like a team of highly skilled specialists building a car, sure,
@@ -75,8 +75,8 @@ This keeps the CPU core itself occupied with work.
 
 Threads on a GPU, will usually be executing the SAME program, unless several calls are overlapped, but let's
 just focus on you having called a single operation. In that case all of your threads will launch, running
-the same program. They might however, go down different branches (think if-statements!), but this more expensive
-on the GPU and CPU, and should in general be avoided as much as possible. Each thread will have its own local
+the same program. They might however, go down different branches (think if-statements!), but this is more expensive
+on the GPU than the CPU, and should in general be avoided as much as possible. Each thread will have its own local
 variables. Threads on a GPU are launched in groups. Depending on the platform and the API they will be
 called something different. In wgpu, which is what we will be using, it is called a workgroup, while
 in CUDA terminology it is called a warp. On Nvidia GPU's it will be at most 32 threads per workgroup

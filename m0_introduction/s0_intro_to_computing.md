@@ -64,7 +64,7 @@ as reducing the level of precision.
 Most compiled languages are all designed with at least one compiler, usually  
 compiling to byte code or machine code.  
 However, it is possible to write a compiler after the fact. [Cython](https://cython.org/) is one such compiler
-made for compiling AOT compiling Python.  
+made for AOT compiling Python.  
 It benefits quite a bit from having the user perform additional annotations of their Python code,  
 allowing for a decent speedup.
 
