@@ -111,7 +111,7 @@ nav:
     - m4_optimization/README.md
     - S0 - Timing and Printing: m4_optimization/s0_timing_and_printing.md
     - S1 - Profilers: m4_optimization/s1_profilers.md
-    - S2 - 🧬3️⃣ Super Resolution Windows: m4_optimization/s2_super_resolution_windows.md
+    - S2 - 🧬3️⃣ Optimizing Deep Learning Training: m4_optimization/s2_optimizing_deep_learning_training.md
     - S3 - 🧬4️⃣ Exercises: m4_optimization/s3_exercises.md
   - M5 - 3️⃣ Tips and Tricks:
     - m5_tips_and_tricks/README.md
