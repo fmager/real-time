@@ -22,6 +22,7 @@ Suggestions for things to talk about:
 * 1 - Data-oriented design - Entity component systems
 * 1 - Array of Structs, Structs of Arrays, Auto-Vectorization
 * 1 - [Branch Prediction](https://stackoverflow.com/questions/11227809/why-is-processing-a-sorted-array-faster-than-processing-an-unsorted-array)
+* 1 - [Eytzinger Binary Search](https://algorithmica.org/en/eytzinger)
 * 2 - A [Mandelbrot](https://github.com/ProgrammingRust/mandelbrot/) program served 5 different ways
 * 2 - Custom memory allocators
 * 2 - [SIMD optimization](https://ipthomas.com/blog/2023/07/n-times-faster-than-c-where-n-128/)
@@ -34,6 +35,7 @@ Suggestions for things to talk about:
 * 2 - Flash Attention
 * 2 - Gyro Dropout - MLSys 2022
 * 2 - [JAX](https://jax.readthedocs.io/en/latest/notebooks/Common_Gotchas_in_JAX.html)
+* 2 - [Fast as CHITA: Neural Network Pruning with Combinatorial Optimization](https://arxiv.org/abs/2302.14623)
 
 ## 🧬 Computer Graphics
 

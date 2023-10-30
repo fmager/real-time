@@ -119,5 +119,3 @@ The data loader.
 This results in a severe amount of thrashing where a part of the memory is kept on disk and a
 continual swapping between memory and disk and disk and memory takes place, which absolutely
 tanks performance. Let's see whether putting in another stick of RAM yields better results.
-
-[Fast as CHITA: Neural Network Pruning with Combinatorial Optimization](https://arxiv.org/abs/2302.14623)  

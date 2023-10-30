@@ -4,6 +4,9 @@ systems performance monitor, although that would only allow you to guess about w
 processing time. Once you have tried both timing your code, and you've gotten what you could out of the
 system performance monitor, it might be time to install and use a profiler.
 
+If you are profiling Rust, make sure you leave in the
+[debug symbols](https://nnethercote.github.io/perf-book/profiling.html#debug-info) when compiling.
+
 ## System Monitors
 Let's start off looking at how to take a quick gander in your system monitor to see where
 something might be obviously wrong. I will be using Task Manager on Windows to exemplify where you
