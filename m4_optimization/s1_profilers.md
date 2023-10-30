@@ -5,10 +5,11 @@ processing time. Once you have tried both timing your code, and you've gotten wh
 system performance monitor, it might be time to install and use a profiler.
 
 If you are profiling Rust, make sure you leave in the
-[debug symbols](https://nnethercote.github.io/perf-book/profiling.html#debug-info) when compiling.
+[debug symbols](https://nnethercote.github.io/perf-book/profiling.html#debug-info) when compiling. Otherwise the
+profiler won't be able to tell you which function is which.
 
 ## System Monitors
-Let's start off looking at how to take a quick gander in your system monitor to see where
+Let's start off looking at your system monitor to see where
 something might be obviously wrong. I will be using Task Manager on Windows to exemplify where you
 might look for the various bottlenecks. The quickest way to check is following the memory hierarchy.
 Disk, memory, CPU and then optionally GPU. If your disk is maxed out, then a good idea for your next optimization
@@ -34,7 +35,7 @@ most, but in any case, if your system has to use a swap file, your program is go
 more RAM or optimize your program to use less memory.
 
 ### Memory
-In the memory tab we can see how much physical memory is present and how much is currently being used.
+In the memory tab, we can see how much physical memory is present and how much is currently being used.
 Interestingly, we can also see what the frequency of the memory is. It's named "Speed" in Task Manager.
 
 <figure markdown>
@@ -65,7 +66,7 @@ The CPU tab of Task Manager.
 
 But, I do have to remind you of one thing. High utilization is not the same as well performing code.
 You can very easily max out the utilization of all cores on your system, but sometimes, optimizing your
-code well result in less utilization, as doing less is often a good strategy. An indicator that the
+code will result in less utilization, as doing less is often a good strategy. An indicator that the
 program dominating resource usage is single threaded, or at least not very well parallelized will be
 if you have a fairly constant use of 1/N, N being the amount of cores. So, if we have a system with
 4 cores, and no hyperthreading, an almost constant usage of 25%, with a few spikes here and there, we
@@ -75,8 +76,8 @@ monitor button in the bottom left.
 ### GPU
 If we are using the GPU in our application, we can also go to the GPU tab. Once again, in the upper right we can
 see which GPU we are using. In the bottom, we can see the driver version. DirectX version refers to the version
-of DirectX (Windows graphics and compute API) that the system supports. Then we have something called
-"Shared GPU Memory". The laptop I used to take the screenshot with has what is called an integrated GPU. It shares
+of DirectX (Windows graphics and compute API) that the system supports. The laptop I used to take the screenshot
+with has what is called an integrated GPU. It shares
 its memory with the CPU. But in this case, the entire system has 32 GB of memory, 16 of which is shared by the GPU.
 While this may result in higher transfer rates to the GPU, the bandwidth internally
 (when you access memory in a buffer you have already transferred) is usually less than a dedicated GPU.
@@ -121,19 +122,19 @@ One view you can go for is the sorted hot spot list. A lot of profilers will mea
 taking the most significant part of the execution time. Sometimes, it will by default be a cumulative list,
 resulting in the main function being on top and you having to explore down the list to find likely candidate
 functions for optimization. It can be a good idea to find where to turn this off to just show which functions
-indiviudally are using the most time. You might have to switch between the two views. Sometimes you can also
+individually are using the most time. You might have to switch between the two views. Sometimes you can also
 get the profiler to show the hot spots of individual lines of code, which will be highlighted both by color and
-usually also a nifty percentage.
+a nifty percentage.
 
-If you were to use a GPU profiler instead, you can get views like your occupancy and speed relative to the
+If use a GPU profiler instead, you can get views like your occupancy and speed relative to the
 theoretical peak usage and what your memory and compute utilization is. In profiling, at least pure compute
 workloads, not necessarily graphics, you need to keep track of two core metrics. Compute and memory utilization.
 If the memory utilization is high, but the compute utilization is low, the program is memory bound. You can
 mitigate this by optimizing the way you work with memory. You could do less memory accesses, make increased use
 of shared memory or registers, or even do warp shuffling. If you are compute bound, because the compute
-utilization is high, but the memory utilization is high, you might need to work on the actual algorithm you are
+utilization is high, but the memory utilization is low, you might need to work on the actual algorithm you are
 using or the mathematical functions you are using. If you are dividing in a loop, you can perhaps multiply by the
-inverse (division is expensive), if you don't mind the possible precision loss, you can also exchange full precision
+inverse (division is expensive), if you don't mind the possible precision loss. You can also exchange full precision
 math functions such as ```cosf(x)``` for an intrinsic (hardware supported) version which might only be in 24-bit
 precision, such as ```__cosf(x)```. Now remember, hardware supported, is a hint that it will likely be faster.
 
@@ -162,7 +163,7 @@ Image credit </a>
 </figure>
 
 Here we are shown the utilization of different parts of the memory hierarchy. If you don't see the obvious
-way to get out of being compute bound, this, more visual, way of communication profile statistics is a great way
+way to get out of being compute bound, this, more visual, way of communicating profile statistics is a great way
 to see what you aren't using.
 
 I will leave you with this - at a celebration I was fortunate to sit next to the rendering lead of the renowned

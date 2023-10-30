@@ -5,7 +5,7 @@ Nvidia RTX2070 GPU with 8 GB of VRAM, 16 GB of 2666MHz RAM, 1TB SSD (not NVMe) d
 an Intel i7-9700F CPU with 8 cores and a base speed of 3.0 GHz. The operating system
 is Windows 10.
 
-On to the actual case. I found a very nice tutorial about how super resolution networks.
+On to the actual case. I found a very nice tutorial about super resolution networks.
 They take in a lower resolution image and produce another image with a higher resolution.
 I won't link to the tutorial, although the original author is very welcome to contact me
 and approve, in which case I of course will. I won't link to it as I don't want to risk
@@ -15,7 +15,7 @@ very well.
 
 Anyways, in the tutorial there are two different networks to train. Either a super resolution
 GAN or a super resolution ResNet. I chose the ResNet. The data set is 13 GB for training and
-6 GB for validation. Normally, I would expect to see the epoch, where you might recall we will
+6 GB for validation. Normally, I would expect to see the epochs, where you might recall we will
 sample the entire training data set, get faster after the first one, as more data is loaded from
 disk. There is a snag which can make optimization of this problem difficult. We usually random
 sample batches from the entire training data set.
@@ -72,11 +72,11 @@ The disk tab during unoptimized training.
 </figcaption>
 </figure>
 
-As you can see, where are not maxing out the RAM or VRAM, the GPU is barely doing anything, but using
+As you can see, ww are not maxing out the RAM or VRAM, the GPU is barely doing anything, but using
 a total of 3GB VRAM now. Additionally, we can see that we are at a total of 10 GB RAM used, with a
 reasonably heavy load on both disk and CPU. There aren't performance statistics for the memory,
 but my guess is that it is covered by the CPU usage as well. Time spent waiting for memory access
-is probably covered in the CPU load. So let's take a look at the data loader.
+is under the CPU load. So let's take a look at the data loader.
 
 <figure markdown>
 ![Image](../figures/optimize_srresnet_base_data_loader.png){ width="800" }
@@ -107,7 +107,9 @@ and replace the two sticks with a single 32 GB stick. Also running at 2666 MHz, 
 the greatest speed my motherboard will allow. So hold on while I do that.
 
 Ok, so I installed the 32 GB stick and changed the data loader to lazy caching. As it turns out
-it ends up using around 64 GB if you want to cache all of the data. The new function looks like this -
+it ends up using around 64 GB if you want to cache all of the data. Which results in heavy disk
+activity and swapping. As it were, I forgot to take into account that if you load N GB of data,
+it will take up KN GB of memory. A rule of thumb is that K is between 2 and 3. The new function looks like this -
 
 <figure markdown>
 ![Image](../figures/optimize_srresnet_upgraded_data_loader.png){ width="800" }
