@@ -94,7 +94,7 @@ nav:
     - S4 - Message Passing: m2_concurrency/s4_message_passing.md
     - S5 - Async: m2_concurrency/s5_async.md
     - S6 - Events: m2_concurrency/s6_events.md
-    - S7 - 3️⃣🔜 More GPU: m2_concurrency/s7_more_gpu.md
+    - S7 - 3️⃣ More GPU: m2_concurrency/s7_more_gpu.md
     - S8 - 3️⃣🔜 Branchless Programming: m2_concurrency/s8_branchless_programming.md
     - S9 - 3️⃣🔜 Parallel Graphs: m2_concurrency/s9_parallel_graphs.md
     - S10 - 4️⃣ Exercises: m2_concurrency/s10_exercises.md

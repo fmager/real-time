@@ -1,8 +1,14 @@
 # 3️⃣🔜 Branchless Programming
 Short circuiting, think back to bitwise operators
-Branch prediction and pipelines
+Branch prediction and pipelines - Hardware
 Data oriented programming
-AOS SOA AOSOA
+AOS SOA AOSOA - cache lines
+
+## Sorting Functions
+A macro-ish perspective
+
+### 🧬 Shader Execution Reordering
+Megakernels are considered harmful
 
 ## SIMD
 

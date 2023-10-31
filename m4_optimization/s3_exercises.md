@@ -3,7 +3,9 @@ Try out the profilers relevant to your own system with some sample programs.
 Now try it with some of your own code from before you started on the guide!
 
 ## Setting Up a Profiler
-Find and setup a profiler that works ON YOUR SYSTEM
+Find and setup a profiler that works on your system.
+Find some Rust code that uses the GPU and run it.
+I recommend either the egui-winit-template or the computational graphs framework.
 
 * Does it work with Rust?
 * Which metrics can you get out of it?
