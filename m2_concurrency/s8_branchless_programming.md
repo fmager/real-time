@@ -19,6 +19,7 @@ Image credit </a>
 </figure>
 
 Pipelined instructions
+
 <figure markdown>
 ![Image](../figures/pipelined_instructions.png){ width="600" }
 <figcaption>
@@ -46,23 +47,23 @@ Find the code in ```m2_concurrency::code::sphere_intersection``` or
 AOS SOA AOSOA - cache lines  
 A macro-ish perspective  
 
+## SIMD
+Find the code in ```m2_concurrency::code::sphere_intersection``` or
+[online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sphere_intersection).  
+Check your system for SIMD hardware.  
+Autovectorization  
+Explicit SIMD programming  
+Doesn't work if you are memory bound, SIMD won't magically make your memory bandwidth increase.  
+
+## Additional Reading
+A nice introduction video to [branchless programming](https://www.youtube.com/watch?v=g-WPhYREFjk) by Fedor Pikus.  
+A nice introduction video to [SIMD](https://www.youtube.com/watch?v=x5tK5ET6Q1I) by Guillaume Endignoux.  
+Wiki on [branch prediction](https://en.wikipedia.org/wiki/Branch_predictor).  
+Wiki on [instruction pipelining](https://en.wikipedia.org/wiki/Instruction_pipelining).  
+Slides on [instruction pipelining](https://web.eecs.utk.edu/~mbeck/classes/cs160/lectures/09_intruc_pipelining.pdf)
+from The University of Tennessee, Knoxville.  
+
 ### 🧬 Shader Execution Reordering
 [Megakernels Considered Harmful](https://research.nvidia.com/sites/default/files/publications/laine2013hpg_paper.pdf)  
 [Shader Execution Reodering](https://d29g4g2dyqv443.cloudfront.net/sites/default/files/akamai/gameworks/ser-whitepaper.pdf)  
 [Wavefront Path Tracing](https://jacco.ompf2.com/2019/07/18/wavefront-path-tracing/)  
-
-## SIMD
-Find the code in ```m2_concurrency::code::sphere_intersection``` or
-[online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sphere_intersection).
-Check your system for SIMD hardware.
-Autovectorization
-Explicit SIMD programming
-Doesn't work if you are memory bound, SIMD won't magically make your memory bandwidth increase.
-
-## Additional Reading
-A nice introduction video to [branchless programming](https://www.youtube.com/watch?v=g-WPhYREFjk) by Fedor Pikus.
-A nice introduction video to [SIMD](https://www.youtube.com/watch?v=x5tK5ET6Q1I) by Guillaume Endignoux.
-Wiki on [branch prediction](https://en.wikipedia.org/wiki/Branch_predictor).
-Wiki on [instruction pipelining](https://en.wikipedia.org/wiki/Instruction_pipelining).
-Slides on [instruction pipelining](https://web.eecs.utk.edu/~mbeck/classes/cs160/lectures/09_intruc_pipelining.pdf)
-from The University of Tennessee, Knoxville.
