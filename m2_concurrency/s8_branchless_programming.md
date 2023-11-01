@@ -31,25 +31,25 @@ Image credit </a>
 Very basically explained. I do recommend you check out these
 [slides](https://ics.uci.edu/~swjun/courses/2023F-CS250P/materials/lec5.5%20-%20Fast%20and%20Correct%20Pipelining.pdf)
 from University of California, Irvine for a cursory glance at the fairly complex topic of the hardware involved in
-branch prediction.
-For-loop control hazard
-If-statement control hazard
+branch prediction.  
+For-loop control hazard  
+If-statement control hazard  
 
 ## Branchless Programming
-Short circuiting, think back to bitwise operators
-Unrolling
-If-statement reformulation
+Short circuiting, think back to bitwise operators  
+Unrolling  
+If-statement reformulation  
 
 ## Data-oriented programming
 Find the code in ```m2_concurrency::code::sphere_intersection``` or
-[online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sorting_functions).
-AOS SOA AOSOA - cache lines
-A macro-ish perspective
+[online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sorting_functions).  
+AOS SOA AOSOA - cache lines  
+A macro-ish perspective  
 
 ### 🧬 Shader Execution Reordering
-[Megakernels Considered Harmful](https://research.nvidia.com/sites/default/files/publications/laine2013hpg_paper.pdf)
-[Shader Execution Reodering](https://d29g4g2dyqv443.cloudfront.net/sites/default/files/akamai/gameworks/ser-whitepaper.pdf)
-[Wavefront Path Tracing](https://jacco.ompf2.com/2019/07/18/wavefront-path-tracing/)
+[Megakernels Considered Harmful](https://research.nvidia.com/sites/default/files/publications/laine2013hpg_paper.pdf)  
+[Shader Execution Reodering](https://d29g4g2dyqv443.cloudfront.net/sites/default/files/akamai/gameworks/ser-whitepaper.pdf)  
+[Wavefront Path Tracing](https://jacco.ompf2.com/2019/07/18/wavefront-path-tracing/)  
 
 ## SIMD
 Find the code in ```m2_concurrency::code::sphere_intersection``` or
