@@ -72,7 +72,7 @@ Reading all of the material should take at most an afternoon and is comprised of
 Basically, you could stop reading once you are done with
 the 1️⃣ header and just click each "MX - XXXX" on the left, read that page until the
 end, then click on the next "MX - XXXX" title and read that until the end and you would be
-done. That does not include "M5 - Projects", that one is only relevant for 3️⃣ and 4️⃣.
+done. That does not include "M4 - Optimization" and "M5 - Projects".
 Happy reading!
 
 ### 2️⃣
@@ -97,10 +97,6 @@ This level is made up of all the material from 1️⃣ and 2️⃣.
 At this level it is expected that you have experience with C/C++/Rust and that you have tried
 programming a GPU or that you have previously done level 2 and are up for a challenge.  
 If you haven't done any of these things, you'll be ok, but it might take significant effort on your part.
-
-### 4️⃣
-At this level everything at 3️⃣ is expected, as well as you doing a handful of the exercises.
-This is for doing a course version or if you REALLY want to learn all the guide has to offer.
 
 ### Additional Reading
 The secret bonus level! It is the one where you do levels 1-3, perhaps even do the exercises and then read
