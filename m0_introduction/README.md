@@ -59,15 +59,7 @@ which most of a module will take place.
 
 Most importantly - Don't Panic! The guide is here for you! And now for something completely different... practicalities!
 
-## 🧬 Specializations
-Throughout the guide there are sections and exercises prefixed by 🧬. These exercises and topics
-are meant to be up to you to follow. If you are mostly interested in deep learning, by all means
-only read and do the sections and exercises which are relevant to deep learning. Which section and
-exercise is relevant to which specialization will be explained in each section. To begin with
-deep learning will be supported, but once a full first draft is ready, I will begin adding things relevant to
-computer graphics, computer vision and cognitive signal processing.
-
-## 1️⃣2️⃣3️⃣4️⃣5️⃣ Levels
+## Levels and Annotations
 The guide's way of doing things is to iteratively expand the curriculum and the depth
 at which concepts are described. You can follow the guide iteratively by doing it
 multiple times, each time advancing in level or you can jump right in to the relevant level.
@@ -110,12 +102,24 @@ If you haven't done any of these things, you'll be ok, but it might take signifi
 At this level everything at 3️⃣ is expected, as well as you doing a handful of the exercises.
 This is for doing a course version or if you REALLY want to learn all the guide has to offer.
 
-### 5️⃣
-The secret bonus level! It is the one where you do levels 1-4 and read all the further reading sections
-(which are more academically rigorous). Typically these references will be to book chapters, university courses,
-scientific papers and in-depth blog posts.
+### Additional Reading
+The secret bonus level! It is the one where you do levels 1-3, perhaps even do the exercises and then read
+the "Additional Reading" sections at the bottom of select pages.
+The references here will generally be more rigorous. Typically these references will be to book
+chapters, university courses, scientific papers and in-depth blog posts.
 
-## 👨🏼‍💻
+### 🧬 Specializations
+Throughout the guide there are sections and exercises prefixed by 🧬. These exercises and topics
+are meant to be up to you to follow. If you are mostly interested in deep learning, by all means
+only read and do the sections and exercises which are relevant to deep learning. Which section and
+exercise is relevant to which specialization will be explained in each section. To begin with
+deep learning will be supported, but once a full first draft is ready, I will begin adding things relevant to
+computer graphics, computer vision and cognitive signal processing.
+
+### 👨🏼‍💻
+Sections indicated by 👨🏼‍💻 are recommended exercises if you want to really learn the topics in-depth or if you
+are following a course based on the material.
+
 If you are a teacher who wants to make use of this material, feel free to use the
 [course site](https://absorensen.github.io/real-time-visual-and-machine-learning-systems/).
 The course focuses on teaching real-time systems for deep learners and visual systems programmers.  
