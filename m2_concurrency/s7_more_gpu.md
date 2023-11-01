@@ -67,6 +67,18 @@ rasterization for very small triangles.
 For a more thorough explanation of the graphics pipeline you can read this page
 from [Learn OpenGL](https://learnopengl.com/Getting-started/Hello-Triangle).
 
+## SPIR-V & GLSL
+WGSL is somewhat limited in what it can do. If you would like access to more features
+or to have a greater codebase you can copy from directly, WGPU has
+[increasing support](https://docs.rs/wgpu/latest/wgpu/enum.ShaderSource.html#) for
+both the GPU intermediate representation SPIR-V and the shading language GLSL (which can be
+compiled to SPIR-V), without necessitation additional build scaffolding.
+It also looks like it will make use of [naga](https://github.com/gfx-rs/wgpu/tree/trunk/naga)
+directly. If you are sure your system has support for it (think back to extensions),
+a more mature shading language like GLSL, might let you make use of more features. I
+haven't had time to check it out yet, but if it can used without additional build steps
+and administration, this might be a nice way to get access to more features.
+
 ## Additional Levels in the Memory Hierarchy
 Last time I introduced concepts in GPU memory to you, we had two options.
 A thread could either write its data to global memory (VRAM) from which
@@ -82,23 +94,21 @@ directly between the registers of each thread in a work group. It was 1 cycle to
 access last time I checked. This is immensely useful in reductions and prefix sums.
 You would still need to write data to global memory in order to share data between
 work groups. Unless you are using a GPU supporting
-[distributed shared memory](https://developer.nvidia.com/blog/nvidia-hopper-architecture-in-depth/)
-. At the time of writing, the Nvidia H100 is the only card supporting it.
+[distributed shared memory](https://developer.nvidia.com/blog/nvidia-hopper-architecture-in-depth/).
+At the time of writing, the Nvidia H100 is the only card supporting it.
 Distributed shared memory allows accessing memory residing in the shared memory of
 other work groups, as if it was one big shared memory. Hopefully, this feature
 will make its way into other cards soon.
 
-## SPIR-V & GLSL
-WGSL is somewhat limited in what it can do. If you would like access to more features
-or to have a greater codebase you can copy from directly, WGPU has
-[increasing support](https://docs.rs/wgpu/latest/wgpu/enum.ShaderSource.html#) for
-both the GPU intermediate representation SPIR-V and the shading language GLSL (which can be
-compiled to SPIR-V), without necessitation additional build scaffolding.
-It also looks like it will make use of [naga](https://github.com/gfx-rs/wgpu/tree/trunk/naga)
-directly. If you are sure your system has support for it (think back to extensions),
-a more mature shading language like GLSL, might let you make use of more features. I
-haven't had time to check it out yet, but if it can used without additional build steps
-and administration, this might be a nice way to get access to more features.
+## Were you Scattering or were you Gathering?
+Coming soon...
+
+<figure markdown>
+![Image](../figures/scattering_or_gathering.jpg){ width="500" }
+<figcaption>
+Answer!
+</figcaption>
+</figure>
 
 ## 5️⃣ Additional Reading
 To learn more about the graphics pipeline you can check out
