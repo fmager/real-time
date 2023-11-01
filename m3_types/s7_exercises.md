@@ -1,4 +1,4 @@
-# 4️⃣ Exercises
+# 👨🏼‍💻 Exercises
 Fma  
 Radix  
 Morton

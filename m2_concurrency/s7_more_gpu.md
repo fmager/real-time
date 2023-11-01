@@ -110,6 +110,6 @@ Answer!
 </figcaption>
 </figure>
 
-## 5️⃣ Additional Reading
+## Additional Reading
 To learn more about the graphics pipeline you can check out
 [Learn OpenGL](https://learnopengl.com/) or [Learn WGPU](https://sotrh.github.io/learn-wgpu/).

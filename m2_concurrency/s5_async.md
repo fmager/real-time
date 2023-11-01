@@ -70,7 +70,7 @@ real world you might see it very pervasibely in web servers and anything to do w
 outside of your computer. In any case, you should try to limit how big the async portions of your code are,
 or very soon all of your code, including your main, will be async.
 
-## 5️⃣ Additional Reading
+## Additional Reading
 For an intro to the async functionality available in the core Rust library, there's a
 [book for that](https://rust-lang.github.io/async-book/).
 

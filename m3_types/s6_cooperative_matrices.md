@@ -46,7 +46,7 @@ Image credit </a>
 </figcaption>
 </figure>
 
-## 5️⃣ Additional Reading
+## Additional Reading
 [Tensor Cores](https://www.nvidia.com/en-us/data-center/tensor-cores/)  
 [Programming Tensor Cores](https://developer.nvidia.com/blog/programming-tensor-cores-cuda-9/)  
 Vulkan

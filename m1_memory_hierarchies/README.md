@@ -173,6 +173,6 @@ Hopefully, this teaser hasn't scared you away from charging ahead and learning m
 and computational graphs. Memory hierarchies are at the center of getting good performance in pretty much
 all programs and it is worth spending some time on having at least a tenuous grasp of how to use them.
 
-## 5️⃣ Further Reading
+## Additional Reading
 For a more in-depth explanation on the memory hierarchy see this chapter on
 [Memory Hierarchy Design](https://www.cs.umd.edu/~meesh/411/CA-online/chapter/memory-hierarchy-design-basics/index.html).

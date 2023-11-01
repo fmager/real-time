@@ -151,7 +151,7 @@ overflow for signed integers is
 [defined in Rust Debug](https://doc.rust-lang.org/book/ch03-02-data-types.html#integer-overflow)
 . You can se more about the types [in Rust here.](https://doc.rust-lang.org/reference/types/numeric.html)
 
-## 5️⃣ Additional Reading
+## Additional Reading
 You can take a look at the wiki for [integers](https://en.wikipedia.org/wiki/Integer_(computer_science)),
 or you might prefer [lecture slides](https://www.cs.utexas.edu/users/witchel/429H/lectures/02-bits-ints.pdf)
 or even a video by your favourite [performance YouTuber](https://www.youtube.com/watch?v=fYMeYrIWnOc).

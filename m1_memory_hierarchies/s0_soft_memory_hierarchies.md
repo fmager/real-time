@@ -1729,7 +1729,7 @@ multiple frames into the same uncleared buffers, letting the user see progress w
 and renders the entire scene. This also allows for rendering of scenes which are too big to fit in GPU memory or
 even main memory.
 
-## 5️⃣ Further Reading
+## Additional Reading
 An explanation of memory allocation, stack and heap
 [in C](https://cs2461-2020.github.io/lectures/dynamic.pdf).
 

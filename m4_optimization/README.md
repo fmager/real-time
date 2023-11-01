@@ -61,6 +61,6 @@ Finally, some frameworks might even have their own profiler, such as the profile
 that is in your browser for web programming, or the profiler that is provided with
 deep learning frameworks such as PyTorch.
 
-## 5️⃣ Additional Reading
+## Additional Reading
 [Full-Stack, GPU-based Acceleration of Deep Learning](https://nvlabs.github.io/EfficientDL/)  
 [Writing Performant Concurrent Data Structures](https://www.youtube.com/watch?v=XKODaZgKcnE)  

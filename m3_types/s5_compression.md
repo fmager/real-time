@@ -176,7 +176,7 @@ of points in the shader.
 And here we are. This was a small example of how domain knowledge can help you compress your data, even if you
 aren't writing the compressor yourself.
 
-## 5️⃣ Additional Reading
+## Additional Reading
 [Information Theory](https://en.wikipedia.org/wiki/Information_theory)  
 [Data Compression](https://en.wikipedia.org/wiki/Data_compression)  
 [Lempel-Ziv 77 & 78](https://en.wikipedia.org/wiki/LZ77_and_LZ78)  

@@ -1,4 +1,4 @@
-# 🧬4️⃣ Projects
+# 👨🏼‍💻🧬 Projects
 
 ## How to create real time systems, good frameworks for the different fields and project proposals
 

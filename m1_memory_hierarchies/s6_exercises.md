@@ -1,4 +1,4 @@
-# 4️⃣ Exercises
+# 👨🏼‍💻 Exercises
 ## Pen & Paper Exercises
 ### Vector Memory
 Write out the stack and heap memory of THIS sequence of vector operations.

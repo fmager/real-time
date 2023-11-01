@@ -1,4 +1,4 @@
-# 4️⃣ Exercises
+# 👨🏼‍💻 Exercises
 Describe the base architecture of the egui-winit-wgpu template. Found in
 ```m2_concurrency::code::egui-winit-wgpu-template``` or
 [online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/egui-winit-wgpu-template).

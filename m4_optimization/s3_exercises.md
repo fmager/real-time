@@ -1,4 +1,4 @@
-# 4️⃣ Exercises
+# 👨🏼‍💻 Exercises
 Try out the profilers relevant to your own system with some sample programs.  
 Now try it with some of your own code from before you started on the guide!
 

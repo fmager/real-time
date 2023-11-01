@@ -41,7 +41,7 @@ Any operation involving a NaN value returns a NaN value, including ```NaN == NaN
 
 ACCUMLATING IN HIGHER PRECISION
 
-## 5️⃣ Additional Reading - Highly Recommended
+## Additional Reading - Highly Recommended
 Every floating point operation incurs some form of error. But if you used specialized floating point operations
 such as the [fused multiply-add](https://en.wikipedia.org/wiki/Multiply%E2%80%93accumulate_operation), which
 can be found [in Rust as well](https://doc.rust-lang.org/std/primitive.f32.html#method.mul_add), you can get a

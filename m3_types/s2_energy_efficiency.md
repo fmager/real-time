@@ -50,7 +50,7 @@ imagine lowering the precision of your data from 32-bit floats to 16-bit or
 even 8-bit. Imagine many additional data elements you could fit in a single
 cache line. Elements which could be reused and kept in cache.
 
-## 5️⃣ Additional Reading
+## Additional Reading
 [Efficient Processing of Deep Neural Networks](https://arxiv.org/pdf/1703.09039.pdf) is a highly
 recommended tour through various concerns and techniques in reducing the energy footprint of
 neural networks.  

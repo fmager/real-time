@@ -92,7 +92,7 @@ Try and run the code, see what happens!
 Now try and adjusting the wait times. How does it run when you reduce ```worker_wait_time```.
 Why do you think that is?
 
-## 5️⃣ Additional Reading
+## Additional Reading
 A longer, very friendly introduction to channels and message passing in Rust can be found
 [here](https://doc.rust-lang.org/book/ch16-02-message-passing.html).
 

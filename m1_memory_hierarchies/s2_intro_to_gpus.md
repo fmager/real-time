@@ -545,7 +545,7 @@ As usual, this code isn't very well tested and there might be some cases where i
 but you can see the primitives for declaring shared memory, accessing it and synchronizing.
 Now back to the memory hierarchies!
 
-## 5️⃣ Further Reading
+## Additional Reading
 [The GPU Memory Hierarchy](https://www.cs.cmu.edu/afs/cs/academic/class/15869-f11/www/lectures/08_mem_hierarchy.pdf),
 [GPU Memory Hierarchy](http://meseec.ce.rit.edu/551-projects/spring2015/3-2.pdf),
 [GPU Programming](http://dlsys.cs.washington.edu/pdf/lecture5.pdf),

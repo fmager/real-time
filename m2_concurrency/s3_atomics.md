@@ -118,7 +118,7 @@ Especially stuff like chunk size, escape probability and complexity. In which ca
 better or worse? Try and think about the types of workloads that are the most relevant to you and to reason
 about the differences in performance.
 
-## 5️⃣ Further Reading
+## Additional Reading
 If you would like to learn more about atomics I can recommend you read about atomics and reordering in the
 [Rustonomicon](https://doc.rust-lang.org/nomicon/atomics.html) or in the
 the atomics chapter in Jon Gjengset's book [Rust for Rustaceans](https://nostarch.com/rust-rustaceans)

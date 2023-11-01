@@ -272,6 +272,6 @@ this can yield a performance boost. These are called intrinsic functions. Usuall
 The instrinsic cosine might be computed in 24-bits for example, but will probably outperform the software version
 by a large margin, if the hardware support is available.
 
-## 5️⃣ Additional Reading
+## Additional Reading
 If you've read all of this, you should now be ready to look at quantization and quantization aware training
 [in PyTorch](https://pytorch.org/blog/introduction-to-quantization-on-pytorch/).
