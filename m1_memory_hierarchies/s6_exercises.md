@@ -3,7 +3,7 @@
 ### Vector Memory
 Write out the stack and heap memory of THIS sequence of vector operations.
 You can represent unitialized memory with a *.  
-The vector must double its size and copy over each element once it gets a push operation while at capacity.
+The vector must double its capacity and copy over each element once it gets a push operation while at capacity.
 The vector must resize to half its size and copy over each active element once it gets a pop operation while at
 quarter capacity.
 
