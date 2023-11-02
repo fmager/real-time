@@ -65,5 +65,5 @@ from The University of Tennessee, Knoxville.
 
 ### 🧬 Shader Execution Reordering
 [Megakernels Considered Harmful](https://research.nvidia.com/sites/default/files/publications/laine2013hpg_paper.pdf)  
-[Shader Execution Reodering](https://d29g4g2dyqv443.cloudfront.net/sites/default/files/akamai/gameworks/ser-whitepaper.pdf)  
+[Shader Execution Reordering](https://d29g4g2dyqv443.cloudfront.net/sites/default/files/akamai/gameworks/ser-whitepaper.pdf)  
 [Wavefront Path Tracing](https://jacco.ompf2.com/2019/07/18/wavefront-path-tracing/)  

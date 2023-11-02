@@ -142,4 +142,4 @@ as fully using op codes.
 [Compute Shader Glossary](https://github.com/googlefonts/compute-shader-101/blob/main/docs/glossary.md)  
 [Torch.fx](https://pytorch.org/docs/stable/fx.html)  
 [torch.compile](https://pytorch.org/docs/stable/generated/torch.compile.html)  
-[Getting started with PyTorch's Dynamo compiler](https://pytorch.org/docs/stable/dynamo/get-started.html)  
+[Getting started with PyTorch's compiler](https://pytorch.org/docs/stable/torch.compiler.html)  

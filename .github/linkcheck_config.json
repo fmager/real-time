@@ -5,7 +5,10 @@
                 "https://github.com/",
                 "https://guides.github.com/",
                 "https://help.github.com/",
-                "https://docs.github.com/"
+                "https://docs.github.com/",
+                "https://www.researchgate.net/figure/The-work-principle-of-Morton-codes-a-Morton-code-and-traversal-ordering-for-a-2D-grid_fig4_354791070",
+                "https://www.researchgate.net/figure/Spatial-ordering-and-encoding-based-on-the-Morton-curve-left-and-the-Hilbert-curve_fig2_220616180",
+                "https://www.researchgate.net/publication/354065094_Practical_Spatial_Hash_Map_Updates"
             ],
             "headers": {
                 "Accept-Encoding": "zstd, br, gzip, deflate"

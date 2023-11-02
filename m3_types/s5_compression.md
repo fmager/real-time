@@ -186,4 +186,4 @@ aren't writing the compressor yourself.
 Gzip - [HTTP Compression](https://en.wikipedia.org/wiki/HTTP_compression)  
 
 Lots of interesting things are happening in real-time decompression
-[using neural networks](https://research.nvidia.com/labs/rtr/neural_texture_compression/s).
+[using neural networks](https://research.nvidia.com/labs/rtr/neural_texture_compression/).
