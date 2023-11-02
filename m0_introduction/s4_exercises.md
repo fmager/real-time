@@ -12,5 +12,5 @@ Once you have completed this part 1 out of 3, I suggest modifying the resulting 
 (Hint: My solution was to use indices and a geometry service provided by dependency injection)
 * Parallelize computation of pixels through ```rayon```.
 
-[1] : https://adventofcode.com/
-[2] : https://raytracing.github.io/books/RayTracingInOneWeekend.html
+[1]: https://adventofcode.com/
+[2]: https://raytracing.github.io/books/RayTracingInOneWeekend.html
