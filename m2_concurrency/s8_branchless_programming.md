@@ -147,16 +147,44 @@ And now for the unrolled version -
 Of course, the tail iterations in the second for-loop won't be as fast the main loop, but again, this usually
 something the compiler will do for you in release mode.
 
+## Data-oriented Design
+We can take the branchless thinking, and add in optimization for cache lines, from the micro to the macro and
+make it part of the way we formulate our data structures and code. This we will use things like sorting and
+structuring our data into bigger single objects, while at the same time pulling them apart field by field.
+For this, we will take a look at data-oriented design.
 
-## Data-oriented programming
-Find the code in ```m2_concurrency::code::sorting_functions``` or
-[online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sorting_functions).  
+[Array-of-Structures-of-Arrays](https://www.rustsim.org/blog/2020/03/23/simd-aosoa-in-nalgebra/).
 AOS SOA AOSOA - cache lines  
 A macro-ish perspective  
 
 ## SIMD
+Sorting functions.
+Find the code in ```m2_concurrency::code::sorting_functions``` or
+[online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sorting_functions).  
+
+<figure markdown>
+![Image](../figures/sorting_functions_benchmark.jpg){ width="500" }
+<figcaption>
+Benchmark for the program in ```m2_concurrency::code::sorting_functions```.
+This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
+Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively. The CPU supports
+Intel® SSE4.1, Intel® SSE4.2, Intel® AVX2, Intel® AVX-512.
+</figcaption>
+</figure>
+
 Find the code in ```m2_concurrency::code::sphere_intersection``` or
-[online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sphere_intersection).  
+[online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sphere_intersection).
+
+<figure markdown>
+![Image](../figures/sphere_intersection_benchmark.jpg){ width="500" }
+<figcaption>
+Benchmark for the program in ```m2_concurrency::code::sphere_intersection```.
+This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
+Windows 10. The L1/L2/L3 caches were 320 KB, 5 MB and 12 MB respectively. The CPU supports
+Intel® SSE4.1, Intel® SSE4.2, Intel® AVX2, Intel® AVX-512.
+</figcaption>
+</figure>
+
 Check your system for SIMD hardware.  
 Autovectorization  
 Explicit SIMD programming  
@@ -165,6 +193,7 @@ Doesn't work if you are memory bound, SIMD won't magically make your memory band
 ## Additional Reading
 A nice introduction video to [branchless programming](https://www.youtube.com/watch?v=g-WPhYREFjk) by Fedor Pikus.  
 A nice introduction video to [SIMD](https://www.youtube.com/watch?v=x5tK5ET6Q1I) by Guillaume Endignoux.  
+Mike Acton on [Data-oriented Design](https://www.youtube.com/watch?v=rX0ItVEVjHc).    
 Wiki on [branch prediction](https://en.wikipedia.org/wiki/Branch_predictor).  
 Wiki on [instruction pipelining](https://en.wikipedia.org/wiki/Instruction_pipelining).  
 Slides on [instruction pipelining](https://web.eecs.utk.edu/~mbeck/classes/cs160/lectures/09_intruc_pipelining.pdf)
