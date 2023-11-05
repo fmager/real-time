@@ -317,7 +317,41 @@ gain isn't huge when changing to SIMD. This is a case where each function is sma
 memory bound. SIMD does nothing to alleviate that, except try to draw on even more of the memory bandwidth.
 
 If we instead look at code which uses an actual function from path tracing, in this case sphere intersection,
-we are doing much more compute per memory load and can see a significant increase in performance.
+we are doing much more compute per memory load and can see a significant increase in performance. Here's
+a sample of the code to show you what SIMD programming looks like -
+
+```rust
+fn ray_sphere_intersect_x8(
+    sphere_o: &uv::Vec3x8,
+    sphere_r_sq: &uv::f32x8,
+    ray_o: &uv::Vec3x8,
+    ray_d: &uv::Vec3x8,
+) -> uv::f32x8 {
+    let oc = *ray_o - *sphere_o;
+    let b = oc.dot(*ray_d);
+    let c = oc.mag_sq() - sphere_r_sq;
+    let descrim = b * b - c;
+
+    let desc_pos = descrim.cmp_gt(0.0);
+
+    let desc_sqrt = descrim.sqrt();
+
+    let t1 = -b - desc_sqrt;
+    let t1_valid = t1.cmp_gt(0.0) & desc_pos;
+
+    let t2 = -b + desc_sqrt;
+    let t2_valid = t2.cmp_gt(0.0) & desc_pos;
+
+    let t = t2_valid.blend(t2, uv::f32x8::splat(std::f32::MAX));
+    let t = t1_valid.blend(t1, t);
+
+    t
+}
+```
+
+As you can see, in this case I only use functions implemented directly by utraviolet's ```uv::Vec3x8``` and
+```uv::f32x8``` types.
+
 Be sure to check out the 4 references at the top of the code.
 Find the code in ```m2_concurrency::code::sphere_intersection``` or
 [online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sphere_intersection).
