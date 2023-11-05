@@ -61,7 +61,8 @@ Again, please checkout the
 [slides](https://ics.uci.edu/~swjun/courses/2023F-CS250P/materials/lec5.5%20-%20Fast%20and%20Correct%20Pipelining.pdf)
 for an overview of various hazards with code examples. But a few of the basic highlights are control flow, through
 short circuiting, unrolling of for-loops (your compiler will often do this automatically), reformulation of
-branching through arithmetic.
+branching through arithmetic. Another problem can be data hazards. If line A is writing to some variable in an
+array, which line B depends on, line B cannot commence processing until line A has completed.
 
 The circuiting boolean operators ```a && b``` and ```a || b``` are used everywhere. The short circuiting part
 means that because both ```a``` and ```b``` need to be true in order for ```&&``` to evaluate as ```true```, if
@@ -163,7 +164,7 @@ Find the code in ```m2_concurrency::code::sorting_functions``` or
 [online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sorting_functions).  
 
 <figure markdown>
-![Image](../figures/sorting_functions_benchmark.jpg){ width="500" }
+![Image](../figures/sorting_functions_benchmark.png){ width="500" }
 <figcaption>
 Benchmark for the program in ```m2_concurrency::code::sorting_functions```.
 This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
@@ -176,7 +177,7 @@ Find the code in ```m2_concurrency::code::sphere_intersection``` or
 [online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sphere_intersection).
 
 <figure markdown>
-![Image](../figures/sphere_intersection_benchmark.jpg){ width="500" }
+![Image](../figures/sphere_intersection_benchmark.png){ width="500" }
 <figcaption>
 Benchmark for the program in ```m2_concurrency::code::sphere_intersection```.
 This benchmark was run on my laptop boasting an Intel i7-1185G7, 3.0 GHz with 32GB of RAM. The operating system was
@@ -193,7 +194,7 @@ Doesn't work if you are memory bound, SIMD won't magically make your memory band
 ## Additional Reading
 A nice introduction video to [branchless programming](https://www.youtube.com/watch?v=g-WPhYREFjk) by Fedor Pikus.  
 A nice introduction video to [SIMD](https://www.youtube.com/watch?v=x5tK5ET6Q1I) by Guillaume Endignoux.  
-Mike Acton on [Data-oriented Design](https://www.youtube.com/watch?v=rX0ItVEVjHc).    
+Mike Acton on [Data-oriented Design](https://www.youtube.com/watch?v=rX0ItVEVjHc).  
 Wiki on [branch prediction](https://en.wikipedia.org/wiki/Branch_predictor).  
 Wiki on [instruction pipelining](https://en.wikipedia.org/wiki/Instruction_pipelining).  
 Slides on [instruction pipelining](https://web.eecs.utk.edu/~mbeck/classes/cs160/lectures/09_intruc_pipelining.pdf)

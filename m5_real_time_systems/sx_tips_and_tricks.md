@@ -1,9 +1,5 @@
-# 3️⃣ Tips and Tricks
+# Tips and Tricks
 
-* Events
-* Key and Mouse events
-* Event Loops
-* GUIs & egui
 * memcpy
 * Check/validate everything before the hot loop
 * Unitialized memory
@@ -12,7 +8,6 @@
 * Object Pools
 * System calls - hoist out of the hot loop
 * Logging and printing
-* Bindings - PyO3 and cxx, [maturin](https://www.maturin.rs/)
 * Walk, don't run, testing for correctness before optimization
 * Don't use abbreviations
 * Don't talk moon man language to me, ya Blargon!
