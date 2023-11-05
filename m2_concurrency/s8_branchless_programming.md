@@ -57,7 +57,9 @@ Going back to the code from earlier, you can see, any branch predictor worth its
 B would be executed. In a few cases path A will be executed instead, but will be vastly more expensive.
 
 ## Branchless Programming
-Again, please checkout the
+"Branchless programming", is perhaps too big a promise, in all but the simplest cases, it will be
+"branch mitigating programming". Branching in code is expensive, so let's look at how we can help the computer,
+regardless of parallelism, attain a bit of speed. Again, please checkout the
 [slides](https://ics.uci.edu/~swjun/courses/2023F-CS250P/materials/lec5.5%20-%20Fast%20and%20Correct%20Pipelining.pdf)
 for an overview of various hazards with code examples. But a few of the basic highlights are control flow, through
 short circuiting, unrolling of for-loops (your compiler will often do this automatically), reformulation of
@@ -154,12 +156,147 @@ make it part of the way we formulate our data structures and code. This we will 
 structuring our data into bigger single objects, while at the same time pulling them apart field by field.
 For this, we will take a look at data-oriented design.
 
-[Array-of-Structures-of-Arrays](https://www.rustsim.org/blog/2020/03/23/simd-aosoa-in-nalgebra/).
-AOS SOA AOSOA - cache lines  
-A macro-ish perspective  
+A path tracer is sort of like a physics simulation for generating, sometimes physically accuracte, high
+quality images. From the cameras point of view, a multitude of rays are sent through each pixel. They travel
+forward until they intersect a reason to stop traveling directly forward. Most often this is some form of geometry,
+the surface of an object. Geometry is not the same as material. Once a ray intersects geometry, it needs to know
+what is the color of the surface that was just hit, and in which direction should it bounce next. This is
+dependant on the material. If it hits a perfect mirror, it will change direction much like a billiard ball hitting
+the side of a billiards table. If the surface was perfectly diffuse it might change to a direction in a completely
+random direction. This calculation is not just a simple lookup, but two entirely different mathematical functions.
+They ray will continue to bounce until it either reaches a maximum depth, hits a light source or is otherwise
+terminated. If that doesn't make sense, try out [this video](https://www.youtube.com/watch?v=frLwRLS_ZR0).
 
-## SIMD
-Sorting functions.
+So why spend your and my time describing path tracers?
+
+They are the perfect case for not just performant heterogeneous systems, but wildly divergent
+performant heterogeneous systems. If you launch 100 rays from different starting origins inside the area
+covered by a single pixel, even if they all hit the same surface, based on the material, they might scatter in
+different directions. They might not all hit the same surface, some leaving the scene and hitting nothing,
+resulting in early termination, while some hit material A requiring one scattering function, while others hit
+materila B requiring another scattering function. As you can imagine, this gets progressively worse as all rays
+scatter round and round in the scene. But we can mitigate the effects of this steadily increasing divergence
+by making sure to package, sort, reorder and compact our rays. Instead of looking at a ray at a time, we might
+structure our program in various pipeline steps. We might for example try to intersect all rays against the scene,
+which is quite expensive, but more on that later, followed by a material/scattering interaction, where we could
+group rays by material, allowing us to execute all rays needed a material A scattering event, followed by
+executing all rays needing a material B scattering event. It gets worse, but let's take a step back and just
+look at how we might handle a whole bunch of rays.
+
+The typical way we might handle a bunch of rays in a path tracer, would be to define each ray as a struct, such as -
+
+```rust
+struct Ray {
+    origin: Vec3,
+    direction: Vec3,
+    color: Vec3,
+    material: Material, // Enum
+}
+```
+
+This is just as useful with graphs, as long as we have chosen a formulation of them which allows us to keep
+them in arrays instead of floating around in pointer-based structures.
+Think back to cache lines now, if we are handling a bunch of rays one at a time, whenever we go to a different
+function we are jumping all around in different branches of code, we are loading lots of parts of this ```Ray```
+struct in our cache line that we might not even need. If we are primarily in a part of the code where we care
+about geometry and intersections, we won't care about material and color. We would care about origin and direction.
+We could reformulate the way we kept track of rays to process several data elements at the same time, when in
+a relevant part of the code. If we kept a ```Vec<Ray>``` to do this, sending the ```Vec<Ray>``` around from function
+to function, we would call this an Array-of-Structs (AoS).
+
+What we could do instead, to only cache exactly what we needed is called Struct-of-Arrays (SoA). We keep all of
+our rays in a deconstructed fashion -
+
+```rust
+struct VectorOfRays {
+    origins: Vec<Vec3>,
+    directions: Vec<Vec3>,
+    colors: Vec<Vec3>,
+    materials: Vec<Material>,
+}
+```
+
+or we might even take it a step further -
+
+```rust
+struct VectorOfRays {
+    origins_x: Vec<f32>,
+    origins_y: Vec<f32>,
+    origins_z: Vec<f32>,
+    directions_x: Vec<f32>,
+    directions_y: Vec<f32>,
+    directions_z: Vec<f32>,
+    color_r: Vec<f32>,
+    color_g: Vec<f32>,
+    color_b: Vec<f32>,
+    materials: Vec<Material>,
+}
+```
+
+Now instead of operating on individual rays, or operating on lists of rays, we can do individual operations on each
+and every relevant element, getting them all in our cache line. This require our intersection function to have
+a series of loops for each step in the function and requires a bit of refactoring. We gain an additional advantage,
+we increase the probability of the compiler autovectorizing our code. More on that in a little bit.
+
+This all seems a bit cumbersome however. If you remember earlier, I told you that these rays might scatter, bounce,
+hit different materials and be terminated. Either successfully or unsuccessfully. We need some flexibility back
+to make it possible to intersect a bunch of threads, terminate some of them, move others to one queue for material
+A, move others to a queue for material B and so on.
+
+Enter... drumroll please... Arrays-of-Structs-of-Arrays (AoSoA).
+
+We could instead use a coarser granularity by storing a number of rays in a shared struct and keep a list of
+those structs -
+
+```rust
+struct Ray4 {
+    origins_x: [f32; 4] = [0.0; 4],
+    origins_y: [f32; 4] = [0.0; 4],
+    origins_z: [f32; 4] = [0.0; 4],
+    directions_x: [f32; 4] = [0.0; 4],
+    directions_y: [f32; 4] = [0.0; 4],
+    directions_z: [f32; 4] = [0.0; 4],
+    color_r: [f32; 4] = [0.0; 4],
+    color_g: [f32; 4] = [0.0; 4],
+    color_b: [f32; 4] = [0.0; 4],
+    materials: [Material; 4] = [Material::default(); 4],
+}
+```
+
+We can choose a coarser granularity by making this struct any size we like. Within reason, we have a good
+chance it might fit on the stack. Now we are free to move around rays, eliminate ones that are terminated,
+replace terminated rays with new ones and other such divergence limiting operations. Some libraries such
+as [ultraviolet](https://docs.rs/ultraviolet/latest/ultraviolet/) are designed around AoSoA containing
+types like ```Vec3x8``` and ```f32x4```.
+
+We could even take things a step further and separate our ray structs.
+The fields that are necessary for intersection aren't the same as for propagating colors through bounce
+paths. Normally, we might connect disconnected parts of the same underlying object by indices, but as
+rays are a transient object which we might bounce between functions it might work better with something
+more static like geometry and materials.
+
+## The Road to SIMD
+SIMD stands for single instruction multiple data. Basically this whole section has been building to it. SIMD
+is a single instruction that operates on an entire ```lane```. A ```lane``` is defined by the architecture
+of your CPU. The name to look for is typically named something like SSE or AVX. The CPU of the system used
+for benchmarking this section, has multiple SIMD instruction sets - Intel® SSE4.1, Intel® SSE4.2,
+Intel® AVX2, Intel® AVX-512. You can program for each specific instruction set or find a cross-platform such as
+[ultraviolet](https://docs.rs/ultraviolet/latest/ultraviolet/) to program for multiple architectures.
+What I found most important is that my SIMD lanes max out at 512 bits. If I am doing ```f32```-based SIMD
+operations I can fit up to 16 floats into a lane.
+
+SIMD programming is a genre unto itself and learning to program it can take a while. If you look at the figure
+from earlier showing pipelined instructions, picture each box as being wider. Imagine you are doing the
+same operations on N rays at a time. If we have a diverging workload such as in a path tracer, we have to have
+some way to handle when some rays are no longer relevant. To handle this SIMD makes heavy use of masks. Masks
+are types which distinguish which of the N elements in a lane need to be executed. Another thing SIMD cannot do,
+or if it is possible, you probably shouldn't force it to do, is executing different functions at the same time.
+
+Let's look at some code. This program looks at different ways of arranging data and executing a handful of
+different, very basic, functions. Note that the memory-to-compute ratio is quite high, as the functions are quite
+simple compared to the amount of load operations. SIMD doesn't magically make your program any less memory bound, as
+such you have to try and optimize your code before going fully SIMD.
+
 Find the code in ```m2_concurrency::code::sorting_functions``` or
 [online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sorting_functions).  
 
@@ -173,6 +310,15 @@ Intel® SSE4.1, Intel® SSE4.2, Intel® AVX2, Intel® AVX-512.
 </figcaption>
 </figure>
 
+As you can see, if we generate a huge list of different functions to call, we can gain an immense amount of
+performance simply by sorting our data. We can either sort it ourselves, or sit it as it accumulates, by putting
+it in different lists. The other major performance gain we get is by introducing SIMD. Note that the performance
+gain isn't huge when changing to SIMD. This is a case where each function is small enough that we are mostly
+memory bound. SIMD does nothing to alleviate that, except try to draw on even more of the memory bandwidth.
+
+If we instead look at code which uses an actual function from path tracing, in this case sphere intersection,
+we are doing much more compute per memory load and can see a significant increase in performance.
+Be sure to check out the 4 references at the top of the code.
 Find the code in ```m2_concurrency::code::sphere_intersection``` or
 [online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/sphere_intersection).
 
@@ -186,10 +332,18 @@ Intel® SSE4.1, Intel® SSE4.2, Intel® AVX2, Intel® AVX-512.
 </figcaption>
 </figure>
 
-Check your system for SIMD hardware.  
-Autovectorization  
-Explicit SIMD programming  
-Doesn't work if you are memory bound, SIMD won't magically make your memory bandwidth increase.  
+In this case, the vanilla struct-of-arrays code performed worse. In some cases you can hope for autovectorization,
+where the compiler, in the case where you have factored your data in a way that allows it, will create a SIMD
+version of your code. This is usually more likely if you turn on your compilers native targetting flag.
+
+With compilers you can tell it which platforms to compile for. If you tell it to compile exclusively for YOUR
+platform it can make use of optimizations and commands specific to your system. This might make it perform
+significantly worse on other systems though.,
+
+I will leave you with one thing if you are memory bound, SIMD won't magically make your memory bandwidth increase.  
+
+Also, here's [a nice blog post](https://www.rustsim.org/blog/2020/03/23/simd-aosoa-in-nalgebra/) about
+the performance implications of AOS, SOA and AOSOA.
 
 ## Additional Reading
 A nice introduction video to [branchless programming](https://www.youtube.com/watch?v=g-WPhYREFjk) by Fedor Pikus.  
@@ -201,6 +355,9 @@ Slides on [instruction pipelining](https://web.eecs.utk.edu/~mbeck/classes/cs160
 from The University of Tennessee, Knoxville.  
 
 ### 🧬 Shader Execution Reordering
+The sorting, compacting and reordering hinted at for path tracing earlier is actually a pretty hot button topic
+in path tracing and has recently gotten hardware support.  
+
 [Megakernels Considered Harmful](https://research.nvidia.com/sites/default/files/publications/laine2013hpg_paper.pdf)  
 [Wavefront Path Tracing](https://jacco.ompf2.com/2019/07/18/wavefront-path-tracing/)  
 [Shader Execution Reordering][1]  
