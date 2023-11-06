@@ -105,7 +105,7 @@ While a complete guide on GPGPU algorithm design might be... more thorough at le
 you should definitely know is scattering and gathering.
 
 <figure markdown>
-![Image](../figures/scattering_or_gathering.jpg){ width="500" }
+![Image](../figures/scattering_or_gathering.jpg){ width="700" }
 <figcaption>
 Answer!
 </figcaption>
