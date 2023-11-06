@@ -14,12 +14,14 @@ the changes, resulting in a new graph. One such solution is described [here][2].
 
 Sampling and repacking extremely huge graphs for training graph neural networks on GPUs is also a
 research topic [on its own][1]. Meshes, widely used in graphics, is another type of graph. In order
-to maintain spatial coherency, and improve performance, another active field is how to [best sort meshes][] (graphs)
-into cohesive meshlets (neighbourhoods), which can be culled individually instead of the entire mesh being culled.
-Check out this general intro to [parallel graph processing][4].  
+to maintain spatial coherency, and improve performance, another active field is how to [best sort meshes][5]
+(graphs) and choosing the [right sizes][6] into cohesive meshlets (neighbourhoods), which can be
+culled individually instead of the entire mesh being culled. Check out this general intro to
+[parallel graph processing][4].  
 
 [1]: https://proceedings.mlsys.org/paper_files/paper/2022/file/afacc5db3e0e85b446e6c7727cd7dca5-Paper.pdf
 [2]: https://www.researchgate.net/publication/354065094_Practical_Spatial_Hash_Map_Updates
 [3]: https://www.sandia.gov/app/uploads/sites/210/2022/05/graphs-and-machines.pdf
 [4]: https://gfxcourses.stanford.edu/cs149/fall22/lecture/graphsdram/
 [5]: https://github.com/zeux/meshoptimizer
+[6]: https://zeux.io/2023/01/16/meshlet-size-tradeoffs/
