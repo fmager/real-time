@@ -64,17 +64,9 @@ In the case of the multiply connected nodes, can you come up with a structural s
 us to make arbitrary graphs in a garbage collected setting or safe in a C++/Rust setting?
 
 ## Programming
-Extend the computational graph with an inplace operation for the ReLU operator (only for the non-fused ReLU)
-
-The following list is sorted by expected complexity - do at least 1
-
-* Add reusable buffers to the computational graph system (for the intermediate activations)
-* Implement a shader cached version of the immediate mode GPU operators and add it to the benchmark
-* Implement a version of the linear layer functions which uses shared memory and tiling
-* Change the ```Tensor2DGPU``` to have switchable access details on its buffers. It should be able to
-accomodate some tensors being exclusively read-only. Do you see any performance differences for whether
-they are read-only or not?
-* Implement the tree reduction version of the sum function and add it to the softmax function.
-Also compare the single pass and the tree reduction performance graphs. [Reference](https://developer.download.nvidia.com/assets/cuda/files/reduction.pdf)
-* Implement a max pooling operator, as well as fusing with ReLU, in all levels and implement tests
-* Implement a convolution operator, as well as fusing with ReLU, in all levels and implement tests
+Go to ```m1_memory_hierarchies::code::gpu_hand_in``` and follow the instructions.
+You need to do 3 different version of 1D convolution, a naive version, one with zero padding of the input
+signal and one with optimal usage of shared memory. For second section you need to do a matrix multiplication and
+a tiled matrix multiplication (using shared memory). All on the GPU. This serves as both one of the few instances
+where we can explicitly program parts of the memory hierarchy (shared memory resides in the L1 cache), but also
+as an introduction to parallel thinking, which you will need in the next module.

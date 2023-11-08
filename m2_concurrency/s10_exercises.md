@@ -3,8 +3,10 @@ Describe the base architecture of the egui-winit-wgpu template. Found in
 ```m2_concurrency::code::egui-winit-wgpu-template``` or
 [online](https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/egui-winit-wgpu-template).
 
-Which elements are in play? Think back to what you have learned in
-this and the previous module. Use words and diagrams!
+Which elements are in play?  
+Who owns what data?  
+Think back to what you have learned in this and the previous module.  
+Use words and diagrams!  
 
 # 🧬 Descriptions
 Pick items worth a total of 3 points or more, write an interpretation of each
@@ -16,6 +18,13 @@ Suggestions for things to talk about:
 * A description of the proposed solution
 * Which elements you have learned about in ```m1``` and ```m2``` are at play?
 * What performance implications result from the item?
+* What needs to be bottlenecked for this technique to be relevant (if it is an optimization technique)
+* What will likely be the bottleneck after this technique has been implemented?
+* What is the weakness of the method/design?
+* In which cases would the proposed method/design be less useful?
+
+You don't need to be correct, in many cases you can't be without profiling. The point is the process of verbalizing
+analysis from a systems programming perspective.
 
 ## General
 
