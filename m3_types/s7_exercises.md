@@ -9,7 +9,7 @@ hardware.
 ### Fused Multiply-Add
 In Rust, fused multiply-add is available directly on f32 types through [mul_add][0].
 
-```
+```rust
 let mut some_value: f32 = 3.14;
 some_value = some_value.mul_add(2.0, 3.50);
 ```
