@@ -66,7 +66,9 @@ us to make arbitrary graphs in a garbage collected setting or safe in a C++/Rust
 ## Programming
 Go to ```m1_memory_hierarchies::code::gpu_hand_in``` and follow the instructions.
 You need to do 3 different version of 1D convolution, a naive version, one with zero padding of the input
-signal and one with optimal usage of shared memory. For second section you need to do a matrix multiplication and
-a tiled matrix multiplication (using shared memory). All on the GPU. This serves as both one of the few instances
-where we can explicitly program parts of the memory hierarchy (shared memory resides in the L1 cache), but also
-as an introduction to parallel thinking, which you will need in the next module.
+signal and one with optimal usage of shared memory. For the second section you need to do a
+matrix multiplication and a tiled matrix multiplication (using shared memory). All on the GPU.
+
+This serves as both one of the few instances where we can explicitly program parts of the memory hierarchy
+(shared memory resides in the L1 cache), but also as an introduction to parallel thinking, which you will
+need in the next module.
