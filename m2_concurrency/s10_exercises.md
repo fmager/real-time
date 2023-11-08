@@ -49,7 +49,7 @@ into words analysis from a systems programming perspective.
 
 ## 🧬 Computer Graphics
 
-* 1 - [ multiresolution ambient occlusion][24]
+* 1 - [multiresolution ambient occlusion][24]
 * 1 - [Fast Hierarchical Culling][18]
 * 1 - [Octree Textures on the GPU][19]
 * 2 - [On Ray Reordering Techniques for Faster GPU Ray Tracing][20]
@@ -59,7 +59,7 @@ into words analysis from a systems programming perspective.
 
 ## 🧬 Computer Vision
 
-* 4 - ORB-SLAM - [Paper 1][28], [Paper 2][29], [Paper 3][30]
+* 4 - ORB-SLAM - [Paper 1][28], [Paper 2][29], [Paper 3][30], [Simply Explained][31]
 
 [0]: https://github.com/absorensen/the-guide/tree/main/m2_concurrency/code/egui-winit-wgpu-template
 [1]: https://austinmorlan.com/posts/entity_component_system/
@@ -92,3 +92,4 @@ into words analysis from a systems programming perspective.
 [28]: https://arxiv.org/pdf/1502.00956.pdf
 [29]: https://arxiv.org/pdf/1610.06475v1.pdf
 [30]: https://arxiv.org/pdf/2007.11898.pdf
+[31]: https://www.uio.no/studier/emner/matnat/its/TEK5030/v20/forelesninger/lecture_10_3_orb-slam.pdf
